@@ -23,6 +23,7 @@ import { ProfileRepository } from "@calcom/features/profile/repositories/Profile
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import type { GetSubscriberOptions } from "@calcom/features/webhooks/lib/getWebhooks";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
+import { WebhookTriggerEvents } from "@calcom/prisma/enums";
 import {
   cancelNoShowTasksForBooking,
   deleteWebhookScheduledTriggers,

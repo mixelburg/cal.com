@@ -14,6 +14,9 @@ import {
   rrSegmentQueryValueSchema,
 } from "@calcom/prisma/zod-utils";
 
+// Stub for removed EE workflow
+const workflowSelect = {};
+
 const getEventTypesFromDBSelect = {
   id: true,
   customInputs: true,
