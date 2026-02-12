@@ -2,6 +2,13 @@
 import type { TrpcSessionUser } from "../../../types";
 import type { TValidateLicenseInputSchema } from "./validateLicense.schema";
 
+// Stub for removed EE LicenseKeyService
+class LicenseKeyService {
+  static async validateLicenseKey(_key: string): Promise<boolean> {
+    return false;
+  }
+}
+
 type ValidateLicenseOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

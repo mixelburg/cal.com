@@ -4,6 +4,11 @@ import type { GetServerSidePropsContext, NextApiResponse } from "next";
 import { getPremiumMonthlyPlanPriceId } from "@calcom/app-store/stripepayment/lib/utils";
 import { sendChangeOfEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
+
+// Stub for removed EE billing service
+const billingService: any = {
+  updateCustomer: async (_params: any) => null,
+};
 import { checkUsername } from "@calcom/features/profile/lib/checkUsername";
 import { ScheduleRepository } from "@calcom/features/schedules/repositories/ScheduleRepository";
 import hasKeyInMetadata from "@calcom/lib/hasKeyInMetadata";

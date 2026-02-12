@@ -2,6 +2,14 @@ import type { PrismaClient } from "@calcom/prisma";
 
 import type { TrpcSessionUser } from "../../../types";
 
+// Stub for removed EE PrismaApiKeyRepository
+class PrismaApiKeyRepository {
+  constructor(_prisma: any) {}
+  async findApiKeysFromUserId(_params: { userId: number }): Promise<any[]> {
+    return [];
+  }
+}
+
 type ListOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
