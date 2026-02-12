@@ -19,6 +19,15 @@ import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
 import { customInputSchema } from "@calcom/prisma/zod-utils";
 import { TRPCError } from "@trpc/server";
 
+// Stub functions for removed EE org features
+async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
+  return "";
+}
+
+function getOrganizationRepository(): any {
+  return null;
+}
+
 interface getEventTypeByIdProps {
   eventTypeId: number;
   userId: number;
@@ -217,7 +226,7 @@ export const getEventTypeById = async ({
     users: eventTypeUsers,
     periodStartDate: eventType.periodStartDate?.toString() ?? null,
     periodEndDate: eventType.periodEndDate?.toString() ?? null,
-    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent }),
+    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent, workflows: [] as never[] }),
   });
 
   const isOrgEventType = !!eventTypeObject.team?.parentId;
