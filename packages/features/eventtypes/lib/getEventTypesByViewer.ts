@@ -18,6 +18,15 @@ import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 import { eventTypeMetaDataSchemaWithUntypedApps } from "@calcom/prisma/zod-utils";
 
+// Stub for removed EE org functions
+async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
+  return "";
+}
+
+function getBookerBaseUrlSync(_orgSlug: string | null): string {
+  return "";
+}
+
 const log = logger.getSubLogger({ prefix: ["viewer.eventTypes.getByViewer"] });
 
 type User = {
