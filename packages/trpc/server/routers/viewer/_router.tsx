@@ -16,7 +16,6 @@ import { bookingsRouter } from "./bookings/_router";
 import { calendarsRouter } from "./calendars/_router";
 import { calVideoRouter } from "./calVideo/_router";
 import { credentialsRouter } from "./credentials/_router";
-import { creditsRouter } from "./credits/_router";
 import { delegationCredentialRouter } from "./delegationCredential/_router";
 import { deploymentSetupRouter } from "./deploymentSetup/_router";
 import { eventTypesRouter } from "./eventTypes/_router";
@@ -79,7 +78,6 @@ export const viewerRouter = router({
   attributes: attributesRouter,
   attributeSync: attributeSyncRouter,
   routingForms: routingFormsRouter,
-  credits: creditsRouter,
   ooo: oooRouter,
   holidays: holidaysRouter,
   travelSchedules: travelSchedulesRouter,
