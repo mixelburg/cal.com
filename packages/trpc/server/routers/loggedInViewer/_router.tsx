@@ -4,7 +4,6 @@ import { ZAddNotificationsSubscriptionInputSchema } from "./addNotificationsSubs
 import { ZAddSecondaryEmailInputSchema } from "./addSecondaryEmail.schema";
 import { ZConnectAndJoinInputSchema } from "./connectAndJoin.schema";
 import { ZEventTypeOrderInputSchema } from "./eventTypeOrder.schema";
-import { ZNoShowInputSchema } from "./markNoShow.schema";
 import { teamsAndUserProfilesQuery } from "./procedures/teamsAndUserProfilesQuery";
 import { ZRemoveNotificationsSubscriptionInputSchema } from "./removeNotificationsSubscription.schema";
 import { ZRoutingFormOrderInputSchema } from "./routingFormOrder.schema";
@@ -18,7 +17,6 @@ type AppsRouterHandlerCache = {
   addSecondaryEmail?: typeof import("./addSecondaryEmail.handler").addSecondaryEmailHandler;
   addNotificationsSubscription?: typeof import("./addNotificationsSubscription.handler").addNotificationsSubscriptionHandler;
   removeNotificationsSubscription?: typeof import("./removeNotificationsSubscription.handler").removeNotificationsSubscriptionHandler;
-  markNoShow?: typeof import("./markNoShow.handler").markNoShow;
 };
 
 export const loggedInViewerRouter = router({
@@ -67,8 +65,5 @@ export const loggedInViewerRouter = router({
       );
       return removeNotificationsSubscriptionHandler({ ctx, input });
     }),
-  markNoShow: authedProcedure.input(ZNoShowInputSchema).mutation(async (opts) => {
-    const { markNoShow } = await import("./markNoShow.handler");
-    return markNoShow(opts);
   }),
 });
