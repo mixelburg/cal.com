@@ -33,7 +33,14 @@ import { RESERVED_SUBDOMAINS } from "@calcom/lib/constants";
 import { getUTCOffsetByTimezone } from "@calcom/lib/dayjs";
 
 // Stub for removed EE TeamRepository
-class TeamRepository {}
+class TeamRepository {
+  async findFirstBySlugAndParentSlug(_slug: string, _parentSlug: string): Promise<any | null> {
+    return null;
+  }
+  async findOrganizationIdBySlug(_slug: string): Promise<number | null> {
+    return null;
+  }
+}
 
 // Stub for removed EE org function
 function orgDomainConfig(_req: any): any {

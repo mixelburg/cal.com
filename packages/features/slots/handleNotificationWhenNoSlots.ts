@@ -25,6 +25,12 @@ const NO_SLOTS_COUNT_FOR_NOTIFICATION = 2;
 // Stub for removed EE TeamRepository
 class TeamRepository {
   constructor(_prisma: any) {}
+  async findOrganizationSettingsBySlug(_slug: string): Promise<any | null> {
+    return null;
+  }
+  async findTeamSlugById(_id: number): Promise<string | null> {
+    return null;
+  }
 }
 
 const constructRedisKey = (eventDetails: EventDetails, orgSlug?: string, teamId?: number) => {
