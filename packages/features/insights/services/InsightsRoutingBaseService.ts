@@ -23,13 +23,13 @@ class TeamRepository {
   async findOwnedTeamsByUserId(_params: { userId: number }): Promise<any[]> {
     return [];
   }
-  async findAllByParentId(_parentId: number): Promise<any[]> {
+  async findAllByParentId(_params: any): Promise<any[]> {
     return [];
   }
   async findByIdAndParentId(_teamId: number, _parentId: number): Promise<any | null> {
     return null;
   }
-  async findById(_teamId: number): Promise<any | null> {
+  async findById(_params: any): Promise<any | null> {
     return null;
   }
 }
