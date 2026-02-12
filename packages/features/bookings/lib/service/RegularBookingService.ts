@@ -2361,6 +2361,7 @@ async function handler(
                 metadata: eventType.metadata,
                 schedulingType: eventType.schedulingType,
               },
+              workflows: [] as never[],
               eventNameObject,
               evt,
               additionalInformation,

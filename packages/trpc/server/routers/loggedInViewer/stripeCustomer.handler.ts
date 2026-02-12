@@ -18,11 +18,8 @@ export const stripeCustomerHandler = async ({ ctx }: StripeCustomerOptions) => {
     user: { id: userId },
   } = ctx;
 
-  const billingService = getBillingProviderService();
-  
-  if (!billingService) {
-    return null;
-  }
+  // Billing service disabled (EE-only)
+  return null;
 
   const user = await prisma.user.findUnique({
     where: {
