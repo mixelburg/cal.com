@@ -446,12 +446,9 @@ export class FeatureOptInService implements IFeatureOptInService {
       });
     }
 
-    const teamRepository = new TeamRepository(prisma);
-    const adminTeams = await teamRepository.findOwnedTeamsByUserId({ userId });
-
-    const nonOrgAdminTeams = adminTeams.filter((team) => !team.isOrganization);
-    const adminTeamIds = nonOrgAdminTeams.map((team) => team.id);
-    const adminTeamNames = nonOrgAdminTeams.map((team) => ({ id: team.id, name: team.name }));
+    // Team admin features removed with EE code
+    const adminTeamIds: number[] = [];
+    const adminTeamNames: { id: number; name: string }[] = [];
 
     return { isOrgAdmin, orgId, adminTeamIds, adminTeamNames };
   }
