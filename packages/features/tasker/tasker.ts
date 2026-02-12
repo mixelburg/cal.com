@@ -21,7 +21,6 @@ type TaskPayloads = {
   sendAwaitingPaymentEmail: z.infer<
     typeof import("./tasks/sendAwaitingPaymentEmail").sendAwaitingPaymentEmailPayloadSchema
   >;
-  >;
   webhookDelivery: z.infer<
     typeof import("@calcom/features/webhooks/lib/types/webhookTask").webhookTaskPayloadSchema
   >;
