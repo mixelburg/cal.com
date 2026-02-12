@@ -13,7 +13,8 @@ export const samlTenantProductHandler = ({ ctx, input }: SamlTenantProductOption
   const { prisma } = ctx;
   const { email } = input;
 
-  return ssoTenantProduct(prisma, email);
+  // Stub for removed EE SSO function
+  return null;
 };
 
 export default samlTenantProductHandler;
