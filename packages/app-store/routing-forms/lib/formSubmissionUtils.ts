@@ -203,27 +203,7 @@ export async function _onFormSubmission(
 
   if (typeof window === "undefined") {
     try {
-      const tasker: Tasker = await (await import("@calcom/features/tasker")).default;
-      const promisesFormSubmittedNoEvent = webhooksFormSubmittedNoEvent.map((webhook) => {
-        const scheduledAt = dayjs().add(15, "minute").toDate();
-
-        return tasker.create(
-          "triggerFormSubmittedNoEventWebhook",
-          {
-            responseId,
-            form: {
-              id: form.id,
-              name: form.name,
-              teamId: form.teamId ?? null,
-            },
-            responses: fieldResponsesByIdentifier,
-            redirect: chosenAction,
-            webhook,
-          },
-          { scheduledAt }
-        );
-      });
-
+      // Workflow task removed (EE feature)
       const promises = [...promisesFormSubmitted];
 
       await Promise.all(promises);
