@@ -224,32 +224,9 @@ export async function _onFormSubmission(
         );
       });
 
-      const promises = [...promisesFormSubmitted, ...promisesFormSubmittedNoEvent];
+      const promises = [...promisesFormSubmitted];
 
       await Promise.all(promises);
-
-      const workflows = await WorkflowService.getAllWorkflowsFromRoutingForm(form);
-      const routedEventTypeId: number | null =
-        chosenAction && chosenAction.type === "eventTypeRedirectUrl" && chosenAction.eventTypeId
-          ? chosenAction.eventTypeId
-          : null;
-
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleFormWorkflows({
-        workflows,
-        responseId,
-        responses: fieldResponsesByIdentifier,
-        routedEventTypeId,
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-        form: {
-          ...form,
-          fields: form.fields.map((field) => ({
-            type: field.type,
-            identifier: getFieldIdentifier(field),
-          })),
-        },
-      });
 
       const orderedResponses = form.fields.reduce((acc, field) => {
         acc.push(response[field.id]);
