@@ -1,8 +1,5 @@
 import { z } from "zod";
 
-import {
-  getDeploymentKey,
-  getDeploymentSignatureToken,
 import { CALCOM_PRIVATE_API_ROUTE } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";

@@ -2,9 +2,6 @@ import { default as cloneDeep } from "lodash/cloneDeep";
 import type { Logger } from "tslog";
 
 import dayjs from "@calcom/dayjs";
-import {
-  allowDisablingHostConfirmationEmails,
-  allowDisablingAttendeeConfirmationEmails,
 import type { BookingType } from "@calcom/features/bookings/lib/handleNewBooking/originalRescheduledBookingUtils";
 import type { EventNameObjectType } from "@calcom/features/eventtypes/lib/eventNaming";
 import { getPiiFreeCalendarEvent } from "@calcom/lib/piiFreeData";

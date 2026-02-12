@@ -1,10 +1,5 @@
 import z from "zod";
 
-import {
-  extractUrlsFromHtml,
-  getScanResult,
-  isUrlScanningEnabled,
-  submitUrlForScanning,
 import tasker from "@calcom/features/tasker";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";

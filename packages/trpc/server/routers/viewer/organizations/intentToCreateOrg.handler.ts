@@ -1,6 +1,3 @@
-import {
-  assertCanCreateOrg,
-  findUserToBeOrgOwner,
 import { OrganizationOnboardingRepository } from "@calcom/features/organizations/repositories/OrganizationOnboardingRepository";
 import { IS_SELF_HOSTED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";

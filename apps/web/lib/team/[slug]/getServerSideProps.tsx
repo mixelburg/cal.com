@@ -1,8 +1,5 @@
 import type { GetServerSidePropsContext } from "next";
 
-import {
-  getOrganizationSettings,
-  getVerifiedDomain,
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { IS_CALCOM } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";

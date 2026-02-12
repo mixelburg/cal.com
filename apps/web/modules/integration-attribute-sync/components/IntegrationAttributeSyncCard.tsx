@@ -10,10 +10,6 @@ import { ConfirmationDialogContent } from "@calcom/ui/components/dialog";
 import { SelectField, Switch } from "@calcom/ui/components/form";
 import { Icon } from "@calcom/ui/components/icon";
 
-import {
-  type IntegrationAttributeSync,
-  type ISyncFormData,
-  RuleOperatorEnum,
 import { FieldMappingBuilder } from "./FieldMappingBuilder";
 import { RuleBuilder } from "./RuleBuilder";
 
