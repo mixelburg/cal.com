@@ -3,9 +3,12 @@ import { cloneDeep } from "lodash";
 
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
+// Stub type for removed EE code
+type ExtendedCalendarEvent = CalendarEvent;
+
 // format CalEvent to remove platformClientId from email addresses
 const formatClientIdFromEmails = (calEvent: CalendarEvent | ExtendedCalendarEvent, clientId: string) => {
-  const attendees = calEvent.attendees.map((attendee) => ({
+  const attendees = calEvent.attendees.map((attendee: any) => ({
     ...attendee,
     email: attendee.email.replace(`+${clientId}`, ""),
   }));
@@ -16,7 +19,7 @@ const formatClientIdFromEmails = (calEvent: CalendarEvent | ExtendedCalendarEven
   const team = calEvent.team
     ? {
         ...calEvent.team,
-        members: calEvent.team.members.map((member) => {
+        members: calEvent.team.members.map((member: any) => {
           return {
             ...member,
             email: member.email.replace(`+${clientId}`, ""),
