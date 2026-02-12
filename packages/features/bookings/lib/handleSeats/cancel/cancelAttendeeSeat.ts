@@ -182,11 +182,7 @@ async function cancelAttendeeSeat(
   );
   await Promise.all(promises);
 
-  const workflowRemindersForAttendee =
-    bookingToDelete?.workflowReminders.filter((reminder) => reminder.seatReferenceId === seatReferenceUid) ??
-    null;
-
-  await WorkflowRepository.deleteAllWorkflowReminders(workflowRemindersForAttendee);
+  // Workflow reminders removed (EE feature)
 
   return { success: true };
 }

@@ -207,13 +207,7 @@ const createNewSeat = async (
     isAttendeeConfirmationEmailDisabled =
       eventType.metadata?.disableStandardEmails?.confirmation?.attendee || false;
 
-    if (isHostConfirmationEmailsDisabled) {
-      isHostConfirmationEmailsDisabled = allowDisablingHostConfirmationEmails(workflows);
-    }
-
-    if (isAttendeeConfirmationEmailDisabled) {
-      isAttendeeConfirmationEmailDisabled = allowDisablingAttendeeConfirmationEmails(workflows);
-    }
+    // Workflow email disabling removed (EE feature)
     await sendScheduledSeatsEmailsAndSMS(
       copyEvent,
       inviteeToAdd,
