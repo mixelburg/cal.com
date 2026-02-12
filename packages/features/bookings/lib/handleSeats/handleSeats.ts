@@ -267,7 +267,7 @@ const handleSeats = async (
       metadata,
       eventTypeId,
       status: "ACCEPTED",
-      smsReminderNumber: attendeePhoneNumber || undefined,
+      smsReminderNumber: invitee[0]?.phoneNumber || smsReminderNumber || undefined,
       rescheduledBy,
     };
 
