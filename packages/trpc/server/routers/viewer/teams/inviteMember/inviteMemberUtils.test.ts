@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { TeamWithParent } from "./types";
-import type { UserWithMembership } from "./utils";
+
 import {
   canBeInvited,
   checkInputEmailIsValid,

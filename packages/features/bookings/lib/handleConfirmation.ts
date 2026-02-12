@@ -110,7 +110,7 @@ export async function handleConfirmation(args: {
         teamId: number | null;
       } | null;
       workflows?: {
-        workflow: Workflow;
+        
       }[];
     } | null;
     metadata?: Prisma.JsonValue;

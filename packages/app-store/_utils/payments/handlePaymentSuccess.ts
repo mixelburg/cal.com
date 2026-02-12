@@ -22,7 +22,7 @@ import type { TraceContext } from "@calcom/lib/tracing";
 import { distributedTracing } from "@calcom/lib/tracing/factory";
 import prisma from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
-import { BookingStatus, WebhookTriggerEvents, WorkflowTriggerEvents } from "@calcom/prisma/enums";
+
 import type { EventTypeMetadata } from "@calcom/prisma/zod-utils";
 
 import { getAppActor } from "../getAppActor";

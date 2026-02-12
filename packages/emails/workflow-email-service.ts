@@ -6,8 +6,6 @@ import BookingRedirectEmailNotification from "./templates/booking-redirect-notif
 import type { Feedback } from "./templates/feedback-email";
 import FeedbackEmail from "./templates/feedback-email";
 import MonthlyDigestEmail from "./templates/monthly-digest-email";
-import type { WorkflowEmailData } from "./templates/workflow-email";
-import WorkflowEmail from "./templates/workflow-email";
 
 const sendEmail = (prepare: () => BaseEmail) => {
   return new Promise((resolve, reject) => {

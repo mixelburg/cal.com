@@ -2,8 +2,6 @@
 
 import type { ReactNode } from "react";
 
-import { useWorkflowPermission } from "../hooks/useEventPermission";
-
 interface WorkflowTabPermissionGuardProps {
   children: ReactNode;
   fallback?: ReactNode;

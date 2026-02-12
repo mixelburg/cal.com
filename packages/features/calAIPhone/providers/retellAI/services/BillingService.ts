@@ -6,7 +6,6 @@ import { WEBAPP_URL, IS_PRODUCTION } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 import type { TrackingData } from "@calcom/lib/tracking";
-import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
 
 import type { PhoneNumberRepositoryInterface } from "../../interfaces/PhoneNumberRepositoryInterface";
 import type { RetellAIRepository } from "../types";

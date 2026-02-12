@@ -2,7 +2,6 @@ import { UserRepository } from "@calcom/features/users/repositories/UserReposito
 import prisma from "@calcom/prisma";
 
 import type { TrpcSessionUser } from "../../../types";
-import type { TWhitelistUserWorkflows } from "./whitelistUserWorkflows.schema";
 
 type GetOptions = {
   ctx: {

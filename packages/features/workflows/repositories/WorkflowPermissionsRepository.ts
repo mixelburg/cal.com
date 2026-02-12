@@ -1,4 +1,4 @@
-import type { Workflow } from "@calcom/prisma/client";
+
 
 export interface WorkflowPermissions {
   canView: boolean;

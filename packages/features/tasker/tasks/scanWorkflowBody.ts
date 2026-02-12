@@ -7,8 +7,6 @@ import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
 import prisma from "@calcom/prisma";
 
-import { submitWorkflowStepForUrlScanning } from "./scanWorkflowUrls";
-
 export const scanWorkflowBodySchema = z.object({
   userId: z.number(),
   // deprecated: use workflowStepId instead

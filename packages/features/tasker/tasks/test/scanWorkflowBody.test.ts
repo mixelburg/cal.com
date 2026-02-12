@@ -4,10 +4,6 @@ import prismock from "@calcom/testing/lib/__mocks__/prisma";
 
 import { describe, expect, test, vi, beforeEach, afterEach } from "vitest";
 
-import { WorkflowActions, WorkflowTemplates, WorkflowTriggerEvents, TimeUnit } from "@calcom/prisma/enums";
-
-import { scanWorkflowBody, iffyScanBody } from "../scanWorkflowBody";
-
 // Mock the submitWorkflowStepForUrlScanning function
 vi.mock("../scanWorkflowUrls", () => ({
   submitWorkflowStepForUrlScanning: vi.fn().mockResolvedValue(undefined),
@@ -55,7 +51,7 @@ vi.mock("@calcom/lib/constants", async () => {
 });
 
 // Import mocked modules for assertions
-import { submitWorkflowStepForUrlScanning } from "../scanWorkflowUrls";
+
 import { Task } from "@calcom/features/tasker/repository";
 
 describe("scanWorkflowBody", () => {

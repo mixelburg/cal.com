@@ -93,7 +93,7 @@ export const getBookingFieldsWithSystemFields = ({
   customInputs: EventTypeCustomInput[] | z.infer<typeof customInputSchema>[];
   metadata: EventType["metadata"] | z.infer<typeof EventTypeMetaDataSchema>;
   workflows: {
-    workflow: Workflow;
+    
   }[];
 }) => {
   const parsedMetaData = EventTypeMetaDataSchema.parse(metadata || {});
@@ -127,7 +127,7 @@ export const ensureBookingInputsHaveSystemFields = ({
   additionalNotesRequired: boolean;
   customInputs: z.infer<typeof customInputSchema>[];
   workflows: {
-    workflow: Workflow;
+    
   }[];
 }) => {
   // If bookingFields is set already, the migration is done.

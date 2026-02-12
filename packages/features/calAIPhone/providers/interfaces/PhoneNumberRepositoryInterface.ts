@@ -1,4 +1,4 @@
-import type { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
+
 
 /**
  * Abstract interface for Phone Number repository operations

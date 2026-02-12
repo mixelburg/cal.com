@@ -1,6 +1,5 @@
 import { PrismaPhoneNumberRepository } from "@calcom/features/calAIPhone/repositories/PrismaPhoneNumberRepository";
 import prisma from "@calcom/prisma";
-import type { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
 
 import type {
   PhoneNumberRepositoryInterface,

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
-import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
 
 import type { AgentRepositoryInterface } from "../interfaces/AgentRepositoryInterface";
 import type { PhoneNumberRepositoryInterface } from "../interfaces/PhoneNumberRepositoryInterface";

@@ -15,7 +15,6 @@ import type {
   BookingUpdateData,
   BookingWhereUniqueInput,
 } from "./IBookingRepository";
-import { workflowSelect } from "../../ee/workflows/lib/getAllWorkflows";
 
 const workflowReminderSelect = {
   id: true,

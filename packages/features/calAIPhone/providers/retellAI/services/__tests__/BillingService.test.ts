@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
-
 import { BillingService } from "../BillingService";
 import { setupBasicMocks, createMockPhoneNumberRecord, TestError } from "./test-utils";
 

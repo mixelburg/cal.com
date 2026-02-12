@@ -1,6 +1,5 @@
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
-import { PhoneNumberSubscriptionStatus } from "@calcom/prisma/enums";
 
 import { AIPhoneServiceProviderType } from "../../../interfaces/AIPhoneService.interface";
 import type {

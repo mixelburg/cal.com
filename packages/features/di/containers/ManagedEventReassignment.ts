@@ -1,6 +1,5 @@
 
 import { createContainer } from "../di";
-import { moduleLoader as managedEventReassignmentServiceModuleLoader } from "../modules/ManagedEventReassignment";
 
 const container = createContainer();
 

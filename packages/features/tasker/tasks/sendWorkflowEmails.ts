@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-import { sendCustomWorkflowEmail } from "@calcom/emails/workflow-email-service";
 import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
 import { BookingSeatRepository } from "@calcom/features/bookings/repositories/BookingSeatRepository";

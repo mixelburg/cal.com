@@ -6,7 +6,6 @@ import { MembershipRole } from "@calcom/prisma/enums";
 import { TRPCError } from "@trpc/server";
 
 import type { TrpcSessionUser } from "../../../types";
-import type { TGetSubscriptionStatusInputSchema } from "./getSubscriptionStatus.schema";
 
 const log = logger.getSubLogger({ prefix: ["getSubscriptionStatus"] });
 

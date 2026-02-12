@@ -2,8 +2,6 @@ import prismaMock from "@calcom/testing/lib/__mocks__/prismaMock";
 
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { scanWorkflowBody, iffyScanBody } from "./scanWorkflowBody";
-
 vi.mock("@calcom/features/ee/api-keys/lib/autoLock", async (importActual) => {
   return {
     ...actual, // Keep all original exports
