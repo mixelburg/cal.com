@@ -35,7 +35,7 @@ export const editHandler = async ({ input, ctx }: EditOptions) => {
 
   // SSRF validation: only validate if URL is being changed
   if (data.subscriberUrl && data.subscriberUrl !== webhook.subscriberUrl) {
-    const validation = validateUrlForSSRFSync(data.subscriberUrl);
+    const validation = validateUrlForSSRFSync(data.subscriberUrl as string);
     if (!validation.isValid) {
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -74,9 +74,9 @@ export const editHandler = async ({ input, ctx }: EditOptions) => {
     },
     data: {
       ...data,
-      time: data.time ?? null,
-      timeUnit: data.timeUnit ?? null,
-    },
+      time: (data.time as any) ?? null,
+      timeUnit: (data.timeUnit as any) ?? null,
+    } as any,
   });
 
   if (data.active) {
