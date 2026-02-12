@@ -9,7 +9,6 @@ import { HashedLinkService } from "@calcom/features/hashedLink/lib/service/Hashe
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { ScheduleRepository } from "@calcom/features/schedules/repositories/ScheduleRepository";
 import tasker from "@calcom/features/tasker";
-import { submitUrlForUrlScanning } from "@calcom/features/tasker/tasks/scanWorkflowUrls";
 import { validateIntervalLimitOrder } from "@calcom/lib/intervalLimits/validateIntervalLimitOrder";
 import logger from "@calcom/lib/logger";
 import { getTranslation } from "@calcom/lib/server/i18n";
@@ -629,18 +628,6 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
         },
       },
     });
-
-    if (input.metadata?.disableStandardEmails.confirmation?.host) {
-      if (!allowDisablingHostConfirmationEmails(workflows)) {
-        input.metadata.disableStandardEmails.confirmation.host = false;
-      }
-    }
-
-    if (input.metadata?.disableStandardEmails.confirmation?.attendee) {
-      if (!allowDisablingAttendeeConfirmationEmails(workflows)) {
-        input.metadata.disableStandardEmails.confirmation.attendee = false;
-      }
-    }
   }
 
   const apps = eventTypeAppMetadataOptionalSchema.parse(input.metadata?.apps);
@@ -815,19 +802,6 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     calVideoSettingsForChildren = null;
   }
 
-  // Handling updates to children event types (managed events types)
-  await updateChildrenEventTypes({
-    eventTypeId: id,
-    currentUserId: ctx.user.id,
-    oldEventType: eventType,
-    updatedEventType,
-    children,
-    profileId: ctx.user.profile.id,
-    prisma: ctx.prisma,
-    updatedValues,
-    calVideoSettings: calVideoSettingsForChildren,
-  });
-
   // Clean up empty host groups
   if (hostGroups !== undefined || hosts) {
     await ctx.prisma.hostGroup.deleteMany({
@@ -838,11 +812,6 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
         },
       },
     });
-  }
-
-  // Scan redirect URL for malicious content if URL scanning is enabled
-  if (isUrlScanningEnabled() && rest.successRedirectUrl) {
-    await submitUrlForUrlScanning(rest.successRedirectUrl, ctx.user.id, id);
   }
 
   const res = ctx.res as NextApiResponse;
