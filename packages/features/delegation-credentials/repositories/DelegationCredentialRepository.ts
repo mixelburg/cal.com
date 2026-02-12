@@ -10,6 +10,16 @@ import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 
 export type { ServiceAccountKey };
+
+// Stub for removed EE org repository
+function getOrganizationRepository(): any {
+  return {
+    async findByMemberEmail(_params: { email: string }): Promise<any | null> {
+      return null;
+    }
+  };
+}
+
 const repositoryLogger = logger.getSubLogger({ prefix: ["DelegationCredentialRepository"] });
 const delegationCredentialSafeSelect = {
   id: true,
