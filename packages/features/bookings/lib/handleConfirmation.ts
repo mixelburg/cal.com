@@ -109,9 +109,6 @@ export async function handleConfirmation(args: {
       parent?: {
         teamId: number | null;
       } | null;
-      workflows?: {
-        
-      }[];
     } | null;
     metadata?: Prisma.JsonValue;
     eventTypeId: number | null;
@@ -149,7 +146,6 @@ export async function handleConfirmation(args: {
   const scheduleResult = await eventManager.create(evt, { skipCalendarEvent: !areCalendarEventsEnabled });
   const results = scheduleResult.results;
   const metadata: AdditionalInformation = {};
-  const workflows = await getAllWorkflowsFromEventType(eventType, booking.userId);
 
   const spanContext = distributedTracing.createSpan(traceContext, "handle_confirmation");
 
@@ -170,30 +166,12 @@ export async function handleConfirmation(args: {
       metadata.entryPoints = results[0].createdEvent?.entryPoints;
     }
     try {
-      let isHostConfirmationEmailsDisabled = false;
-      let isAttendeeConfirmationEmailDisabled = false;
-
-      if (workflows) {
-        isHostConfirmationEmailsDisabled =
-          eventTypeMetadata?.disableStandardEmails?.confirmation?.host || false;
-        isAttendeeConfirmationEmailDisabled =
-          eventTypeMetadata?.disableStandardEmails?.confirmation?.attendee || false;
-
-        if (isHostConfirmationEmailsDisabled) {
-          isHostConfirmationEmailsDisabled = allowDisablingHostConfirmationEmails(workflows);
-        }
-
-        if (isAttendeeConfirmationEmailDisabled) {
-          isAttendeeConfirmationEmailDisabled = allowDisablingAttendeeConfirmationEmails(workflows);
-        }
-      }
-
       if (emailsEnabled) {
         await sendScheduledEmailsAndSMS(
           { ...evt, additionalInformation: metadata },
           undefined,
-          isHostConfirmationEmailsDisabled,
-          isAttendeeConfirmationEmailDisabled,
+          false,
+          false,
           eventTypeMetadata
         );
       }
@@ -410,8 +388,6 @@ export async function handleConfirmation(args: {
     ? await featuresRepository.checkIfTeamHasFeature(orgId, "booking-audit")
     : false;
 
-  const bookerUrl = await getBookerBaseUrl(orgId ?? null);
-
   await fireBookingAcceptedEvent({
     actor,
     acceptedBookings,
@@ -420,56 +396,6 @@ export async function handleConfirmation(args: {
     isBookingAuditEnabled,
     tracingLogger,
   });
-
-  //Workflows - set reminders for confirmed events
-  try {
-    for (let index = 0; index < updatedBookings.length; index++) {
-      const eventTypeSlug = updatedBookings[index].eventType?.slug || "";
-      const evtOfBooking = {
-        ...evt,
-        rescheduleReason: updatedBookings[index].cancellationReason || null,
-        metadata: { videoCallUrl: meetingUrl },
-        eventType: {
-          slug: eventTypeSlug,
-          schedulingType: updatedBookings[index].eventType?.schedulingType,
-          hosts: updatedBookings[index].eventType?.hosts,
-        },
-        bookerUrl,
-      };
-      evtOfBooking.startTime = updatedBookings[index].startTime.toISOString();
-      evtOfBooking.endTime = updatedBookings[index].endTime.toISOString();
-      evtOfBooking.uid = updatedBookings[index].uid;
-      const isFirstBooking = index === 0;
-
-      if (!eventTypeMetadata?.disableStandardEmails?.all?.attendee) {
-        await scheduleMandatoryReminder({
-          evt: evtOfBooking,
-          workflows,
-          requiresConfirmation: false,
-          hideBranding: !!updatedBookings[index].eventType?.owner?.hideBranding,
-          seatReferenceUid: evt.attendeeSeatId,
-          isPlatformNoEmail: !emailsEnabled && Boolean(platformClientParams?.platformClientId),
-          traceContext: spanContext,
-        });
-      }
-
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleWorkflowsForNewBooking({
-        workflows,
-        smsReminderNumber: updatedBookings[index].smsReminderNumber,
-        calendarEvent: evtOfBooking,
-        hideBranding: !!updatedBookings[index].eventType?.owner?.hideBranding,
-        isConfirmedByDefault: true,
-        isNormalBookingOrFirstRecurringSlot: isFirstBooking,
-        isRescheduleEvent: false,
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-      });
-    }
-  } catch (error) {
-    // Silently fail
-    console.error(error);
-  }
 
   try {
     const subscribersBookingCreated = await getWebhooks({

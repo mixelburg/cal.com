@@ -338,9 +338,7 @@ async function handler(input: CancelBookingInput, dependencies?: Dependencies) {
     userId: bookingToDelete.userId,
   });
 
-  const bookerUrl = await getBookerBaseUrl(
-    bookingToDelete.eventType?.team?.parentId ?? ownerProfile?.organizationId ?? null
-  );
+  const bookerUrl = "";
 
   const evt: CalendarEvent = {
     bookerUrl,
@@ -441,40 +439,9 @@ async function handler(input: CancelBookingInput, dependencies?: Dependencies) {
   );
   await Promise.all(promises);
 
-  const workflows = await getAllWorkflowsFromEventType(bookingToDelete.eventType, bookingToDelete.userId);
-  const parsedMetadata = bookingMetadataSchema.safeParse(bookingToDelete.metadata || {});
-
-  const creditService = new CreditService();
-
-  await sendCancelledReminders({
-    workflows,
-    smsReminderNumber: bookingToDelete.smsReminderNumber,
-    evt: {
-      ...evt,
-      ...(parsedMetadata.success && parsedMetadata.data?.videoCallUrl
-        ? { metadata: { videoCallUrl: parsedMetadata.data.videoCallUrl } }
-        : {}),
-      bookerUrl,
-      ...{
-        eventType: {
-          slug: bookingToDelete.eventType?.slug as string,
-          schedulingType: bookingToDelete.eventType?.schedulingType,
-          hosts: bookingToDelete.eventType?.hosts,
-        },
-      },
-    },
-    hideBranding: !!bookingToDelete.eventType?.owner?.hideBranding,
-    creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-  });
-
   let updatedBookings: {
     id: number;
     uid: string;
-    workflowReminders: {
-      id: number;
-      referenceId: string | null;
-      method: WorkflowMethods;
-    }[];
     references: {
       type: string;
       credentialId: number | null;
@@ -645,28 +612,24 @@ async function handler(input: CancelBookingInput, dependencies?: Dependencies) {
 
   try {
     const webhookTriggerPromises = [];
-    const workflowReminderPromises = [];
 
     for (const booking of updatedBookings) {
       // delete scheduled webhook triggers of cancelled bookings
       webhookTriggerPromises.push(deleteWebhookScheduledTriggers({ booking }));
       webhookTriggerPromises.push(cancelNoShowTasksForBooking({ bookingUid: booking.uid }));
-
-      //Workflows - cancel all reminders for cancelled bookings
-      workflowReminderPromises.push(WorkflowRepository.deleteAllWorkflowReminders(booking.workflowReminders));
     }
 
-    await Promise.allSettled([...webhookTriggerPromises, ...workflowReminderPromises]).then((results) => {
+    await Promise.allSettled(webhookTriggerPromises).then((results) => {
       const rejectedReasons = results
         .filter((result): result is PromiseRejectedResult => result.status === "rejected")
         .map((result) => result.reason);
 
       if (rejectedReasons.length > 0) {
-        log.error("An error occurred when deleting workflow reminders and webhook triggers", rejectedReasons);
+        log.error("An error occurred when deleting webhook triggers", rejectedReasons);
       }
     });
   } catch (error) {
-    log.error("Error deleting scheduled webhooks and workflows", safeStringify({ error }));
+    log.error("Error deleting scheduled webhooks", safeStringify({ error }));
   }
 
   try {
