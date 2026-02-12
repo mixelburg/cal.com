@@ -23,6 +23,15 @@ class TeamRepository {
   async findOwnedTeamsByUserId(_params: { userId: number }): Promise<any[]> {
     return [];
   }
+  async findAllByParentId(_parentId: number): Promise<any[]> {
+    return [];
+  }
+  async findByIdAndParentId(_teamId: number, _parentId: number): Promise<any | null> {
+    return null;
+  }
+  async findById(_teamId: number): Promise<any | null> {
+    return null;
+  }
 }
 
 export const insightsRoutingServiceOptionsSchema = z.discriminatedUnion("scope", [
