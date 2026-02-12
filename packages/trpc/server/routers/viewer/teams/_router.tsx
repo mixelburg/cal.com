@@ -16,7 +16,6 @@ import { ZHasEditPermissionForUserSchema } from "./hasEditPermissionForUser.sche
 import { ZLegacyListMembersInputSchema } from "./legacyListMembers.schema";
 import { ZGetListSchema } from "./list.schema";
 import { ZListMembersInputSchema } from "./listMembers.schema";
-import { hasTeamPlan } from "./procedures/hasTeamPlan";
 import { ZRemoveHostsFromEventTypes } from "./removeHostsFromEventTypes.schema";
 import { ZUpdateInputSchema } from "./update.schema";
 import { ZUpdateInternalNotesPresetsInputSchema } from "./updateInternalNotesPresets.schema";
@@ -88,7 +87,6 @@ export const viewerTeamsRouter = router({
     const { default: handler } = await import("./getUserConnectedApps.handler");
     return handler(opts);
   }),
-  hasTeamPlan,
   hasTeamMembership: authedProcedure.query(async (opts) => {
     const { default: handler } = await import("./hasTeamMembership.handler");
     return handler(opts);

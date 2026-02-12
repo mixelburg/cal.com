@@ -6,7 +6,7 @@ import type { TrpcSessionUser } from "../../../types";
 import type { TGetInputSchema } from "./get.schema";
 
 // Stub for removed EE function
-async function getTeamWithoutMembers(_teamIdOrSlug: string | number, _userId: number): Promise<any> {
+async function getTeamWithoutMembers(_teamIdOrSlug: string | number, _userId?: number): Promise<any> {
   return null;
 }
 
