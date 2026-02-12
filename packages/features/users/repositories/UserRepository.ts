@@ -21,6 +21,15 @@ export type { UserWithLegacySelectedCalendars } from "@calcom/lib/server/withSel
 export { withSelectedCalendars };
 export type UserAdminTeams = number[];
 
+// Stub functions for removed EE org features
+function getParsedTeam(team: any) {
+  return team;
+}
+
+function whereClauseForOrgWithSlugOrRequestedSlug(slug: string) {
+  return { slug };
+}
+
 export type SessionUser = {
   id: number;
   username: string | null;

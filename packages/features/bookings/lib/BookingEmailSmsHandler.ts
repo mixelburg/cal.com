@@ -269,16 +269,9 @@ export class BookingEmailSmsHandler {
       customInputs,
     } = data;
 
-    let isHostConfirmationEmailsDisabled = metadata?.disableStandardEmails?.confirmation?.host || false;
-    if (isHostConfirmationEmailsDisabled) {
-      isHostConfirmationEmailsDisabled = allowDisablingHostConfirmationEmails(workflows);
-    }
-
-    let isAttendeeConfirmationEmailDisabled =
+    const isHostConfirmationEmailsDisabled = metadata?.disableStandardEmails?.confirmation?.host || false;
+    const isAttendeeConfirmationEmailDisabled =
       metadata?.disableStandardEmails?.confirmation?.attendee || false;
-    if (isAttendeeConfirmationEmailDisabled) {
-      isAttendeeConfirmationEmailDisabled = allowDisablingAttendeeConfirmationEmails(workflows);
-    }
 
     const { sendScheduledEmailsAndSMS } = await import("@calcom/emails/email-manager");
 
