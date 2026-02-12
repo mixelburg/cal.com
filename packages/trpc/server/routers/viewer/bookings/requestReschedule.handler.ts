@@ -120,9 +120,6 @@ export const requestRescheduleHandler = async ({ ctx, input, source }: RequestRe
     log.error("Error while deleting scheduled webhook triggers", JSON.stringify({ error }));
   });
 
-  //cancel workflow reminders of previous booking
-  await WorkflowRepository.deleteAllWorkflowReminders(bookingToReschedule.workflowReminders);
-
   const [mainAttendee] = bookingToReschedule.attendees;
   // @NOTE: Should we assume attendees language?
   const tAttendees = await getTranslation(mainAttendee.locale ?? "en", "common");
@@ -151,9 +148,7 @@ export const requestRescheduleHandler = async ({ ctx, input, source }: RequestRe
   const eventType = bookingToReschedule.eventType;
   builder.init({
     title: bookingToReschedule.title,
-    bookerUrl: eventType?.team
-      ? await getBookerBaseUrl(eventType.team.parentId)
-      : await getBookerBaseUrl(user.profile?.organizationId ?? null),
+    bookerUrl: "",
     type: event && event.slug ? event.slug : bookingToReschedule.title,
     startTime: bookingToReschedule.startTime.toISOString(),
     endTime: bookingToReschedule.endTime.toISOString(),
