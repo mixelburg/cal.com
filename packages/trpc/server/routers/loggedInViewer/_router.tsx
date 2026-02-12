@@ -65,5 +65,4 @@ export const loggedInViewerRouter = router({
       );
       return removeNotificationsSubscriptionHandler({ ctx, input });
     }),
-  }),
 });
