@@ -13,6 +13,11 @@ export type UserAdminRouterOutputs = inferRouterOutputs<UserAdminRouter>;
 
 const userIdSchema = z.object({ userId: z.coerce.number() });
 
+// Stub for removed EE org function
+function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
+  return "";
+}
+
 const userBodySchema = UserSchema.pick({
   name: true,
   email: true,
