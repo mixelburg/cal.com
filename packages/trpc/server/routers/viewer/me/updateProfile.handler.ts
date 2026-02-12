@@ -35,7 +35,6 @@ type UpdateProfileOptions = {
 
 export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions) => {
   const { user } = ctx;
-  const billingService = getBillingProviderService();
   const userMetadata = handleUserMetadata({ ctx, input });
   const locale = input.locale || user.locale;
   const featuresRepository = new FeaturesRepository(prisma);
@@ -77,37 +76,7 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
     delete data.username;
   }
 
-  if (isPremiumUsername) {
-    const stripeCustomerId = userMetadata?.stripeCustomerId;
-    const isPremium = userMetadata?.isPremium;
-    if (!isPremium || !stripeCustomerId) {
-      throw new TRPCError({ code: "BAD_REQUEST", message: "User is not premium" });
-    }
-
-    const stripeSubscriptions = await billingService.getSubscriptions(stripeCustomerId);
-
-    if (!stripeSubscriptions || !stripeSubscriptions.length) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "No stripeSubscription found",
-      });
-    }
-
-    // Iterate over subscriptions and look for premium product id and status active
-    // @TODO: iterate if stripeSubscriptions.hasMore is true
-    const isPremiumUsernameSubscriptionActive = stripeSubscriptions.some(
-      (subscription) =>
-        subscription.items.data[0].price.id === getPremiumMonthlyPlanPriceId() &&
-        subscription.status === "active"
-    );
-
-    if (!isPremiumUsernameSubscriptionActive) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "You need to pay for premium username",
-      });
-    }
-  }
+  // Premium username billing removed with EE code
   const hasEmailBeenChanged = data.email && user.email !== data.email;
 
   let secondaryEmail:
@@ -175,13 +144,7 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
         },
       },
     });
-    if (userTeams && userTeams.teams.length > 0) {
-      await Promise.all(
-        userTeams.teams.map(async (team) => {
-          await updateNewTeamMemberEventTypes(user.id, team.id);
-        })
-      );
-    }
+    // Team member event type updates removed with EE code
   }
 
   if (travelSchedules) {
