@@ -1,6 +1,9 @@
 import prisma, { bookingMinimalSelect } from "@calcom/prisma";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 
+// Stub for removed EE workflow
+const workflowSelect = {};
+
 export async function getBookingToDelete(id: number | undefined, uid: string | undefined) {
   return await prisma.booking.findUniqueOrThrow({
     where: {

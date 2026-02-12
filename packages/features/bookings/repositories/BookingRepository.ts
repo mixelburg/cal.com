@@ -16,6 +16,9 @@ import type {
   BookingWhereUniqueInput,
 } from "./IBookingRepository";
 
+// Stub for removed EE workflow
+const workflowSelect = {};
+
 const workflowReminderSelect = {
   id: true,
   referenceId: true,
