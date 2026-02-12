@@ -28,6 +28,15 @@ import {
 } from "@calcom/prisma/zod-utils";
 import type { UserProfile } from "@calcom/types/UserProfile";
 
+// Stub functions for removed EE org features
+function getSlugOrRequestedSlug(slug: string) {
+  return { slug };
+}
+
+function getBookerBaseUrlSync(_orgSlug: string | null): string {
+  return "";
+}
+
 const userSelect = {
   id: true,
   avatarUrl: true,
