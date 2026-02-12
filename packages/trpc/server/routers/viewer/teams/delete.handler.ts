@@ -7,6 +7,11 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TDeleteInputSchema } from "./delete.schema";
 
+// Stub for removed EE TeamService
+class TeamService {
+  static async deleteTeam(_params: any): Promise<void> {}
+}
+
 type DeleteOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

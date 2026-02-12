@@ -5,6 +5,11 @@ import { TRPCError } from "@trpc/server";
 
 import type { TGetInternalNotesPresetsInputSchema } from "./getInternalNotesPresets.schema";
 
+// Stub for removed EE function
+async function isTeamMember(_userId: number, _teamId: number): Promise<boolean> {
+  return false;
+}
+
 type UpdateMembershipOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

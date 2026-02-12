@@ -8,6 +8,11 @@ import { TRPCError } from "@trpc/server";
 import type { TGetMemberAvailabilityInputSchema } from "./getMemberAvailability.schema";
 import dayjs from "@calcom/dayjs";
 
+// Stub for removed EE function
+async function isTeamMember(_userId: number, _teamId: number): Promise<boolean> {
+  return false;
+}
+
 type GetMemberAvailabilityOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
