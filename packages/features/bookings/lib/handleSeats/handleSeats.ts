@@ -249,35 +249,7 @@ const handleSeats = async (
       ...(typeof resultBooking.metadata === "object" && resultBooking.metadata),
       ...reqBodyMetadata,
     };
-    // For seated events, use the phone number from the specific attendee being added
-    const attendeePhoneNumber = invitee[0]?.phoneNumber || smsReminderNumber || null;
-    try {
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleWorkflowsForNewBooking({
-        workflows: workflows,
-        smsReminderNumber: attendeePhoneNumber,
-        calendarEvent: {
-          ...evt,
-          uid: seatedBooking.uid,
-          rescheduleReason,
-          ...{
-            metadata,
-            eventType: {
-              slug: eventType.slug,
-              schedulingType: eventType.schedulingType,
-              hosts: eventType.hosts,
-            },
-          },
-        },
-        emailAttendeeSendToOverride: bookerEmail,
-        seatReferenceUid: resultBooking?.seatReferenceUid,
-        isDryRun,
-        isConfirmedByDefault: !evt.requiresConfirmation,
-        isRescheduleEvent: !!rescheduleUid,
-        isNormalBookingOrFirstRecurringSlot: true,
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-      });
+    // Workflow scheduling removed (EE feature)
     } catch (error) {
       loggerWithEventDetails.error("Error while scheduling workflow reminders", JSON.stringify({ error }));
     }
