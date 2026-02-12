@@ -19,6 +19,9 @@ class TeamRepository {
   async findById(_params: any): Promise<any | null> {
     return null;
   }
+  async findParentOrganizationByTeamId(_teamId: number): Promise<any | null> {
+    return null;
+  }
 }
 
 export const handleNoShowFee = async ({
