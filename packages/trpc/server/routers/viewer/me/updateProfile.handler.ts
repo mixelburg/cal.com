@@ -2,9 +2,7 @@ import { keyBy } from "lodash";
 import type { GetServerSidePropsContext, NextApiResponse } from "next";
 
 import { getPremiumMonthlyPlanPriceId } from "@calcom/app-store/stripepayment/lib/utils";
-import { getBillingProviderService } from "@calcom/ee/billing/di/containers/Billing";
 import { sendChangeOfEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
-import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { checkUsername } from "@calcom/features/profile/lib/checkUsername";
 import { ScheduleRepository } from "@calcom/features/schedules/repositories/ScheduleRepository";

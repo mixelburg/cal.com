@@ -6,8 +6,6 @@ import { prisma } from "@calcom/prisma/__mocks__/prisma";
 
 import { describe, it, vi, expect, beforeEach, afterEach } from "vitest";
 
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-import type { Workflow } from "@calcom/features/ee/workflows/lib/types";
 import type { WebhookSubscriber } from "@calcom/features/webhooks/lib/dto/types";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import { sendGenericWebhookPayload } from "@calcom/features/webhooks/lib/sendPayload";

@@ -7,8 +7,6 @@ import type { UseFormReturn } from "react-hook-form";
 
 import { getPaymentAppData } from "@calcom/app-store/_utils/payments/getPaymentAppData";
 import { eventTypeMetaDataSchemaWithTypedApps } from "@calcom/app-store/zod-utils";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
-import type { Workflow } from "@calcom/features/ee/workflows/lib/types";
 import type {
   EventTypeSetupProps,
   AvailabilityOption,

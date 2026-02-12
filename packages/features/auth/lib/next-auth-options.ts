@@ -14,17 +14,9 @@ import {
   createGoogleCalendarServiceWithGoogleType,
   type GoogleCalendar,
 } from "@calcom/app-store/googlecalendar/lib/CalendarService";
-import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { getBillingProviderService } from "@calcom/features/ee/billing/di/containers/Billing";
 import { CredentialRepository } from "@calcom/features/credentials/repositories/CredentialRepository";
 import { buildCredentialCreateData } from "@calcom/features/credentials/services/CredentialDataService";
 import type { TrackingData } from "@calcom/lib/tracking";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
-import createUsersAndConnectToOrg from "@calcom/features/ee/dsync/lib/users/createUsersAndConnectToOrg";
-import ImpersonationProvider from "@calcom/features/ee/impersonation/lib/ImpersonationProvider";
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
-import { getOrgFullOrigin, subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
-import { clientSecretVerifier, hostedCal, isSAMLLoginEnabled } from "@calcom/features/ee/sso/lib/saml";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { isPasswordValid } from "@calcom/lib/auth/isPasswordValid";
@@ -392,8 +384,6 @@ if (isSAMLLoginEnabled) {
           log.warn("saml-idp:authorize - missing code in credentials");
           return null;
         }
-
-        const { oauthController } = await (await import("@calcom/features/ee/sso/lib/jackson")).default();
 
         // Fetch access token
         const { access_token } = await oauthController.token({

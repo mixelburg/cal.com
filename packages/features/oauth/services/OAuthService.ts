@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import jwt from "jsonwebtoken";
 
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { AccessCodeRepository } from "@calcom/features/oauth/repositories/AccessCodeRepository";
 import { OAuthClientRepository } from "@calcom/features/oauth/repositories/OAuthClientRepository";
 import { generateSecret } from "@calcom/features/oauth/utils/generateSecret";

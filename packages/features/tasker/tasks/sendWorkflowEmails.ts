@@ -4,8 +4,6 @@ import { sendCustomWorkflowEmail } from "@calcom/emails/workflow-email-service";
 import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
 import { BookingSeatRepository } from "@calcom/features/bookings/repositories/BookingSeatRepository";
-import { EmailWorkflowService } from "@calcom/features/ee/workflows/lib/service/EmailWorkflowService";
-import { WorkflowReminderRepository } from "@calcom/features/ee/workflows/repositories/WorkflowReminderRepository";
 import { bookingMetadataSchema } from "@calcom/prisma/zod-utils";
 import { prisma } from "@calcom/prisma";
 

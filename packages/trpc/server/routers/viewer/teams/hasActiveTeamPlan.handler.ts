@@ -1,5 +1,3 @@
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { SubscriptionStatus } from "@calcom/ee/billing/repository/billing/IBillingRepository";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { IS_SELF_HOSTED } from "@calcom/lib/constants";
 import { prisma } from "@calcom/prisma";

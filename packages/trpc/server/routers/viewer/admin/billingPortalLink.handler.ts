@@ -1,11 +1,8 @@
 import { z } from "zod";
 
-import { createSignature, generateNonce } from "@calcom/features/ee/common/server/private-api-utils";
 import {
   getDeploymentKey,
   getDeploymentSignatureToken,
-} from "@calcom/features/ee/deployment/lib/getDeploymentKey";
-import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import { CALCOM_PRIVATE_API_ROUTE } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";

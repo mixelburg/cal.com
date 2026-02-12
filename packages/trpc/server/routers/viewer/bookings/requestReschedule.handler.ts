@@ -12,8 +12,6 @@ import { getFeaturesRepository } from "@calcom/features/di/containers/FeaturesRe
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
 import { deleteMeeting } from "@calcom/features/conferencing/lib/videoClient";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
-import { WorkflowRepository } from "@calcom/features/ee/workflows/repositories/WorkflowRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import {

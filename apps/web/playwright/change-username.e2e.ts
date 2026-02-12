@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 
-import stripe from "@calcom/features/ee/payments/server/stripe";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { MembershipRole } from "@calcom/prisma/enums";
 

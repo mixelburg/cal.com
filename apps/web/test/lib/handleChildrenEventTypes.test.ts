@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import prismaMock from "@calcom/testing/lib/__mocks__/prismaMock";
-import updateChildrenEventTypes from "@calcom/features/ee/managed-event-types/lib/handleChildrenEventTypes";
 import logger from "@calcom/lib/logger";
 import { buildEventType } from "@calcom/lib/test/builder";
 import type { EventType, Prisma, User, WorkflowsOnEventTypes } from "@calcom/prisma/client";

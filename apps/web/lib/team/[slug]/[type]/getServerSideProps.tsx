@@ -4,8 +4,6 @@ import { z } from "zod";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { getBookingForReschedule } from "@calcom/features/bookings/lib/get-booking";
 import logger from "@calcom/lib/logger";
-import { getSlugOrRequestedSlug, orgDomainConfig } from "@calcom/features/ee/organizations/lib/orgDomains";
-import { getOrganizationSEOSettings } from "@calcom/features/ee/organizations/lib/orgSettings";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { getBrandingForEventType } from "@calcom/features/profile/lib/getBranding";
 import { shouldHideBrandingForTeamEvent } from "@calcom/features/profile/lib/hideBranding";
@@ -120,7 +118,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       throw err;
     }),
     needsCrmLookup
-      ? import("@calcom/features/ee/teams/lib/getTeamMemberEmailFromCrm")
           .then(({ getTeamMemberEmailForResponseOrContactUsingUrlQuery }) =>
             getTeamMemberEmailForResponseOrContactUsingUrlQuery({ query, eventData })
           )

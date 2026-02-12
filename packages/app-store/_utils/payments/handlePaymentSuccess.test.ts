@@ -74,14 +74,10 @@ vi.mock("@calcom/app-store/routing-forms/lib/findFieldValueByIdentifier", () => 
 import { getBooking } from "@calcom/features/bookings/lib/payment/getBooking";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import sendPayload from "@calcom/features/webhooks/lib/sendOrSchedulePayload";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
 import prisma from "@calcom/prisma";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerUrlServer";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
 import type { TraceContext } from "@calcom/lib/tracing";
 import { WebhookVersion } from "@calcom/features/webhooks/lib/interface/IWebhookRepository";
 

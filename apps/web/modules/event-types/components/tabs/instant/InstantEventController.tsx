@@ -6,7 +6,6 @@ import type { OptionProps, SingleValueProps } from "react-select";
 
 import { Dialog } from "@calcom/features/components/controlled-dialog";
 import LicenseRequired from "~/ee/common/components/LicenseRequired";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import type { EventTypeSetup, FormValues, AvailabilityOption } from "@calcom/features/eventtypes/lib/types";
 import { subscriberUrlReserved } from "@calcom/features/webhooks/lib/subscriberUrlReserved";
 import { useLocale } from "@calcom/lib/hooks/useLocale";

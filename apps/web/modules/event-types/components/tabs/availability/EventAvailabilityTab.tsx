@@ -9,7 +9,6 @@ import type { GetAllSchedulesByUserIdQueryType } from "./EventAvailabilityTabWeb
 import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
 import dayjs from "@calcom/dayjs";
 import { SelectSkeletonLoader } from "@calcom/features/availability/components/SkeletonLoader";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import type { TeamMembers } from "@calcom/web/modules/event-types/components/EventType";
 import type {
   AvailabilityOption,

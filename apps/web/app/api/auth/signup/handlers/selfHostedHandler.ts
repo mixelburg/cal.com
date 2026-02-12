@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-import { checkPremiumUsername } from "@calcom/ee/common/lib/checkPremiumUsername";
 import { sendEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
 import { createOrUpdateMemberships } from "@calcom/features/auth/signup/utils/createOrUpdateMemberships";
 import { validateAndGetCorrectedUsernameAndEmail } from "@calcom/features/auth/signup/utils/validateUsername";

@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-import { isFormTrigger } from "@calcom/features/ee/workflows/lib/actionHelperFunctions";
 import {
   WORKFLOW_TEMPLATES,
   TIME_UNIT,
   WORKFLOW_ACTIONS,
   WORKFLOW_TRIGGER_EVENTS,
   ALLOWED_FORM_WORKFLOW_ACTIONS,
-} from "@calcom/features/ee/workflows/lib/constants";
 
 const stepSchema = z.object({
   id: z.number(),

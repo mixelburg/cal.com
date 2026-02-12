@@ -1,12 +1,9 @@
-import jackson from "@calcom/features/ee/sso/lib/jackson";
-import type { SSOConnection } from "@calcom/features/ee/sso/lib/saml";
 import {
   canAccessOrganization,
   oidcPath,
   samlProductID,
   samlTenantID,
   tenantPrefix,
-} from "@calcom/features/ee/sso/lib/saml";
 
 import { TRPCError } from "@trpc/server";
 

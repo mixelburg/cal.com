@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import stripe from "@calcom/features/ee/payments/server/stripe";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { OrganizationOnboardingRepository } from "@calcom/features/organizations/repositories/OrganizationOnboardingRepository";
 import { WEBAPP_URL } from "@calcom/lib/constants";

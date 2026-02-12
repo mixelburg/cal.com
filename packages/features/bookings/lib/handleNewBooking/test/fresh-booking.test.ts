@@ -57,7 +57,6 @@ import { describe, expect } from "vitest";
 import type Stripe from "stripe";
 
 import { appStoreMetadata } from "@calcom/app-store/appStoreMetaData";
-import { handleStripePaymentSuccess } from "@calcom/features/ee/payments/api/webhook";
 import { createWatchlistEntry } from "@calcom/features/watchlist/lib/testUtils";
 import { WEBSITE_URL, WEBAPP_URL } from "@calcom/lib/constants";
 import type { HttpError } from "@calcom/lib/http-error";

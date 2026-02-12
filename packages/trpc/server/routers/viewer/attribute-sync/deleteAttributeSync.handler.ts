@@ -1,4 +1,3 @@
-import { getIntegrationAttributeSyncService } from "@calcom/ee/integration-attribute-sync/di/IntegrationAttributeSyncService.container";
 
 import { TRPCError } from "@trpc/server";
 

@@ -99,7 +99,6 @@ vi.mock("@calcom/features/ee/billing/di/containers/Billing", () => {
 
   return {
     getBillingProviderService: () =>
-      fake as unknown as import("@calcom/features/ee/billing/service/billingProvider/StripeBillingService").StripeBillingService,
   };
 });
 

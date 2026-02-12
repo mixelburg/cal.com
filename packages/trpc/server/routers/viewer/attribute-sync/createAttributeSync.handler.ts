@@ -1,9 +1,7 @@
-import { getIntegrationAttributeSyncService } from "@calcom/ee/integration-attribute-sync/di/IntegrationAttributeSyncService.container";
 import {
   CredentialNotFoundError,
   DuplicateAttributeWithinSyncError,
   DuplicateAttributeAcrossSyncsError,
-} from "@calcom/ee/integration-attribute-sync/services/IntegrationAttributeSyncService";
 
 import { TRPCError } from "@trpc/server";
 

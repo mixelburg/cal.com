@@ -56,9 +56,7 @@ vi.mock("@calcom/lib/constants", async () => {
 
 // Import mocked modules for assertions
 import { submitWorkflowStepForUrlScanning } from "../scanWorkflowUrls";
-import { scheduleWorkflowNotifications } from "@calcom/features/ee/workflows/lib/scheduleWorkflowNotifications";
 import { Task } from "@calcom/features/tasker/repository";
-import compareReminderBodyToTemplate from "@calcom/features/ee/workflows/lib/compareReminderBodyToTemplate";
 
 describe("scanWorkflowBody", () => {
   beforeEach(() => {

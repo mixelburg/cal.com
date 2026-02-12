@@ -1,6 +1,4 @@
 import dayjs from "@calcom/dayjs";
-import { getBillingProviderService } from "@calcom/features/ee/billing/di/containers/Billing";
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
 import { IS_STRIPE_ENABLED, WEBAPP_URL } from "@calcom/lib/constants";
 import { prisma } from "@calcom/prisma";

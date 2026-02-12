@@ -2,9 +2,6 @@ import type { FORM_SUBMITTED_WEBHOOK_RESPONSES } from "@calcom/app-store/routing
 import dayjs from "@calcom/dayjs";
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { createDefaultAIPhoneServiceProvider } from "@calcom/features/calAIPhone";
-import { handleInsufficientCredits } from "@calcom/features/ee/billing/helpers/handleInsufficientCredits";
-import { formatIdentifierToVariable } from "@calcom/features/ee/workflows/lib/reminders/templates/customTemplate";
-import { WorkflowReminderRepository } from "@calcom/features/ee/workflows/lib/repository/workflowReminder";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import {
   getSubmitterEmail,
@@ -142,7 +139,6 @@ export async function executeAIPhoneCall(payload: string) {
     }
 
     if (data.userId || data.teamId) {
-      const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
       const creditService = new CreditService();
 
       const hasCredits = await creditService.hasAvailableCredits({

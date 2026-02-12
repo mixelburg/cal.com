@@ -6,7 +6,6 @@ export { BookingRepository as PrismaBookingRepository } from "@calcom/features/b
 export { EventTypeRepository as PrismaEventTypeRepository } from "@calcom/features/eventtypes/repositories/eventTypeRepository";
 export { RoutingFormResponseRepository as PrismaRoutingFormResponseRepository } from "@calcom/features/routing-forms/repositories/RoutingFormResponseRepository";
 export { PrismaSelectedSlotRepository } from "@calcom/features/selectedSlots/repositories/PrismaSelectedSlotRepository";
-export { TeamRepository as PrismaTeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 export { UserRepository as PrismaUserRepository } from "@calcom/features/users/repositories/UserRepository";
 export { FeaturesRepository as PrismaFeaturesRepository } from "@calcom/features/flags/features.repository";
 export { MembershipRepository as PrismaMembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";

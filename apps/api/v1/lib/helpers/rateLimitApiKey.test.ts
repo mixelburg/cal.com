@@ -4,7 +4,6 @@ import type { NextApiResponse, NextApiRequest } from "next";
 import { createMocks } from "node-mocks-http";
 import { describe, it, expect, vi } from "vitest";
 
-import { handleAutoLock } from "@calcom/features/ee/api-keys/lib/autoLock";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { HttpError } from "@calcom/lib/http-error";
 

@@ -5,7 +5,6 @@ import { EventTypeAppCard } from "@calcom/app-store/_components/EventTypeAppCard
 import type { EventTypeAppCardComponentProps } from "@calcom/app-store/types";
 import type { EventTypeAppsList } from "@calcom/app-store/utils";
 import useAppsData from "@calcom/web/modules/apps/hooks/useAppsData";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import type { FormValues, EventTypeSetupProps, EventTypeApps } from "@calcom/features/eventtypes/lib/types";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { useLocale } from "@calcom/lib/hooks/useLocale";

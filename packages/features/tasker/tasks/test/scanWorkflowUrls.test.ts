@@ -51,8 +51,6 @@ vi.mock("@calcom/features/ee/api-keys/lib/autoLock", () => ({
 }));
 
 // Import mocked modules for assertions
-import * as urlScanner from "@calcom/features/ee/workflows/lib/urlScanner";
-import { lockUser } from "@calcom/features/ee/api-keys/lib/autoLock";
 
 describe("scanWorkflowUrls", () => {
   beforeEach(() => {

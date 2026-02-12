@@ -1,6 +1,4 @@
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { isCompanyEmail } from "@calcom/features/ee/organizations/lib/utils";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { prisma } from "@calcom/prisma";

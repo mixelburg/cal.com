@@ -1,12 +1,10 @@
 import z from "zod";
 
-import { LockReason, lockUser } from "@calcom/features/ee/api-keys/lib/autoLock";
 import {
   extractUrlsFromHtml,
   getScanResult,
   isUrlScanningEnabled,
   submitUrlForScanning,
-} from "@calcom/features/ee/workflows/lib/urlScanner";
 import tasker from "@calcom/features/tasker";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";

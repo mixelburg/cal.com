@@ -1,6 +1,3 @@
-import { TeamRepository } from "@calcom/ee/teams/repositories/TeamRepository";
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";

@@ -3,12 +3,6 @@ import getAllUserBookings from "@calcom/features/bookings/lib/getAllUserBookings
 import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/getBookingFields";
 import getBookingInfo from "@calcom/features/bookings/lib/getBookingInfo";
 import handleCancelBooking from "@calcom/features/bookings/lib/handleCancelBooking";
-import { getClientSecretFromPayment } from "@calcom/features/ee/payments/pages/getClientSecretFromPayment";
-import { getTeamMemberEmailForResponseOrContactUsingUrlQuery } from "@calcom/features/ee/teams/lib/getTeamMemberEmailFromCrm";
-import {
-  sendVerificationCode,
-  verifyPhoneNumber,
-} from "@calcom/features/ee/workflows/lib/reminders/verifyPhoneNumber";
 import { handleCreatePhoneCall } from "@calcom/features/handleCreatePhoneCall";
 import handleMarkNoShow from "@calcom/features/handleMarkNoShow";
 import { getRoutedUrl } from "@calcom/features/routing-forms/lib/getRoutedUrl";
@@ -72,8 +66,6 @@ export { symmetricEncrypt, symmetricDecrypt };
 
 export { getTranslation };
 
-export { roundRobinManualReassignment } from "@calcom/features/ee/round-robin/roundRobinManualReassignment";
-export { roundRobinReassignment } from "@calcom/features/ee/round-robin/roundRobinReassignment";
 export { validateCustomEventName } from "@calcom/features/eventtypes/lib/eventNaming";
 
 export type TeamQuery = Prisma.TeamGetPayload<{
@@ -94,7 +86,6 @@ export type TeamQuery = Prisma.TeamGetPayload<{
 
 export { credentialForCalendarServiceSelect };
 export { paymentDataSelect };
-export { getClientSecretFromPayment };
 
 export type { GroupedAttribute } from "@calcom/trpc/server/routers/viewer/attributes/getByUserId.handler";
 export { groupMembershipAttributes } from "@calcom/trpc/server/routers/viewer/attributes/getByUserId.handler";
@@ -102,8 +93,6 @@ export { confirmHandler as confirmBookingHandler } from "@calcom/trpc/server/rou
 export { getBookingFieldsWithSystemFields };
 
 export { getRoutedUrl };
-
-export { getTeamMemberEmailForResponseOrContactUsingUrlQuery };
 
 export { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
 export { getCalendarLinks } from "@calcom/features/bookings/lib/getCalendarLinks";
@@ -113,13 +102,9 @@ export { encryptServiceAccountKey } from "@calcom/lib/server/serviceAccountKey";
 export { createHandler as createApiKeyHandler } from "@calcom/trpc/server/routers/viewer/apiKeys/create.handler";
 export type { TFindTeamMembersMatchingAttributeLogicInputSchema } from "@calcom/trpc/server/routers/viewer/attributes/findTeamMembersMatchingAttributeLogic.schema";
 
-export { verifyPhoneNumber, sendVerificationCode };
-
 export { verifyCodeUnAuthenticated } from "@calcom/features/auth/lib/verifyCodeUnAuthenticated";
 export { sendEmailVerificationByCode } from "@calcom/features/auth/lib/verifyEmail";
 export { BookingAccessService } from "@calcom/features/bookings/services/BookingAccessService";
-export { StripeBillingService } from "@calcom/features/ee/billing/service/billingProvider/StripeBillingService";
-export { TeamService } from "@calcom/features/ee/teams/services/teamService";
 export type { OAuth2Tokens } from "@calcom/features/oauth/services/OAuthService";
 export { OAuthService } from "@calcom/features/oauth/services/OAuthService";
 export { generateSecret } from "@calcom/features/oauth/utils/generateSecret";

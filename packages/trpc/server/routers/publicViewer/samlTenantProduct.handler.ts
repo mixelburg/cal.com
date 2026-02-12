@@ -1,4 +1,3 @@
-import { ssoTenantProduct } from "@calcom/features/ee/sso/lib/sso";
 import type { PrismaClient } from "@calcom/prisma";
 
 import type { TSamlTenantProductInputSchema } from "./samlTenantProduct.schema";

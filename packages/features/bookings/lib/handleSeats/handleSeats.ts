@@ -1,7 +1,5 @@
 import dayjs from "@calcom/dayjs";
 import { handleWebhookTrigger } from "@calcom/features/bookings/lib/handleWebhookTrigger";
-import { CreditService } from "@calcom/features/ee/billing/credit-service";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
 import type { EventPayloadType } from "@calcom/features/webhooks/lib/sendPayload";
 import type { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { ErrorCode } from "@calcom/lib/errorCodes";

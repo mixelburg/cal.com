@@ -1,4 +1,3 @@
-import { getBrand } from "@calcom/features/ee/organizations/lib/getBrand";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 type VerifyCodeOptions = {

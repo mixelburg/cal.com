@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { BillingPlanService } from "@calcom/features/ee/billing/domain/billing-plans";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { WEBAPP_URL, WEBSITE_URL } from "@calcom/lib/constants";

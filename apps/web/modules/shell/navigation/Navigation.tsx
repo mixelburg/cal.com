@@ -5,7 +5,6 @@ import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import {
   useOrgBranding,
   type OrganizationBranding,
-} from "@calcom/features/ee/organizations/context/provider";
 import { useMobileMoreItems } from "./useMobileMoreItems";
 import { useIsStandalone } from "@calcom/lib/hooks/useIsStandalone";
 import classNames from "@calcom/ui/classNames";

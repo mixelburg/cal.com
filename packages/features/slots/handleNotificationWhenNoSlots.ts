@@ -1,6 +1,5 @@
 import type { Dayjs } from "@calcom/dayjs";
 import { sendOrganizationAdminNoSlotsNotification } from "@calcom/emails/organization-email-service";
-import type { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import type { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
 import type { IRedisService } from "@calcom/features/redis/IRedisService";
 import { IS_PRODUCTION, WEBAPP_URL } from "@calcom/lib/constants";

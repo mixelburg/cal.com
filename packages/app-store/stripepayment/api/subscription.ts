@@ -3,7 +3,6 @@ import type Stripe from "stripe";
 
 import { getPremiumMonthlyPlanPriceId } from "@calcom/app-store/stripepayment/lib/utils";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { checkPremiumUsername } from "@calcom/features/ee/common/lib/checkPremiumUsername";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import prisma from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";

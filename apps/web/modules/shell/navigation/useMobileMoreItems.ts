@@ -1,4 +1,3 @@
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
 import { useBottomNavItems } from "../useBottomNavItems";
 import { UserPermissionRole } from "@calcom/prisma/enums";
 import type { NavigationItemType } from "./NavigationItem";

@@ -1,5 +1,3 @@
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-import { getParsedTeam } from "@calcom/features/ee/teams/lib/getParsedTeam";
 import {
   createMemberships,
   getTeamOrThrow,
@@ -7,8 +5,6 @@ import {
   sendExistingUserTeamInviteEmails,
   sendSignupToOrganizationEmail,
   type UserWithMembership,
-} from "@calcom/features/ee/teams/lib/inviteMemberUtils";
-import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
@@ -27,14 +23,12 @@ import { TRPCError } from "@trpc/server";
 import { isEmail } from "../util";
 import type { TeamWithParent } from "./types";
 
-export type { Invitee, UserWithMembership } from "@calcom/features/ee/teams/lib/inviteMemberUtils";
 export {
   createMemberships,
   getTeamOrThrow,
   sendEmails,
   sendExistingUserTeamInviteEmails,
   sendSignupToOrganizationEmail,
-} from "@calcom/features/ee/teams/lib/inviteMemberUtils";
 
 const log = logger.getSubLogger({ prefix: ["inviteMember.utils"] });
 

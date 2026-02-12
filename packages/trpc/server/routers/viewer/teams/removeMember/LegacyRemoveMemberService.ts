@@ -1,5 +1,3 @@
-import * as teamQueries from "@calcom/features/ee/teams/lib/queries";
-import type { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
 

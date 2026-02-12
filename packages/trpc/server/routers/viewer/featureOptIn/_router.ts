@@ -1,7 +1,6 @@
 import { getFeatureOptInService } from "@calcom/features/di/containers/FeatureOptInService";
 import { getTeamFeatureRepository } from "@calcom/features/di/containers/TeamFeatureRepository";
 import { getUserFeatureRepository } from "@calcom/features/di/containers/UserFeatureRepository";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { isOptInFeature } from "@calcom/features/feature-opt-in/config";
 import { prisma } from "@calcom/prisma";
 import { TRPCError } from "@trpc/server";

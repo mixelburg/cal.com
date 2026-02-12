@@ -4,8 +4,6 @@ import { hashSync as hash } from "bcryptjs";
 import { uuid } from "short-uuid";
 import { v4 } from "uuid";
 
-import updateChildrenEventTypes from "@calcom/features/ee/managed-event-types/lib/handleChildrenEventTypes";
-import stripe from "@calcom/features/ee/payments/server/stripe";
 import type { AppFlags, FeatureId } from "@calcom/features/flags/config";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";

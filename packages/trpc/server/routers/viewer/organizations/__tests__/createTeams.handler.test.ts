@@ -1150,7 +1150,6 @@ describe("createTeams handler - Comprehensive Tests", () => {
         role: MembershipRole.OWNER,
       });
 
-      const stripeModule = await import("@calcom/features/ee/payments/server/stripe");
       const cancelSpy = vi.spyOn(stripeModule.default.subscriptions, "cancel").mockResolvedValue({} as any);
 
       await createTeamsHandler({

@@ -9,11 +9,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { createMocks } from "node-mocks-http";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { ILicenseKeyService } from "@calcom/ee/common/server/LicenseKeyService";
-import LicenseKeyService, { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
-import { PrismaApiKeyRepository } from "@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository";
-import { ApiKeyService } from "@calcom/features/ee/api-keys/services/ApiKeyService";
-import type { IDeploymentRepository } from "@calcom/features/ee/deployment/repositories/IDeploymentRepository";
 import { UserPermissionRole } from "@calcom/prisma/enums";
 
 import { isAdminGuard } from "../utils/isAdmin";

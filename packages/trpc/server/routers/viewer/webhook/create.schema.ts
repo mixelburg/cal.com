@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-import { TIME_UNIT } from "@calcom/features/ee/workflows/lib/constants";
 import { WEBHOOK_TRIGGER_EVENTS } from "@calcom/features/webhooks/lib/constants";
 import { WebhookVersion } from "@calcom/features/webhooks/lib/interface/IWebhookRepository";
 

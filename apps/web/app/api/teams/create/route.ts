@@ -7,10 +7,6 @@ import { z } from "zod";
 import {
   getBillingProviderService,
   getTeamBillingServiceFactory,
-} from "@calcom/features/ee/billing/di/containers/Billing";
-import { extractBillingDataFromStripeSubscription } from "@calcom/features/ee/billing/lib/stripe-subscription-utils";
-import { Plan, SubscriptionStatus } from "@calcom/features/ee/billing/repository/billing/IBillingRepository";
-import stripe from "@calcom/features/ee/payments/server/stripe";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";
 import prisma from "@calcom/prisma";

@@ -7,12 +7,7 @@ import type Stripe from "stripe";
 import { z } from "zod";
 
 import { getRequestedSlugError } from "@calcom/app-store/stripepayment/lib/team-billing";
-import { getBillingProviderService } from "@calcom/ee/billing/di/containers/Billing";
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { extractBillingDataFromStripeSubscription } from "@calcom/features/ee/billing/lib/stripe-subscription-utils";
-import { Plan, SubscriptionStatus } from "@calcom/features/ee/billing/repository/billing/IBillingRepository";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import stripe from "@calcom/features/ee/payments/server/stripe";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";
 import prisma from "@calcom/prisma";

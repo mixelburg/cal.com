@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-import * as twilio from "@calcom/features/ee/workflows/lib/reminders/providers/twilioProvider";
 import { IS_SMS_CREDITS_ENABLED, WEBAPP_URL } from "@calcom/lib/constants";
 import { getPublishedOrgIdFromMemberOrTeamId } from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { defaultHandler } from "@calcom/lib/server/defaultHandler";
@@ -73,7 +72,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!parsedUserId && !parsedTeamId) {
     return res.status(401).send("Team or user id is required");
   }
-  const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
   const creditService = new CreditService();
 
   if (countryCode === "US" || countryCode === "CA") {

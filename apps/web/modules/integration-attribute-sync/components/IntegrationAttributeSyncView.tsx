@@ -9,7 +9,6 @@ import { Button } from "@calcom/ui/components/button";
 
 import EditIntegrationAttributeSyncCard from "./EditIntegrationAttributeSyncCard";
 import NewIntegrationAttributeSyncCard from "./NewIntegrationAttributeSyncCard";
-import type { IntegrationAttributeSync } from "@calcom/features/ee/integration-attribute-sync/repositories/IIntegrationAttributeSyncRepository";
 
 interface IIntegrationAttributeSyncViewProps {
   credentialsData: {

@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import dayjs from "@calcom/dayjs";
-import * as twilio from "@calcom/features/ee/workflows/lib/reminders/providers/twilioProvider";
 import { IS_SMS_CREDITS_ENABLED } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
@@ -37,7 +36,6 @@ async function postHandler(req: NextRequest) {
   });
 
   let pricesUpdated = 0;
-  const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
 
   const creditService = new CreditService();
 

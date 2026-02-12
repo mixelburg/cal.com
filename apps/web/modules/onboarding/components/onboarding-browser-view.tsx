@@ -4,8 +4,6 @@ import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import { subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Avatar } from "@calcom/ui/components/avatar";

@@ -1,5 +1,3 @@
-import type { Workflow } from "@calcom/ee/workflows/lib/types";
-import { ZWorkflow } from "@calcom/ee/workflows/lib/types";
 import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import { z } from "zod";
 

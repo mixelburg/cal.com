@@ -1,4 +1,3 @@
-import { getOrgDomainConfig } from "@calcom/features/ee/organizations/lib/orgDomains";
 import {
   getRoutedUsersWithContactOwnerAndFixedUsers,
   findMatchingHostsWithEventSegment,

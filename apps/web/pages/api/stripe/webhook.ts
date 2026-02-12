@@ -4,4 +4,3 @@ export const config = {
   },
 };
 
-export { default } from "@calcom/features/ee/billing/api/webhook";

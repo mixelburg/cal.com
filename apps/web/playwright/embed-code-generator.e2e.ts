@@ -4,7 +4,6 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { parse } from "node-html-parser";
 
-import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
 import { EMBED_LIB_URL, WEBAPP_URL } from "@calcom/lib/constants";
 import { MembershipRole } from "@calcom/prisma/enums";
 

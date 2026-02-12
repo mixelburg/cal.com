@@ -1,4 +1,3 @@
-import { TeamService } from "@calcom/features/ee/teams/services/teamService";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { MembershipRole } from "@calcom/prisma/enums";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
@@ -33,7 +32,6 @@ export const getAllCreditsHandler = async ({ ctx, input }: GetAllCreditsOptions)
     }
   }
 
-  const { CreditService } = await import("@calcom/features/ee/billing/credit-service");
   const creditService = new CreditService();
   const credits = await creditService.getAllCredits({ userId: ctx.user.id, teamId });
 

@@ -1,4 +1,3 @@
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import logger from "@calcom/lib/logger";
 import {
   serviceAccountKeySchema,

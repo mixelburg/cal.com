@@ -3,7 +3,6 @@ import type { PageProps } from "app/_types";
 import { _generateMetadata } from "app/_utils";
 import { cookies, headers } from "next/headers";
 
-import { getServerSideProps, type PaymentPageProps } from "@calcom/features/ee/payments/pages/payment";
 import { APP_NAME } from "@calcom/lib/constants";
 
 import { buildLegacyCtx } from "@lib/buildLegacyCtx";

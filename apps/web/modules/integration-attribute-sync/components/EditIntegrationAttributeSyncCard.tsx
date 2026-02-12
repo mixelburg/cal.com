@@ -5,7 +5,6 @@ import { showToast } from "@calcom/ui/components/toast";
 import type {
   IntegrationAttributeSync,
   ISyncFormData,
-} from "@calcom/features/ee/integration-attribute-sync/repositories/IIntegrationAttributeSyncRepository";
 import IntegrationAttributeSyncCard from "./IntegrationAttributeSyncCard";
 import type { IIntegrationAttributeSyncCardProps } from "./IntegrationAttributeSyncCard";
 

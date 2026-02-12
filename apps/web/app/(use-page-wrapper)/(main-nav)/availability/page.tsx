@@ -6,7 +6,6 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { getScheduleListItemData } from "@calcom/lib/schedules/transformers/getScheduleListItemData";
 import { MembershipRole } from "@calcom/prisma/enums";

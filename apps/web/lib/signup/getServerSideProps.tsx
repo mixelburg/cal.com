@@ -3,8 +3,6 @@ import { z } from "zod";
 
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { getOrgUsernameFromEmail } from "@calcom/features/auth/signup/utils/getOrgUsernameFromEmail";
-import { checkPremiumUsername } from "@calcom/features/ee/common/lib/checkPremiumUsername";
-import { isSAMLLoginEnabled } from "@calcom/features/ee/sso/lib/saml";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { IS_SELF_HOSTED, WEBAPP_URL } from "@calcom/lib/constants";
 import { emailSchema } from "@calcom/lib/emailSchema";

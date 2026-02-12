@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { Dialog } from "@calcom/features/components/controlled-dialog";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import type { FormValues, EventTypeSetupProps } from "@calcom/features/eventtypes/lib/types";
 import { subscriberUrlReserved } from "@calcom/features/webhooks/lib/subscriberUrlReserved";
 import ServerTrans from "@calcom/lib/components/ServerTrans";

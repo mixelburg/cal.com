@@ -4,7 +4,6 @@ import CreateEventTypeForm from "@calcom/features/eventtypes/components/CreateEv
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { EventType } from "@calcom/prisma/client";
 import { Button } from "@calcom/ui/components/button";
-import { TeamEventTypeForm } from "@calcom/features/ee/teams/components/TeamEventTypeForm";
 
 import { useCreateEventTypeForm } from "../../hooks/event-types/private/useCreateEventTypeForm";
 import { useCreateEventType } from "../../hooks/event-types/private/useCreateEventType";

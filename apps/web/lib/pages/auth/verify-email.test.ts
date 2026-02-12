@@ -1,4 +1,3 @@
-import { organizationScenarios } from "@calcom/features/ee/organizations/__mocks__/organizationMock";
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 

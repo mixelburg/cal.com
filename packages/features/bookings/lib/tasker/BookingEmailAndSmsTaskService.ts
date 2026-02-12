@@ -4,7 +4,6 @@ import { CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
 import type { BookingEmailSmsHandler } from "@calcom/features/bookings/lib/BookingEmailSmsHandler";
 import { getOriginalRescheduledBooking } from "@calcom/features/bookings/lib/handleNewBooking/originalRescheduledBookingUtils";
 import type { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
 import type { EventNameObjectType } from "@calcom/features/eventtypes/lib/eventNaming";
 import type { ITaskerDependencies } from "@calcom/lib/tasker/types";
 import { SchedulingType } from "@calcom/prisma/enums";

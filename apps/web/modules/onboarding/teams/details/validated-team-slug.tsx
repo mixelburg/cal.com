@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import { subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import slugify from "@calcom/lib/slugify";
 import classNames from "@calcom/ui/classNames";

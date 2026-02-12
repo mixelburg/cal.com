@@ -1,4 +1,3 @@
-import { organizationRepositoryMock } from "@calcom/features/ee/organizations/__mocks__/organizationMock";
 
 import { setupAndTeardown } from "@calcom/testing/lib/bookingScenario/setupAndTeardown";
 

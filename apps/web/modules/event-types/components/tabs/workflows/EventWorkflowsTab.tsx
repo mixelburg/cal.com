@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import LicenseRequired from "~/ee/common/components/LicenseRequired";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
-import { getActionIcon } from "@calcom/features/ee/workflows/lib/getActionIcon";
 import type { FormValues } from "@calcom/features/eventtypes/lib/types";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { useLocale } from "@calcom/lib/hooks/useLocale";

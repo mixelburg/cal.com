@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 import { useEffect, useRef, useTransition } from "react";
 
-import { isCompanyEmail } from "@calcom/features/ee/organizations/lib/utils";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import classNames from "@calcom/ui/classNames";
 import { Badge } from "@calcom/ui/components/badge";

@@ -5,8 +5,6 @@ import dayjs from "@calcom/dayjs";
 import {
   allowDisablingHostConfirmationEmails,
   allowDisablingAttendeeConfirmationEmails,
-} from "@calcom/ee/workflows/lib/allowDisablingStandardEmails";
-import type { Workflow as WorkflowType } from "@calcom/ee/workflows/lib/types";
 import type { BookingType } from "@calcom/features/bookings/lib/handleNewBooking/originalRescheduledBookingUtils";
 import type { EventNameObjectType } from "@calcom/features/eventtypes/lib/eventNaming";
 import { getPiiFreeCalendarEvent } from "@calcom/lib/piiFreeData";

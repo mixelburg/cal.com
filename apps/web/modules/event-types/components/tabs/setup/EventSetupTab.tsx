@@ -1,5 +1,4 @@
 import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
-import useLockedFieldsManager from "@calcom/features/ee/managed-event-types/hooks/useLockedFieldsManager";
 import type {
   EventTypeSetupProps,
   FormValues,

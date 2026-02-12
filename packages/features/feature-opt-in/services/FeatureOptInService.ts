@@ -1,4 +1,3 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import type { FeatureId, FeatureState } from "@calcom/features/flags/config";
 import type { IFeatureRepository } from "@calcom/features/flags/repositories/PrismaFeatureRepository";
 import type { ITeamFeatureRepository } from "@calcom/features/flags/repositories/PrismaTeamFeatureRepository";

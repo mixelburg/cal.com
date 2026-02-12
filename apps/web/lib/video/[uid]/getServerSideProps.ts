@@ -8,7 +8,6 @@ import {
 } from "@calcom/app-store/dailyvideo/lib/VideoApiAdapter";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
 import { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
-import { getOrganizationRepository } from "@calcom/features/ee/organizations/di/OrganizationRepository.container";
 import { EventTypeRepository } from "@calcom/features/eventtypes/repositories/eventTypeRepository";
 import { getCalVideoReference } from "@calcom/features/get-cal-video-reference";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
