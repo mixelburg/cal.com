@@ -21,8 +21,6 @@ type TaskPayloads = {
   sendAwaitingPaymentEmail: z.infer<
     typeof import("./tasks/sendAwaitingPaymentEmail").sendAwaitingPaymentEmailPayloadSchema
   >;
-  >;
-  >;
   cancelProrationReminder: z.infer<
     typeof import("./tasks/cancelProrationReminder").cancelProrationReminderPayloadSchema
   >;

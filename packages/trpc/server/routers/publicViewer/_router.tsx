@@ -15,14 +15,9 @@ export const publicViewerRouter = router({
     const { default: handler } = await import("./submitRating.handler");
     return handler(opts);
   }),
-    return handler(opts);
-  }),
   samlTenantProduct: publicProcedure.input(ZSamlTenantProductInputSchema).mutation(async (opts) => {
     const { default: handler } = await import("./samlTenantProduct.handler");
     return handler(opts);
-  }),
-  event,
-    return handler();
   }),
 
   checkIfUserEmailVerificationRequired: publicProcedure
