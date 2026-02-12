@@ -31,11 +31,10 @@ export const get = async ({ ctx, input }: GetDataOptions) => {
     });
   }
 
-  const team = await getTeamWithoutMembers({
-    id: input.teamId,
-    userId: ctx.user.organization?.isOrgAdmin ? undefined : ctx.user.id,
-    isOrgView: input?.isOrg,
-  });
+  const team = await getTeamWithoutMembers(
+    input.teamId,
+    ctx.user.organization?.isOrgAdmin ? undefined : ctx.user.id
+  );
 
   if (!team) {
     throw new TRPCError({
