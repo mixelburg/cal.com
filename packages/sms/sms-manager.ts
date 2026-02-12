@@ -7,6 +7,11 @@ import { TimeFormat } from "@calcom/lib/timeFormat";
 import prisma from "@calcom/prisma";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 
+// Stub functions for removed EE features
+function getSenderId(_phoneNumber: string, defaultSenderId: string): string {
+  return defaultSenderId;
+}
+
 const handleSendingSMS = async ({
   reminderPhone,
   smsMessage,
@@ -35,20 +40,7 @@ const handleSendingSMS = async ({
       rateLimitingType: "sms",
     });
 
-    const creditService = new CreditService();
-
-    const smsOrFallbackEmail = await sendSmsOrFallbackEmail({
-      twilioData: {
-        phoneNumber: reminderPhone,
-        body: smsMessage,
-        sender: senderID,
-        ...(teamId ? { teamId } : { userId: organizerUserId }),
-        bookingUid,
-      },
-      creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-    });
-
-    return smsOrFallbackEmail;
+    // SMS sending with credit service removed (EE feature)
   } catch (e) {
     console.error("sendSmsOrFallbackEmail failed", e);
     throw e; // propagate the error
