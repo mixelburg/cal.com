@@ -17,6 +17,14 @@ import { Prisma } from "@calcom/prisma/client";
 import type { BookingStatus } from "@calcom/prisma/enums";
 import { MembershipRole } from "@calcom/prisma/enums";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findOwnedTeamsByUserId(_params: { userId: number }): Promise<any[]> {
+    return [];
+  }
+}
+
 export const insightsRoutingServiceOptionsSchema = z.discriminatedUnion("scope", [
   z.object({
     scope: z.literal("user"),

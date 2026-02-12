@@ -22,6 +22,14 @@ import { MembershipRole } from "@calcom/prisma/enums";
 
 import { transformBookingsForCsv, type BookingTimeStatusData } from "./csvDataTransformer";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findOwnedTeamsByUserId(_params: { userId: number }): Promise<any[]> {
+    return [];
+  }
+}
+
 // Utility function to build user hash map with avatar URL fallback
 export const buildHashMapForUsers = <
   T extends { avatarUrl: string | null; id: number; username: string | null; [key: string]: unknown },
