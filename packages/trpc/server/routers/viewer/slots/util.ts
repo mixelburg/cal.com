@@ -34,7 +34,7 @@ import { getUTCOffsetByTimezone } from "@calcom/lib/dayjs";
 
 // Stub for removed EE TeamRepository
 class TeamRepository {
-  async findFirstBySlugAndParentSlug(_slug: string, _parentSlug: string): Promise<any | null> {
+  async findFirstBySlugAndParentSlug(_slug: string, _parentSlug?: string): Promise<any | null> {
     return null;
   }
   async findOrganizationIdBySlug(_params: { slug: string }): Promise<number | null> {
