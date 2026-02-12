@@ -19,7 +19,7 @@ import type { TListMembersInputSchema } from "./listMembers.schema";
 // Stub for removed EE TeamRepository
 class TeamRepository {
   constructor(_prisma: any) {}
-  async findById(_teamId: number): Promise<any | null> {
+  async findById(_params: { id: number } | number): Promise<any | null> {
     return null;
   }
 }
