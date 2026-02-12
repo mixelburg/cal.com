@@ -19,7 +19,7 @@ const featureStateSchema: ZodEnum<["enabled", "disabled", "inherit"]> = z.enum([
 const featureOptInService: ReturnType<typeof getFeatureOptInService> = getFeatureOptInService();
 const teamFeatureRepository: ReturnType<typeof getTeamFeatureRepository> = getTeamFeatureRepository();
 const userFeatureRepository: ReturnType<typeof getUserFeatureRepository> = getUserFeatureRepository();
-const teamRepository: TeamRepository = new TeamRepository(prisma);
+const teamRepository: any = null; // Stub for removed EE TeamRepository
 
 export const featureOptInRouter = router({
   /**
