@@ -22,6 +22,11 @@ const NO_SLOTS_NOTIFICATION_FREQUENCY = IS_PRODUCTION ? 7 * 24 * 3600 : 60;
 
 const NO_SLOTS_COUNT_FOR_NOTIFICATION = 2;
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+}
+
 const constructRedisKey = (eventDetails: EventDetails, orgSlug?: string, teamId?: number) => {
   return `${REDIS_KEY_VERSION}.${eventDetails.username}:${eventDetails.eventSlug}${
     orgSlug ? `@${orgSlug}:team_${teamId}` : ""
