@@ -41,7 +41,7 @@ export const getSmsReminderNumberSource = ({
   workflowId,
   isSmsReminderNumberRequired,
 }: {
-  workflowId: Workflow["id"];
+  workflowId: number;
   isSmsReminderNumberRequired: boolean;
 }) => ({
   id: `${workflowId}`,
@@ -64,7 +64,7 @@ export const getAIAgentCallPhoneNumberSource = ({
   workflowId,
   isAIAgentCallPhoneNumberRequired,
 }: {
-  workflowId: Workflow["id"];
+  workflowId: number;
   isAIAgentCallPhoneNumberRequired: boolean;
 }) => ({
   id: `${workflowId}`,
@@ -92,9 +92,7 @@ export const getBookingFieldsWithSystemFields = ({
   disableBookingTitle?: boolean;
   customInputs: EventTypeCustomInput[] | z.infer<typeof customInputSchema>[];
   metadata: EventType["metadata"] | z.infer<typeof EventTypeMetaDataSchema>;
-  workflows: {
-    
-  }[];
+  workflows: never[];
 }) => {
   const parsedMetaData = EventTypeMetaDataSchema.parse(metadata || {});
   const parsedBookingFields = eventTypeBookingFields.parse(bookingFields || []);
@@ -126,9 +124,7 @@ export const ensureBookingInputsHaveSystemFields = ({
   disableBookingTitle?: boolean;
   additionalNotesRequired: boolean;
   customInputs: z.infer<typeof customInputSchema>[];
-  workflows: {
-    
-  }[];
+  workflows: never[];
 }) => {
   // If bookingFields is set already, the migration is done.
   const hideBookingTitle = disableBookingTitle ?? true;
@@ -143,19 +139,6 @@ export const ensureBookingInputsHaveSystemFields = ({
   };
 
   const smsNumberSources = [] as NonNullable<(typeof bookingFields)[number]["sources"]>;
-  workflows.forEach((workflow) => {
-    workflow.workflow.steps.forEach((step) => {
-      if (step.action === "SMS_ATTENDEE" || step.action === "WHATSAPP_ATTENDEE") {
-        const workflowId = workflow.workflow.id;
-        smsNumberSources.push(
-          getSmsReminderNumberSource({
-            workflowId,
-            isSmsReminderNumberRequired: !!step.numberRequired,
-          })
-        );
-      }
-    });
-  });
 
   const isEmailFieldOptional = !!bookingFields.find((field) => field.name === "email" && !field.required);
 
