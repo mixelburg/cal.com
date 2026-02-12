@@ -21,7 +21,7 @@ import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
 import type { TraceContext } from "@calcom/lib/tracing";
 import { prisma } from "@calcom/prisma";
-import { Prisma } from "@calcom/prisma/client";
+import { BookingStatus, Prisma, WebhookTriggerEvents } from "@calcom/prisma/client";
 
 import type { EventTypeMetadata } from "@calcom/prisma/zod-utils";
 import type { CalendarEvent } from "@calcom/types/Calendar";
@@ -164,13 +164,6 @@ export const confirmHandler = async ({ ctx, input }: ConfirmOptions) => {
               parentId: true,
             },
           },
-          workflows: {
-            select: {
-              workflow: {
-                select: workflowSelect,
-              },
-            },
-          },
           customInputs: true,
           parentId: true,
           parent: {
@@ -282,9 +275,7 @@ export const confirmHandler = async ({ ctx, input }: ConfirmOptions) => {
 
   const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
 
-  const bookerUrl = await getBookerBaseUrl(
-    booking.eventType?.team?.parentId ?? organizerOrganizationId ?? null
-  );
+  const bookerUrl = "";
 
   const attendeesList = await Promise.all(attendeesListPromises);
   const tOrganizer = await getTranslation(booking.user?.locale ?? "en", "common");
@@ -541,33 +532,6 @@ export const confirmHandler = async ({ ctx, input }: ConfirmOptions) => {
       smsReminderNumber: booking.smsReminderNumber || undefined,
     };
     await handleWebhookTrigger({ subscriberOptions, eventTrigger, webhookData, traceContext });
-
-    const workflows = await getAllWorkflowsFromEventType(booking.eventType, user.id);
-    try {
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
-        workflows,
-        smsReminderNumber: booking.smsReminderNumber,
-        calendarEvent: {
-          ...evt,
-          bookerUrl: bookerUrl,
-          eventType: {
-            ...eventTypeInfo,
-            slug: booking.eventType?.slug as string,
-          },
-        },
-        hideBranding: !!booking.eventType?.owner?.hideBranding,
-        triggers: [WorkflowTriggerEvents.BOOKING_REJECTED],
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-      });
-    } catch (error) {
-      // Silently fail
-      console.error(
-        "Error while scheduling workflow reminders for BOOKING_REJECTED:",
-        error instanceof Error ? error.message : String(error)
-      );
-    }
   }
 
   const message = confirmed ? "Booking confirmed" : "Booking rejected";
