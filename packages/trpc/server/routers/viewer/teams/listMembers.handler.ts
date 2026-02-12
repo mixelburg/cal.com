@@ -16,6 +16,19 @@ import { TRPCError } from "@trpc/server";
 
 import type { TListMembersInputSchema } from "./listMembers.schema";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findById(_teamId: number): Promise<any | null> {
+    return null;
+  }
+}
+
+// Stub for removed EE org function
+function getBookerBaseUrlSync(_orgSlug: string | null): string {
+  return "";
+}
+
 type ListMembersHandlerOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

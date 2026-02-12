@@ -13,6 +13,19 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TUpdateInputSchema } from "./update.schema";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findById(_teamId: number): Promise<any | null> {
+    return null;
+  }
+}
+
+// Stub for removed EE org function
+function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
+  return "";
+}
+
 type UpdateOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
