@@ -76,7 +76,7 @@ export async function triggerHostNoShow(payload: string): Promise<void> {
 
   const { booking, webhook, hostsThatDidntJoinTheCall, originalRescheduledBooking, participants } = result;
 
-  const maxStartTime = calculateMaxStartTime(booking.startTime, webhook.time as number, webhook.timeUnit);
+  const maxStartTime = calculateMaxStartTime(booking.startTime, webhook.time, webhook.timeUnit);
 
   const updatedData = await markHostsAsNoShowInBooking(booking, hostsThatDidntJoinTheCall);
   const bookingWithUpdatedData = updatedData
