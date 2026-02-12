@@ -34,7 +34,7 @@ class TeamRepository {
   async findByIdAndParentId(_teamId: number, _parentId: number): Promise<any | null> {
     return null;
   }
-  async findById(_params: any): Promise<any | null> {
+  async findById(_params: any, _additionalSelect?: any): Promise<any | null> {
     return null;
   }
 }
