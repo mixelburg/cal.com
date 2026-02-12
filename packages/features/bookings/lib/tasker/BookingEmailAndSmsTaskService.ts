@@ -92,13 +92,10 @@ export class BookingEmailAndSmsTaskService implements BookingTasks {
       t: calendarEvent.organizer.language.translate,
     } satisfies EventNameObjectType;
 
-    const workflows = await getAllWorkflowsFromEventType(
-      {
-        ...eventType,
-        metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
-      },
-      calendarEvent.organizer.id
-    );
+    const workflows = await getAllWorkflowsFromEventType({
+      ...eventType,
+      metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
+    });
 
     await this.dependencies.emailsAndSmsHandler.send({
       action: "BOOKING_CONFIRMED",
