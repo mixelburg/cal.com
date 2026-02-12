@@ -14,6 +14,11 @@ type CreateHandlerOptions = {
   input: TCreateInputSchema;
 };
 
+// Stub for removed EE API key generator
+function generateUniqueAPIKey(): [string, string] {
+  return ["hashed-key", "api-key"];
+}
+
 export const createHandler = async ({ ctx, input }: CreateHandlerOptions) => {
   const [hashedApiKey, apiKey] = generateUniqueAPIKey();
 
