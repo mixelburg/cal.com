@@ -10,6 +10,14 @@ import { verifyCodeChallenge } from "@calcom/lib/pkce";
 import { OAuthClientStatus } from "@calcom/prisma/enums";
 import type { AccessScope, OAuthClientType } from "@calcom/prisma/enums";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findById(_params: any): Promise<any | null> {
+    return null;
+  }
+}
+
 export interface OAuth2Client {
   clientId: string;
   redirectUri: string;

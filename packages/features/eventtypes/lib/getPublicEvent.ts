@@ -559,7 +559,7 @@ export const getPublicEvent = async (
     metadata: eventMetaData,
     customInputs: customInputSchema.array().parse(event.customInputs || []),
     locations: privacyFilteredLocations((eventWithUserProfiles.locations || []) as LocationObject[]),
-    bookingFields: getBookingFieldsWithSystemFields(event),
+    bookingFields: getBookingFieldsWithSystemFields({ ...event, workflows: [] as never[] }),
     recurringEvent: isRecurringEvent(eventWithUserProfiles.recurringEvent)
       ? parseRecurringEvent(event.recurringEvent)
       : null,
@@ -767,7 +767,7 @@ export const processEventDataShared = async ({
     metadata,
     customInputs: customInputSchema.array().parse(eventData.customInputs || []),
     locations: privacyFilteredLocations((eventData.locations || []) as LocationObject[]),
-    bookingFields: getBookingFieldsWithSystemFields(eventData),
+    bookingFields: getBookingFieldsWithSystemFields({ ...eventData, workflows: [] as never[] }),
     recurringEvent: isRecurringEvent(eventData.recurringEvent)
       ? parseRecurringEvent(eventData.recurringEvent)
       : null,
