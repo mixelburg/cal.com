@@ -46,7 +46,7 @@ type RescheduleEmailAndSmsPayload = EmailAndSmsPayload & {
 };
 
 type ConfirmedEmailAndSmsPayload = EmailAndSmsPayload & {
-  workflows: WorkflowType[];
+  workflows: never[];
   eventNameObject: EventNameObjectType;
   additionalInformation: AdditionalInformation;
   additionalNotes: string | null | undefined;
