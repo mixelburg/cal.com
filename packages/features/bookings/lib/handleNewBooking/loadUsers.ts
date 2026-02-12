@@ -13,6 +13,11 @@ import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/crede
 
 import type { NewBookingEventType } from "./getEventTypesFromDB";
 
+// Stub for removed EE org function
+function getOrgDomainConfig(_req: any): any {
+  return { currentOrgDomain: null, isValidOrgDomain: false };
+}
+
 const log = logger.getSubLogger({ prefix: ["[loadUsers]:handleNewBooking "] });
 
 type EventType = Pick<

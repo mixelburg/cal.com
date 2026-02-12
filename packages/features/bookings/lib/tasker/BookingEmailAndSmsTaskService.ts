@@ -12,6 +12,11 @@ import type { JsonObject } from "@calcom/types/Json";
 
 import { BookingEmailAndSmsAsyncTasksPayload, BookingTasks } from "./types";
 
+// Stub for removed EE workflow function
+async function getAllWorkflowsFromEventType(_eventType: any): Promise<never[]> {
+  return [];
+}
+
 export interface IBookingTaskServiceDependencies {
   emailsAndSmsHandler: BookingEmailSmsHandler;
   bookingRepository: BookingRepository;
