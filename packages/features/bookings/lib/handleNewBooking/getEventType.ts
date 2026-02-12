@@ -24,7 +24,7 @@ const _getEventType = async ({
 
   return {
     ...eventType,
-    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent }),
+    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent, workflows: [] as never[] }),
   };
 };
 

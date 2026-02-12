@@ -231,7 +231,7 @@ export const getEventTypesFromDB = async (eventTypeId: number) => {
     recurringEvent: parseRecurringEvent(eventType?.recurringEvent),
     customInputs: customInputSchema.array().parse(eventType?.customInputs || []),
     locations: (eventType?.locations ?? []) as LocationObject[],
-    bookingFields: getBookingFieldsWithSystemFields({ ...restEventType, isOrgTeamEvent }),
+    bookingFields: getBookingFieldsWithSystemFields({ ...restEventType, isOrgTeamEvent, workflows: [] as never[] }),
     rrSegmentQueryValue: rrSegmentQueryValueSchema.parse(eventType.rrSegmentQueryValue) ?? null,
     isDynamic: false,
     hostGroups: eventType.hostGroups || [],
