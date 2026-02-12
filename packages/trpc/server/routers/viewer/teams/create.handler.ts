@@ -14,6 +14,11 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TCreateInputSchema } from "./create.schema";
 
+// Stub for removed EE function
+async function generateTeamCheckoutSession(_params: any): Promise<any> {
+  return null;
+}
+
 type CreateOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
