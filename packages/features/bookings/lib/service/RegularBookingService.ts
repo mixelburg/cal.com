@@ -1732,6 +1732,7 @@ async function handler(
         allCredentials,
         organizerUser,
         originalRescheduledBooking,
+        workflows: [] as never[],
         bookerEmail,
         bookerPhoneNumber,
         tAttendees,
