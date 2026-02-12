@@ -25,7 +25,7 @@ export const createHandler = async ({ ctx, input }: CreateOptions) => {
   const { user } = ctx;
 
   // SSRF validation for webhook URL
-  const validation = validateUrlForSSRFSync(input.subscriberUrl);
+  const validation = validateUrlForSSRFSync(input.subscriberUrl as string);
   if (!validation.isValid) {
     throw new TRPCError({
       code: "BAD_REQUEST",
@@ -36,7 +36,7 @@ export const createHandler = async ({ ctx, input }: CreateOptions) => {
   const webhookData: Prisma.WebhookCreateInput = {
     id: v4(),
     ...input,
-  };
+  } as any;
   if (input.platform && user.role !== "ADMIN") {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
