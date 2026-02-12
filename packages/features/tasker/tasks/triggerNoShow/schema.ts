@@ -1,10 +1,7 @@
 import { z } from "zod";
 
-import { WebhookTriggerEvents } from "@calcom/prisma/enums";
+import { TimeUnit, WebhookTriggerEvents } from "@calcom/prisma/enums";
 import { WebhookVersion } from "../../../webhooks/lib/interface/IWebhookRepository";
-
-// Stub for removed EE TIME_UNIT
-const TIME_UNIT = ["minute", "hour", "day"] as const;
 
 const commonSchema = z.object({
   triggerEvent: z.enum([
@@ -20,7 +17,7 @@ export const ZWebhook = z.object({
   appId: z.string().nullable(),
   secret: z.string().nullable(),
   time: z.number(),
-  timeUnit: z.enum(TIME_UNIT),
+  timeUnit: z.nativeEnum(TimeUnit),
   eventTriggers: z.array(z.string()),
   payloadTemplate: z.string().nullable(),
   version: z.nativeEnum(WebhookVersion),

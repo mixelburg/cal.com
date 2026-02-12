@@ -2,11 +2,9 @@ import { z } from "zod";
 
 import { WEBHOOK_TRIGGER_EVENTS } from "@calcom/features/webhooks/lib/constants";
 import { WebhookVersion } from "@calcom/features/webhooks/lib/interface/IWebhookRepository";
+import { TimeUnit } from "@calcom/prisma/enums";
 
 import { webhookIdAndEventTypeIdSchema } from "./types";
-
-// Stub for removed EE TIME_UNIT
-const TIME_UNIT = ["minute", "hour", "day"] as const;
 
 export const ZEditInputSchema = webhookIdAndEventTypeIdSchema.extend({
   id: z.string(),
@@ -18,7 +16,7 @@ export const ZEditInputSchema = webhookIdAndEventTypeIdSchema.extend({
   appId: z.string().optional().nullable(),
   secret: z.string().optional().nullable(),
   time: z.number().nullable().optional(),
-  timeUnit: z.enum(TIME_UNIT).nullable().optional(),
+  timeUnit: z.nativeEnum(TimeUnit).nullable().optional(),
   version: z.nativeEnum(WebhookVersion).optional(),
 });
 
