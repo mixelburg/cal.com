@@ -4,6 +4,15 @@ import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import type { IProfileRepository } from "./IProfileRepository";
 import prisma from "@calcom/prisma";
+
+// Stub functions for removed EE org features
+function getParsedTeam(team: any) {
+  return team;
+}
+
+function whereClauseForOrgWithSlugOrRequestedSlug(slug: string) {
+  return { slug };
+}
 import type { Prisma, PrismaClient, User as PrismaUser, Team } from "@calcom/prisma/client";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { userMetadata } from "@calcom/prisma/zod-utils";
