@@ -9,6 +9,13 @@ import { safeStringify } from "@calcom/lib/safeStringify";
 import { PrismaBookingPaymentRepository } from "@calcom/features/bookings/repositories/PrismaBookingPaymentRepository";
 import prisma from "@calcom/prisma";
 
+// Stub for removed EE stripe integration
+const stripe: any = {
+  paymentIntents: {
+    retrieve: async (_id: string) => ({ status: "unknown" })
+  }
+};
+
 const log = logger.getSubLogger({ prefix: ["sendAwaitingPaymentEmail"] });
 
 export const sendAwaitingPaymentEmailPayloadSchema = z.object({
