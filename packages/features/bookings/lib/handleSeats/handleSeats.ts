@@ -250,9 +250,6 @@ const handleSeats = async (
       ...reqBodyMetadata,
     };
     // Workflow scheduling removed (EE feature)
-    } catch (error) {
-      loggerWithEventDetails.error("Error while scheduling workflow reminders", JSON.stringify({ error }));
-    }
 
     const webhookData: EventPayloadType = {
       ...evt,
