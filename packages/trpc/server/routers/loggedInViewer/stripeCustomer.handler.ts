@@ -4,6 +4,9 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import { TRPCError } from "@trpc/server";
 
+// Stub for removed EE billing service
+const getBillingProviderService = () => null;
+
 type StripeCustomerOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
