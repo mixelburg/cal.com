@@ -7,7 +7,6 @@ import { prisma } from "@calcom/prisma";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
-import { checkIfOrgNeedsUpgradeHandler } from "../organizations/checkIfOrgNeedsUpgrade.handler";
 import { getUpgradeableHandler } from "../teams/getUpgradeable.handler";
 import { checkInvalidAppCredentials } from "./checkForInvalidAppCredentials";
 import { getDueInvoiceBannerDataHandler } from "./getDueInvoiceBannerData.handler";
@@ -42,7 +41,6 @@ const checkInvalidGoogleCalendarCredentials = async ({ ctx }: Props) => {
 
 export const getUserTopBannersHandler = async ({ ctx }: Props) => {
   const upgradeableTeamMememberships = getUpgradeableHandler({ userId: ctx.user.id });
-  const upgradeableOrgMememberships = checkIfOrgNeedsUpgradeHandler({ ctx });
   const shouldEmailVerify = shouldVerifyEmailHandler({ ctx });
   // const isInvalidCalendarCredential = checkInvalidGoogleCalendarCredentials({ ctx });
   const appsWithInavlidCredentials = checkInvalidAppCredentials({ ctx });
@@ -50,14 +48,12 @@ export const getUserTopBannersHandler = async ({ ctx }: Props) => {
 
   const [
     teamUpgradeBanner,
-    orgUpgradeBanner,
     verifyEmailBanner,
     // calendarCredentialBanner,
     invalidAppCredentialBanners,
     dueInvoiceBanner,
   ] = await Promise.allSettled([
     upgradeableTeamMememberships,
-    upgradeableOrgMememberships,
     shouldEmailVerify,
     // isInvalidCalendarCredential,
     appsWithInavlidCredentials,
@@ -66,7 +62,7 @@ export const getUserTopBannersHandler = async ({ ctx }: Props) => {
 
   return {
     teamUpgradeBanner: teamUpgradeBanner.status === "fulfilled" ? teamUpgradeBanner.value : [],
-    orgUpgradeBanner: orgUpgradeBanner.status === "fulfilled" ? orgUpgradeBanner.value : [],
+    orgUpgradeBanner: [],
     verifyEmailBanner: verifyEmailBanner.status === "fulfilled" ? !verifyEmailBanner.value.isVerified : false,
     calendarCredentialBanner: false,
     invalidAppCredentialBanners:

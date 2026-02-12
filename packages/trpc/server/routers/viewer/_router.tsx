@@ -32,18 +32,15 @@ import { insightsRouter } from "./insights/_router";
 import { meRouter } from "./me/_router";
 import { oAuthRouter } from "./oAuth/_router";
 import { oooRouter } from "./ooo/_router";
-import { viewerOrganizationsRouter } from "./organizations/_router";
 import { paymentsRouter } from "./payments/_router";
 import { permissionsRouter } from "./pbac/_router";
 import { phoneNumberRouter } from "./phoneNumber/_router";
 import { routingFormsRouter } from "./routing-forms/_router";
 import { slotsRouter } from "./slots/_router";
-import { ssoRouter } from "./sso/_router";
 import { viewerTeamsRouter } from "./teams/_router";
 import { travelSchedulesRouter } from "./travelSchedules/_router";
 import { userAdminRouter } from "./users/_router";
 import { webhookRouter } from "./webhook/_router";
-import { workflowsRouter } from "./workflows/_router";
 
 export const viewerRouter = router({
   loggedInViewerRouter,
@@ -61,13 +58,10 @@ export const viewerRouter = router({
   availability: availabilityRouter,
   teams: viewerTeamsRouter,
   timezones: timezonesRouter,
-  organizations: viewerOrganizationsRouter,
   delegationCredential: delegationCredentialRouter,
   webhook: webhookRouter,
   apiKeys: apiKeysRouter,
   slots: slotsRouter,
-  workflows: workflowsRouter,
-  saml: ssoRouter,
   dsync: dsyncRouter,
   i18n: i18nRouter,
   insights: insightsRouter,

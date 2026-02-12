@@ -12,7 +12,6 @@ import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import { TRPCError } from "@trpc/server";
 
 import type { TrpcSessionUser } from "../../../types";
-import { listOtherTeamHandler } from "../organizations/listOtherTeams.handler";
 import type { TGetActiveOnOptionsSchema } from "./getActiveOnOptions.schema";
 
 type GetActiveOnOptions = {
@@ -176,15 +175,7 @@ const fetchTeamOptions = async ({
       label: group.profile.name || group.profile.slug || "",
     }));
 
-  const otherTeams = await listOtherTeamHandler({ ctx });
-  const otherTeamsOptions = otherTeams
-    ? otherTeams.map((team) => ({
-        value: String(team.id),
-        label: team.name || team.slug || "",
-      }))
-    : [];
-
-  return profileTeamsOptions.concat(otherTeamsOptions);
+  return profileTeamsOptions;
 };
 
 const fetchRoutingFormOptions = async ({
