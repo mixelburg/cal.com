@@ -5,7 +5,10 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 import { TRPCError } from "@trpc/server";
 
 // Stub for removed EE billing service
-const getBillingProviderService = () => null;
+const getBillingProviderService = (): any => ({
+  createCustomer: async (_params: any) => ({ stripeCustomerId: "stub" }),
+  getCustomer: async (_id: string) => ({ deleted: false, metadata: {} }),
+});
 
 type StripeCustomerOptions = {
   ctx: {
