@@ -19,6 +19,9 @@ class TeamRepository {
   async findById(_teamId: number): Promise<any | null> {
     return null;
   }
+  async isSlugAvailableForUpdate(_teamId: number, _slug: string): Promise<boolean> {
+    return true;
+  }
 }
 
 // Stub for removed EE org function

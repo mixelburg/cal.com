@@ -5,6 +5,9 @@ import { WebhookVersion } from "@calcom/features/webhooks/lib/interface/IWebhook
 
 import { webhookIdAndEventTypeIdSchema } from "./types";
 
+// Stub for removed EE TIME_UNIT
+const TIME_UNIT = ["minute", "hour", "day"] as const;
+
 export const ZCreateInputSchema = webhookIdAndEventTypeIdSchema.extend({
   subscriberUrl: z.string().url(),
   eventTriggers: z.enum(WEBHOOK_TRIGGER_EVENTS).array(),
