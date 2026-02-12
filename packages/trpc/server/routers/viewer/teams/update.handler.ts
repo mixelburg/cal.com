@@ -19,7 +19,7 @@ class TeamRepository {
   async findById(_teamId: number): Promise<any | null> {
     return null;
   }
-  async isSlugAvailableForUpdate(_teamId: number, _slug?: string): Promise<boolean> {
+  async isSlugAvailableForUpdate(_params: { slug: string; teamId: number; parentId?: number | null }): Promise<boolean> {
     return true;
   }
 }
