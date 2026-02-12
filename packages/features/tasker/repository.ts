@@ -3,6 +3,12 @@ import type { PrismaClient } from "@calcom/prisma";
 import { Prisma } from "@calcom/prisma/client";
 
 import { type TaskTypes } from "./tasker";
+import { z } from "zod";
+
+// Stub for removed EE workflow schema
+const scanWorkflowBodySchema = z.object({
+  createdAt: z.string().optional(),
+});
 
 const whereSucceeded: Prisma.TaskWhereInput = {
   succeededAt: { not: null },
