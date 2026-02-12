@@ -37,7 +37,7 @@ class TeamRepository {
   async findFirstBySlugAndParentSlug(_slug: string, _parentSlug: string): Promise<any | null> {
     return null;
   }
-  async findOrganizationIdBySlug(_slug: string): Promise<number | null> {
+  async findOrganizationIdBySlug(_params: { slug: string }): Promise<number | null> {
     return null;
   }
 }
