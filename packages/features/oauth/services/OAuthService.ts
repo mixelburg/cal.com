@@ -16,6 +16,9 @@ class TeamRepository {
   async findById(_params: any): Promise<any | null> {
     return null;
   }
+  async findTeamBySlugWithAdminRole(_slug: string, _userId: number): Promise<any | null> {
+    return null;
+  }
 }
 
 export interface OAuth2Client {
