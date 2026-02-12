@@ -3,6 +3,9 @@ import { z } from "zod";
 import { WebhookTriggerEvents } from "@calcom/prisma/enums";
 import { WebhookVersion } from "../../../webhooks/lib/interface/IWebhookRepository";
 
+// Stub for removed EE TIME_UNIT
+const TIME_UNIT = ["minute", "hour", "day"] as const;
+
 const commonSchema = z.object({
   triggerEvent: z.enum([
     WebhookTriggerEvents.AFTER_HOSTS_CAL_VIDEO_NO_SHOW,
