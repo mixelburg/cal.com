@@ -8,11 +8,6 @@ const NAMESPACE = "routingForms";
 const namespaced = (s: string) => `${NAMESPACE}.${s}`;
 
 export const routingFormsRouter = router({
-    .input(ZFindTeamMembersMatchingAttributeLogicOfRouteInputSchema)
-    .mutation(async ({ ctx, input }) => {
-      return handler({ ctx, input });
-    }),
-
   public: router({
     response: publicProcedure.input(ZResponseInputSchema).mutation(async ({ ctx, input }) => {
       const { default: handler } = await import("./response.handler");
