@@ -19,7 +19,6 @@ import { credentialsRouter } from "./credentials/_router";
 import { creditsRouter } from "./credits/_router";
 import { delegationCredentialRouter } from "./delegationCredential/_router";
 import { deploymentSetupRouter } from "./deploymentSetup/_router";
-import { dsyncRouter } from "./dsync/_router";
 import { eventTypesRouter } from "./eventTypes/_router";
 import { eventTypesRouter as heavyEventTypesRouter } from "./eventTypes/heavy/_router";
 import { featureOptInRouter } from "./featureOptIn/_router";
@@ -62,7 +61,6 @@ export const viewerRouter = router({
   webhook: webhookRouter,
   apiKeys: apiKeysRouter,
   slots: slotsRouter,
-  dsync: dsyncRouter,
   i18n: i18nRouter,
   insights: insightsRouter,
   payments: paymentsRouter,
