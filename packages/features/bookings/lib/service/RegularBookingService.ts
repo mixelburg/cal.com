@@ -1299,34 +1299,6 @@ async function handler(
   // Track credential ID for per-host locations
   let perHostCredentialId: number | undefined = undefined;
 
-  // Handle per-host custom locations for round-robin events
-  if (
-    eventType.enablePerHostLocations &&
-    eventType.schedulingType === SchedulingType.ROUND_ROBIN &&
-    organizerUser
-  ) {
-    const organizerHost = eventType.hosts.find((host) => host.user.id === organizerUser.id);
-    if (organizerHost?.location) {
-      const result = await BookingLocationService.getPerHostLocation({
-        hostLocation: organizerHost.location,
-        allCredentials,
-        eventTypeId: eventType.id,
-        userId: organizerUser.id,
-        prismaClient: deps.prismaClient,
-      });
-
-      locationBodyString = result.locationBodyString;
-      organizerOrFirstDynamicGroupMemberDefaultLocationUrl = result.organizerDefaultLocationUrl;
-      perHostCredentialId = result.perHostCredentialId;
-
-      tracingLogger.info("Using per-host location", {
-        userId: organizerUser.id,
-        locationType: result.locationBodyString,
-        credentialId: result.perHostCredentialId,
-      });
-    }
-  }
-
   // If location passed is empty , use default location of event
   // If location of event is not set , use host default
   if (locationBodyString.trim().length === 0) {
@@ -1476,9 +1448,7 @@ async function handler(
   });
 
   const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
-  const bookerUrl = eventType.team
-    ? await getBookerBaseUrl(eventType.team.parentId)
-    : await getBookerBaseUrl(organizerOrganizationId ?? null);
+  const bookerUrl = "";
 
   const destinationCalendar = eventType.destinationCalendar
     ? [eventType.destinationCalendar]
@@ -1653,14 +1623,6 @@ async function handler(
     oAuthClientId: platformClientId,
   };
 
-  const workflows = await getAllWorkflowsFromEventType(
-    {
-      ...eventType,
-      metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
-    },
-    organizerUser.id
-  );
-
   const spamCheckResult = await spamCheckService.waitForCheck();
 
   if (spamCheckResult.isBlocked) {
@@ -1793,7 +1755,6 @@ async function handler(
         subscriberOptions,
         eventTrigger,
         responses,
-        workflows,
         rescheduledBy: reqBody.rescheduledBy,
         isDryRun,
         organizationId: eventOrganizationId,
@@ -2083,8 +2044,6 @@ async function handler(
   // this is the actual rescheduling logic
   if (!eventType.seatsPerTimeSlot && originalRescheduledBooking?.uid) {
     tracingLogger.silly("Rescheduling booking", originalRescheduledBooking.uid);
-    // cancel workflow reminders from previous rescheduled booking
-    await WorkflowRepository.deleteAllWorkflowReminders(originalRescheduledBooking.workflowReminders);
 
     evt = addVideoCallDataToEvent(originalRescheduledBooking.references, evt);
     evt.rescheduledBy = reqBody.rescheduledBy;
@@ -2402,7 +2361,6 @@ async function handler(
                 schedulingType: eventType.schedulingType,
               },
               eventNameObject,
-              workflows,
               evt,
               additionalInformation,
               additionalNotes,
@@ -2586,40 +2544,6 @@ async function handler(
       traceContext,
     });
 
-    try {
-      const calendarEventForWorkflow = {
-        ...evt,
-        rescheduleReason,
-        metadata,
-        eventType: {
-          slug: eventType.slug,
-          schedulingType: eventType.schedulingType,
-          hosts: eventType.hosts,
-        },
-        bookerUrl,
-      };
-
-      if (isNormalBookingOrFirstRecurringSlot) {
-        const creditService = new CreditService();
-
-        await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
-          workflows,
-          smsReminderNumber: smsReminderNumber || null,
-          calendarEvent: calendarEventForWorkflow,
-          hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
-          seatReferenceUid: evt.attendeeSeatId,
-          isDryRun,
-          triggers: [WorkflowTriggerEvents.BOOKING_PAYMENT_INITIATED],
-          creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-        });
-      }
-    } catch (error) {
-      tracingLogger.error(
-        "Error while scheduling workflow reminders for booking payment initiated",
-        JSON.stringify({ error })
-      );
-    }
-
     // TODO: Refactor better so this booking object is not passed
     // all around and instead the individual fields are sent as args.
     const bookingResponse = {
@@ -2775,38 +2699,6 @@ async function handler(
     eventType: { slug: eventType.slug, schedulingType: eventType.schedulingType, hosts: eventType.hosts },
     bookerUrl,
   };
-
-  if (!eventType.metadata?.disableStandardEmails?.all?.attendee) {
-    await scheduleMandatoryReminder({
-      evt: evtWithMetadata,
-      workflows,
-      requiresConfirmation: !isConfirmedByDefault,
-      hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
-      seatReferenceUid: evt.attendeeSeatId,
-      isPlatformNoEmail: noEmail && Boolean(platformClientId),
-      isDryRun,
-      traceContext,
-    });
-  }
-
-  try {
-    const creditService = new CreditService();
-
-    await WorkflowService.scheduleWorkflowsForNewBooking({
-      workflows,
-      smsReminderNumber: smsReminderNumber || null,
-      calendarEvent: evtWithMetadata,
-      hideBranding: !!eventType.owner?.hideBranding || !!platformClientId,
-      seatReferenceUid: evt.attendeeSeatId,
-      isDryRun,
-      isConfirmedByDefault,
-      isNormalBookingOrFirstRecurringSlot,
-      isRescheduleEvent: !!rescheduleUid,
-      creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-    });
-  } catch (error) {
-    tracingLogger.error("Error while scheduling workflow reminders", JSON.stringify({ error }));
-  }
 
   try {
     if (isConfirmedByDefault) {
