@@ -1,4 +1,3 @@
-import { templateTypeEnum } from "@calcom/features/calAIPhone/zod-utils";
 import type {
   AiPhoneCallConfig,
   CalVideoSettings,
@@ -46,7 +45,7 @@ const aiPhoneCallConfigSchema: z.ZodType<AiPhoneCallConfig | undefined> = z
     guestName: z.string().nullable().optional(),
     guestEmail: z.string().nullable().optional(),
     guestCompany: z.string().nullable().optional(),
-    templateType: templateTypeEnum,
+    templateType: z.string(),
   })
   .optional();
 

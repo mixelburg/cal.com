@@ -5,6 +5,15 @@ import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 
 import type { TeamPermissions } from "./permissionUtils";
 
+// Stub for removed EE org functions
+async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
+  return "";
+}
+
+function getBookerBaseUrlSync(_orgSlug: string | null): string {
+  return "";
+}
+
 export interface EventTypeGroup {
   teamId?: number | null;
   parentId?: number | null;
