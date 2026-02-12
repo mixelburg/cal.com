@@ -2,6 +2,12 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import type { TAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
 
+// Stub for removed EE TeamService
+class TeamService {
+  static async acceptTeamMembership(_params: any): Promise<void> {}
+  static async leaveTeamMembership(_params: any): Promise<void> {}
+}
+
 type AcceptOrLeaveOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

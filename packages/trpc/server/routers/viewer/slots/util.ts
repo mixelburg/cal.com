@@ -31,6 +31,14 @@ import { filterBlockedHosts } from "@calcom/features/watchlist/operations/filter
 import { shouldIgnoreContactOwner } from "@calcom/lib/bookings/routing/utils";
 import { RESERVED_SUBDOMAINS } from "@calcom/lib/constants";
 import { getUTCOffsetByTimezone } from "@calcom/lib/dayjs";
+
+// Stub for removed EE TeamRepository
+class TeamRepository {}
+
+// Stub for removed EE org function
+function orgDomainConfig(_req: any): any {
+  return { currentOrgDomain: null, isValidOrgDomain: false };
+}
 import { descendingLimitKeys, intervalLimitKeyToUnit } from "@calcom/lib/intervalLimits/intervalLimit";
 import type { IntervalLimit } from "@calcom/lib/intervalLimits/intervalLimitSchema";
 import { parseBookingLimit } from "@calcom/lib/intervalLimits/isBookingLimits";
