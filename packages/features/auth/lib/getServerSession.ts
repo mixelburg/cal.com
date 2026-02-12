@@ -68,9 +68,8 @@ export async function getServerSession(options: {
     return null;
   }
 
-  const deploymentRepo = new DeploymentRepository(prisma);
-  const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-  const hasValidLicense = await licenseKeyService.checkLicense();
+  // License validation removed (EE feature)
+  const hasValidLicense = false;
 
   let upId = token.upId;
 
