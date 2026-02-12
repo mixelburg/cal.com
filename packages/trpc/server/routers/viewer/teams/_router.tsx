@@ -127,24 +127,4 @@ export const viewerTeamsRouter = router({
       const { default: handler } = await import("./updateInternalNotesPresets.handler");
       return handler({ ctx, input });
     }),
-  hasActiveTeamPlan: authedProcedure.input(ZHasActiveTeamPlanInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./hasActiveTeamPlan.handler");
-    return handler(opts);
-  }),
-  skipTeamTrials: authedProcedure.input(ZSkipTeamTrialsInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./skipTeamTrials.handler");
-    return handler(opts);
-  }),
-  skipTrialForTeam: authedProcedure.input(ZSkipTrialForTeamInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./skipTrialForTeam.handler");
-    return handler(opts);
-  }),
-  getSubscriptionStatus: authedProcedure.input(ZGetSubscriptionStatusInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./getSubscriptionStatus.handler");
-    return handler(opts);
-  }),
-  listInvoices: authedProcedure.input(ZListInvoicesInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./listInvoices.handler");
-    return handler(opts);
-  }),
 });
