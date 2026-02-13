@@ -751,9 +751,8 @@ const SettingsSidebarContainer = ({
     permissions,
   });
 
-  const { data: otherTeams } = trpc.viewer.organizations.listOtherTeams.useQuery(undefined, {
-    enabled: !!session.data?.user?.org,
-  });
+  // EE organizations router removed - stub with empty data
+  const otherTeams = undefined;
 
   const searchParamsId = searchParams?.get("id");
   // Same as above but for otherTeams
