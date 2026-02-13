@@ -752,7 +752,7 @@ const SettingsSidebarContainer = ({
   });
 
   // EE organizations router removed - stub with empty data
-  const otherTeams = undefined;
+  const otherTeams: any[] | undefined = undefined;
 
   const searchParamsId = searchParams?.get("id");
   // Same as above but for otherTeams
