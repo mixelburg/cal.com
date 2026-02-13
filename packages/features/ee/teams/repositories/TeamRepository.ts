@@ -18,7 +18,7 @@ export class TeamRepository {
     return null;
   }
   
-  async findAllByParentId(_parentId: number): Promise<any[]> {
+  async findAllByParentId(_params: any): Promise<any[]> {
     return [];
   }
 }
