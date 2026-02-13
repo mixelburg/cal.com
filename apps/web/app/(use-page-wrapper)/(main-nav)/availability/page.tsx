@@ -60,6 +60,7 @@ const Page = async ({ searchParams: _searchParams }: PageProps) => {
   };
 
   const organizationId = session?.user?.profile?.organizationId ?? session?.user.org?.id;
+  const getOrganizationRepository = () => ({ checkIfPrivate: async (_params: any) => false });
   const organizationRepository = getOrganizationRepository();
   const isOrgPrivate = organizationId
     ? await organizationRepository.checkIfPrivate({
