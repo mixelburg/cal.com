@@ -13,7 +13,6 @@ import {
 } from "@calcom/features/auth/signup/utils/token";
 import { validateAndGetCorrectedUsernameAndEmail } from "@calcom/features/auth/signup/utils/validateUsername";
 import { getFeatureRepository } from "@calcom/features/di/containers/FeatureRepository";
-import { getBillingProviderService } from "@calcom/features/ee/billing/di/containers/Billing";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { GlobalWatchlistRepository } from "@calcom/features/watchlist/lib/repository/GlobalWatchlistRepository";
 import { sentrySpan } from "@calcom/features/watchlist/lib/telemetry";
@@ -55,8 +54,6 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
     })
     .parse(body);
 
-  const billingService = getBillingProviderService();
-
   const shouldLockByDefault = await checkIfEmailIsBlockedInWatchlistController({
     email: _email,
     organizationId: null,
@@ -66,11 +63,10 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
   log.debug("handler", { email: _email });
 
   let username: string | null = usernameStatus.requestedUserName;
-  let checkoutSessionId: string | null = null;
 
-  // Check for premium username
-  if (usernameStatus.statusCode === 418) {
-    return NextResponse.json(usernameStatus.json, { status: 418 });
+  // Premium username checks removed (EE feature)
+  if (usernameStatus.statusCode === 418 || usernameStatus.statusCode === 402) {
+    return NextResponse.json(usernameStatus.json, { status: usernameStatus.statusCode });
   }
 
   // Validate the user
@@ -127,44 +123,7 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
   }
 
   // Create the customer in Stripe with ad tracking metadata
-  const cookieStore = await cookies();
-  const cookiesObj = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
-  const tracking = getTrackingFromCookies(cookiesObj, query);
-
-  const customer = await billingService.createCustomer({
-    email,
-    metadata: {
-      email /* Stripe customer email can be changed, so we add this to keep track of which email was used to signup */,
-      username,
-      ...(tracking.googleAds?.gclid && {
-        gclid: tracking.googleAds.gclid,
-        campaignId: tracking.googleAds.campaignId,
-      }),
-      ...(tracking.linkedInAds?.liFatId && {
-        liFatId: tracking.linkedInAds.liFatId,
-        linkedInCampaignId: tracking.linkedInAds.campaignId,
-      }),
-    },
-  });
-
-  const returnUrl = `${WEBAPP_URL}/api/integrations/stripepayment/paymentCallback?checkoutSessionId={CHECKOUT_SESSION_ID}&callbackUrl=/auth/verify?sessionId={CHECKOUT_SESSION_ID}`;
-
-  // Pro username, must be purchased
-  if (usernameStatus.statusCode === 402) {
-    const checkoutSession = await billingService.createSubscriptionCheckout({
-      mode: "subscription",
-      customerId: customer.stripeCustomerId,
-      successUrl: returnUrl,
-      cancelUrl: returnUrl,
-      priceId: getPremiumMonthlyPlanPriceId(),
-      quantity: 1,
-      allowPromotionCodes: true,
-    });
-
-    /** We create a username-less user until he pays */
-    checkoutSessionId = checkoutSession.sessionId;
-    username = null;
-  }
+  // Premium username billing removed (EE feature)
 
   // Hash the password
   const hashedPassword = await hashPassword(password);
