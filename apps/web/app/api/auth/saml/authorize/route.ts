@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 
 import type { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
-import type { OAuthReq } from "@calcom/types/oauth";
+
+// Type stub for removed EE OAuthReq
+type OAuthReq = any;
 
 // Stub for removed EE jackson SSO
 const jackson = async () => ({
