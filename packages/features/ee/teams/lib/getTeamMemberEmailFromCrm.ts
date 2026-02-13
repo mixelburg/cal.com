@@ -3,4 +3,6 @@ export const getTeamMemberEmailForResponseOrContactUsingUrlQuery = async (_param
   email: null,
   recordType: null,
   appSlug: null,
+  crmAppSlug: null,
+  recordId: null,
 });
