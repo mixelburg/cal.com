@@ -118,6 +118,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       throw err;
     }),
     needsCrmLookup
+      ? import("@calcom/features/ee/teams/lib/getTeamMemberEmailFromCrm")
           .then(({ getTeamMemberEmailForResponseOrContactUsingUrlQuery }) =>
             getTeamMemberEmailForResponseOrContactUsingUrlQuery({ query, eventData })
           )
