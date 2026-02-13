@@ -5,6 +5,13 @@ import { NextResponse } from "next/server";
 import type { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 
+// Stub for removed EE jackson SSO
+const jackson = async () => ({
+  oauthController: {
+    authorize: async (_params: any) => ({ redirect_url: null }),
+  },
+});
+
 async function handler(req: NextRequest) {
   const log = logger.getSubLogger({ prefix: ["[SAML authorize]"] });
   const { oauthController } = await jackson();
