@@ -14,6 +14,9 @@ const getOrgDomainConfigFromHostname = (_params: any) => ({
   currentOrgDomain: "" as string | null
 });
 
+// Stub for removed EE organization subdomain suffix
+const subdomainSuffix = () => "";
+
 enum PageType {
   ORG = "ORG",
   TEAM = "TEAM",
