@@ -82,7 +82,8 @@ const EventWebhooksTab = dynamic(() =>
   import("./tabs/webhooks/EventWebhooksTab").then((mod) => mod.EventWebhooksTab)
 );
 
-const EventAITab = dynamic(() => import("./tabs/ai/EventAITab").then((mod) => mod.EventAITab));
+// EventAITab removed (EE-only)
+const EventAITab = () => null;
 
 export type EventTypeWebWrapperProps = {
   id: number;
