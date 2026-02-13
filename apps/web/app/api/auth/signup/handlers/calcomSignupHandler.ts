@@ -267,7 +267,7 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
     await userRepository.lockByEmail({ email });
 
     return NextResponse.json(
-      { message: "Created user", stripeCustomerId: customer.stripeCustomerId, accountUnderReview: true },
+      { message: "Created user", accountUnderReview: true },
       { status: 201 }
     );
   }
@@ -289,7 +289,7 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
   }
 
   return NextResponse.json(
-    { message: "Created user", stripeCustomerId: customer.stripeCustomerId },
+    { message: "Created user" },
     { status: 201 }
   );
 };
