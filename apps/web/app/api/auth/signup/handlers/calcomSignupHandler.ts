@@ -272,20 +272,12 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
     );
   }
 
-  if (!checkoutSessionId && !token) {
+  if (!token) {
     sendEmailVerification({
       email,
       language: await getLocaleFromRequest(buildLegacyRequest(await headers(), await cookies())),
       username: username || "",
     });
-  }
-
-  if (checkoutSessionId) {
-    console.log("Created user but missing payment", checkoutSessionId);
-    return NextResponse.json(
-      { message: "Created user but missing payment", checkoutSessionId },
-      { status: 402 }
-    );
   }
 
   return NextResponse.json(
