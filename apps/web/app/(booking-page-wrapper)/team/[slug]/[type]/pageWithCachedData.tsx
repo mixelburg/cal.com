@@ -21,6 +21,9 @@ import CachedClientView, { type TeamBookingPageProps } from "~/team/type-view-ca
 
 import { getCachedTeamData, getEnrichedEventType, getCRMData, shouldUseApiV2ForTeamSlots } from "./queries";
 
+// Type for team data (EE TeamData removed)
+type TeamData = Awaited<ReturnType<typeof getCachedTeamData>>;
+
 const paramsSchema = z.object({
   slug: z.string().transform((s) => slugify(s)),
   type: z.string().transform((s) => slugify(s)),
