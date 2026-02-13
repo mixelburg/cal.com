@@ -8,6 +8,9 @@ import { uuid } from "short-uuid";
 
 import logger from "@calcom/lib/logger";
 
+// Type stub for removed EE type
+type OAuthTokenReq = any;
+
 // Stub for removed EE jackson SSO
 const jackson = async () => ({
   oauthController: {
