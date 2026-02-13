@@ -19,6 +19,14 @@ class TeamRepository {
   }
 }
 
+// Stub for removed EE TeamService
+class TeamService {
+  static async acceptInvitationByToken(_token: string, _userId: number): Promise<void> {}
+  static async inviteMemberByToken(_token: string, _userId: number): Promise<string> {
+    return "";
+  }
+}
+
 const getCachedTeams = unstable_cache(
   async (userId: number) => {
     const teamRepo = new TeamRepository(prisma);
