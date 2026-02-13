@@ -24,6 +24,11 @@ import { getCachedTeamData, getEnrichedEventType, getCRMData, shouldUseApiV2ForT
 // Type for team data (EE TeamData removed)
 type TeamData = Awaited<ReturnType<typeof getCachedTeamData>>;
 
+// Stub for removed EE getOrganizationSEOSettings
+function getOrganizationSEOSettings(_teamData: any) {
+  return null;
+}
+
 const paramsSchema = z.object({
   slug: z.string().transform((s) => slugify(s)),
   type: z.string().transform((s) => slugify(s)),
