@@ -7,4 +7,8 @@ export class BillingPeriodService {
   static async getBillingPeriods(_params: any) {
     return [];
   }
+  
+  static async getOrCreateBillingPeriodInfo(_params: any) {
+    return { billingPeriod: null, isNewPeriod: false };
+  }
 }

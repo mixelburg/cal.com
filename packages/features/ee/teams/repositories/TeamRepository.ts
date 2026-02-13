@@ -17,4 +17,8 @@ export class TeamRepository {
   async findByIdWithMembers(_id: number): Promise<any | null> {
     return null;
   }
+  
+  async findAllByParentId(_parentId: number): Promise<any[]> {
+    return [];
+  }
 }

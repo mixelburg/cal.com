@@ -13,4 +13,8 @@ export class TeamService {
   static async inviteMemberByToken(_token: string, _userId: number): Promise<string> {
     return "";
   }
+  
+  static async fetchTeamOrThrow(_params: any): Promise<any> {
+    throw new Error("Team not found");
+  }
 }
