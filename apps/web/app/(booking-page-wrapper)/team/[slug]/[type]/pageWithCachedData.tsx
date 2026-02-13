@@ -1,3 +1,5 @@
+import { getOrgFullOrigin } from "@lib/getOrgFullOrigin";
+
 import { CustomI18nProvider } from "app/CustomI18nProvider";
 import type { PageProps, Params } from "app/_types";
 import { generateMeetingMetadata } from "app/_utils";

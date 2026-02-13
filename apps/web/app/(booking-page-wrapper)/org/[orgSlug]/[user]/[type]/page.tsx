@@ -1,3 +1,5 @@
+import { getOrgFullOrigin } from "@lib/getOrgFullOrigin";
+
 import { CustomI18nProvider } from "app/CustomI18nProvider";
 import { withAppDirSsr } from "app/WithAppDirSsr";
 import type { PageProps } from "app/_types";

@@ -1,3 +1,5 @@
+import { getOrgFullOrigin } from "@lib/getOrgFullOrigin";
+
 import { withAppDirSsr } from "app/WithAppDirSsr";
 import type { PageProps as _PageProps } from "app/_types";
 import { generateMeetingMetadata } from "app/_utils";
