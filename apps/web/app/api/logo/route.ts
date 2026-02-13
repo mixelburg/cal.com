@@ -23,6 +23,9 @@ import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 
 const log = logger.getSubLogger({ prefix: ["[api/logo]"] });
 
+// Stub for removed EE organization domain config
+const orgDomainConfig = (_req: any) => ({ isValidOrgDomain: false });
+
 function removePort(url: string) {
   return url.replace(/:\d+$/, "");
 }
