@@ -546,6 +546,7 @@ const Route = ({
 
   const { eventOptions } = buildEventsData({ eventTypesByGroup, form, route });
 
+  const useOrgBranding = () => null;
   const orgBranding = useOrgBranding();
   const isOrganization = !!orgBranding;
 
