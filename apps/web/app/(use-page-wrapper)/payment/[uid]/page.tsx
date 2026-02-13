@@ -25,7 +25,7 @@ export const generateMetadata = async ({ params, searchParams }: PageProps) => {
 
 type PaymentPageProps = any; // Stub for removed EE type
 // Stub for removed EE getServerSideProps
-const getServerSideProps = async (_context: any) => ({ booking: { title: "" } });
+const getServerSideProps = async (_context: any) => ({ props: { booking: { title: "" } } });
 const getData = withAppDirSsr<PaymentPageProps>(getServerSideProps);
 
 const ServerPage = async ({ params, searchParams }: PageProps) => {
