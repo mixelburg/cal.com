@@ -29,6 +29,11 @@ function getOrganizationSEOSettings(_teamData: any): { allowSEOIndexing?: boolea
   return null;
 }
 
+// Stub for removed EE orgDomainConfig
+function orgDomainConfig(_request: any, _orgSlug?: string) {
+  return { currentOrgDomain: null, isValidOrgDomain: false };
+}
+
 const paramsSchema = z.object({
   slug: z.string().transform((s) => slugify(s)),
   type: z.string().transform((s) => slugify(s)),
