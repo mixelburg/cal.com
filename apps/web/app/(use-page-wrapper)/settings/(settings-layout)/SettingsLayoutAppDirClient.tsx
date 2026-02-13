@@ -35,6 +35,7 @@ import { Skeleton } from "@calcom/ui/components/skeleton";
 
 import Shell from "~/shell/Shell";
 
+type OrganizationBranding = any; // Stub for removed EE type
 const getTabs = (orgBranding: OrganizationBranding | null) => {
   const tabs: VerticalTabItemProps[] = [
     {
