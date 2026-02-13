@@ -18,6 +18,7 @@ export default async function OrganizationOnboardingLayout({ children }: { child
 
   const gettingStartedPath = await OnboardingPathService.getGettingStartedPath();
 
+  const isCompanyEmail = (_email: string) => false;
   if (!isCompanyEmail(userEmail)) {
     return redirect(gettingStartedPath);
   }
