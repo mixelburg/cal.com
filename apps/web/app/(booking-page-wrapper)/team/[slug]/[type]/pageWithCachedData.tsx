@@ -64,7 +64,7 @@ export async function getOrgContext(params: Params) {
   const { slug: teamSlug, type: meetingSlug } = result.data;
   const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(
     buildLegacyRequest(await headers(), await cookies()),
-    params?.orgSlug ?? undefined
+    Array.isArray(params?.orgSlug) ? params?.orgSlug[0] : params?.orgSlug
   );
 
   return {
