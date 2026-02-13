@@ -16,6 +16,9 @@ import { signupSchema } from "@calcom/prisma/zod-utils";
 import { joinAnyChildTeamOnOrgInvite } from "@calcom/features/auth/signup/utils/organization";
 import { prefillAvatar } from "@calcom/features/auth/signup/utils/prefillAvatar";
 import { SIGNUP_ERROR_CODES } from "@calcom/features/auth/signup/constants";
+
+// Stub for removed EE premium username check
+const checkPremiumUsername = async (_username: string) => ({ premium: false });
 import {
   findTokenByToken,
   throwIfTokenExpired,
