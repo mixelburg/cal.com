@@ -901,7 +901,7 @@ const SettingsSidebarContainer = ({
                     </Link>
                     {otherTeams &&
                       otherTeamMenuState &&
-                      otherTeams.map((otherTeam, index: number) => {
+                      (otherTeams as any[]).map((otherTeam, index: number) => {
                         if (!otherTeamMenuState[index]) {
                           return null;
                         }
