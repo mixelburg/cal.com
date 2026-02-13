@@ -1,2 +1,4 @@
-// Stub for removed EE useHasPaidPlan hook
+// Stub for removed EE billing hooks
 export const useHasPaidPlan = () => ({ isLoading: false, hasPaidPlan: false });
+export const useHasTeamPlan = () => ({ isLoading: false, hasTeamPlan: false });
+export const useTeamInvites = () => ({ isLoading: false, invites: [] });
