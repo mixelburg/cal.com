@@ -1,2 +1,4 @@
 // Stub for removed EE ImpersonatingBanner component
-export const ImpersonatingBanner = () => null;
+export type ImpersonatingBannerProps = any;
+const ImpersonatingBanner = () => null;
+export default ImpersonatingBanner;
