@@ -758,7 +758,7 @@ const SettingsSidebarContainer = ({
   // Same as above but for otherTeams
   useEffect(() => {
     if (otherTeams) {
-      const otherTeamStates = otherTeams?.map((team) => ({
+      const otherTeamStates = (otherTeams as any[])?.map((team) => ({
         teamId: team.id,
         teamMenuOpen: String(team.id) === searchParamsId,
       }));
