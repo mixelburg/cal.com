@@ -33,6 +33,13 @@ const requestQuery = z.object({
   access_token: z.string(),
 });
 
+// Stub for removed EE jackson SSO
+const jackson = async () => ({
+  oauthController: {
+    userInfo: async (_token: string) => null,
+  },
+});
+
 async function handler(req: NextRequest) {
   const log = logger.getSubLogger({ prefix: ["SAML userinfo"] });
   const { oauthController } = await jackson();
