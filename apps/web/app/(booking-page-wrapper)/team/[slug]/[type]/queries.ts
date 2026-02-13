@@ -20,7 +20,7 @@ import type { SchedulingType } from "@calcom/prisma/enums";
 // Stub for removed EE TeamRepository
 class TeamRepository {
   constructor(_prisma: any) {}
-  async findFirstBySlugAndParentSlug(_params: any) {
+  async findFirstBySlugAndParentSlug(_params: any): Promise<{ id: number } | null> {
     return null;
   }
 }
