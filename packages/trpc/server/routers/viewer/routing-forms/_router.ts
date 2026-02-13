@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import authedProcedure from "../../../procedures/authedProcedure";
 import publicProcedure from "../../../procedures/publicProcedure";
 import { router } from "../../../trpc";
@@ -14,4 +16,11 @@ export const routingFormsRouter = router({
       return handler({ ctx, input });
     }),
   }),
+  // Stub for removed EE attribute routing endpoint
+  findTeamMembersMatchingAttributeLogicOfRoute: publicProcedure
+    .input(z.any())
+    .mutation(async () => ({
+      isUsingAttributeWeights: false,
+      teamMembersMatchingAttributeLogic: [],
+    })),
 });
