@@ -19,7 +19,14 @@ import type { SchedulingType } from "@calcom/prisma/enums";
 
 // Stub for removed EE getTeamData
 async function getTeamData(_teamSlug: string, _orgSlug: string | null) {
-  return null;
+  // Return minimal team data shape for stubbing
+  return {
+    parent: null as any,
+    isPrivate: false,
+    slug: _teamSlug,
+    id: 0,
+    name: "",
+  };
 }
 
 export async function getCachedTeamData(teamSlug: string, orgSlug: string | null) {
