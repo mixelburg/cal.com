@@ -53,7 +53,7 @@ const BtcpayPaymentComponent = dynamic(
 
 type PaymentPageProps = any; // Stub for removed EE type
 // Stub for removed EE StripePaymentComponent
-const StripePaymentComponent = () => null;
+const StripePaymentComponent = (_props: any) => null;
 
 const PaymentPage: FC<PaymentPageProps> = (props) => {
   const { t, i18n } = useLocale();
