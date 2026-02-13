@@ -25,5 +25,8 @@ export const routingFormsRouter = router({
       eventTypeRedirectUrl: null as string | null,
       contactOwnerEmail: null as string | null,
       result: null as any,
+      checkedFallback: false,
+      mainWarnings: [],
+      fallbackWarnings: [],
     })),
 });
