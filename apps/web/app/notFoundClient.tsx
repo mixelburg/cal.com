@@ -8,6 +8,12 @@ import { DOCS_URL, IS_CALCOM, WEBSITE_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Icon } from "@calcom/ui/components/icon";
 
+// Stub for removed EE organization domain config
+const getOrgDomainConfigFromHostname = (_params: any) => ({ 
+  isValidOrgDomain: false, 
+  currentOrgDomain: null 
+});
+
 enum PageType {
   ORG = "ORG",
   TEAM = "TEAM",
