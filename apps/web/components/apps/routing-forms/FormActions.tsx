@@ -38,7 +38,7 @@ import { Switch } from "@calcom/ui/components/form";
 import { showToast } from "@calcom/ui/components/toast";
 
 // Stub for removed EE organization branding
-const useOrgBranding = () => null;
+const useOrgBranding = (): { fullDomain?: string } | null => null;
 
 type FormField = {
   identifier?: string;
