@@ -46,7 +46,7 @@ function NewFormButton({ setNewFormDialogState }: { setNewFormDialogState: SetNe
     <CreateButtonWithTeamsList
       subtitle={t("create_routing_form_on").toUpperCase()}
       data-testid="new-routing-form"
-      createFunction={(teamId) => {
+      createFunction={(teamId: any) => {
         setNewFormDialogState({ action: "new", target: teamId ? String(teamId) : "" });
         posthog.capture("new_routing_form_button_clicked", { teamId });
       }}
