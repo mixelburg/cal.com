@@ -9,6 +9,13 @@ export class BillingPeriodService {
   }
   
   async getOrCreateBillingPeriodInfo(_params: any) {
-    return { billingPeriod: null, isNewPeriod: false };
+    return {
+      billingPeriod: null,
+      isNewPeriod: false,
+      billingMode: null as any,
+      subscriptionStart: null as any,
+      subscriptionEnd: null as any,
+      pricePerSeat: 0,
+    };
   }
 }
