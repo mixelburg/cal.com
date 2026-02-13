@@ -37,7 +37,7 @@ import Shell from "~/shell/Shell";
 
 type OrganizationBranding = any; // Stub for removed EE type
 // Stub for removed EE useOrgBranding hook
-const useOrgBranding = (): { name?: string; logoUrl?: string } | null => null;
+const useOrgBranding = (): { id?: number; name?: string; logoUrl?: string } | null => null;
 
 const getTabs = (orgBranding: OrganizationBranding | null) => {
   const tabs: VerticalTabItemProps[] = [
