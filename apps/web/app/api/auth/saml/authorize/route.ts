@@ -11,7 +11,7 @@ type OAuthReq = any;
 // Stub for removed EE jackson SSO
 const jackson = async () => ({
   oauthController: {
-    authorize: async (_params: any) => ({ redirect_url: null }),
+    authorize: async (_params: any) => ({ redirect_url: "/" }),
   },
 });
 
