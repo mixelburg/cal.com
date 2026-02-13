@@ -17,6 +17,14 @@ import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 import type { SchedulingType } from "@calcom/prisma/enums";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findFirstBySlugAndParentSlug(_params: any) {
+    return null;
+  }
+}
+
 // Stub for removed EE getTeamData
 async function getTeamData(_teamSlug: string, _orgSlug: string | null) {
   // Return minimal team data shape for stubbing
