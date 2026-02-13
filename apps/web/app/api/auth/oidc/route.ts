@@ -5,6 +5,13 @@ import { NextResponse } from "next/server";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 
+// Stub for removed EE jackson SSO
+const jackson = async () => ({
+  oauthController: {
+    oidcAuthzResponse: async (_params: any) => ({ redirect_url: null }),
+  },
+});
+
 // This is the callback endpoint for the OIDC provider
 // A team must set this endpoint in the OIDC provider's configuration
 async function handler(req: NextRequest) {
