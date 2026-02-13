@@ -23,6 +23,7 @@ export const generateMetadata = async ({ params, searchParams }: PageProps) => {
   );
 };
 
+type PaymentPageProps = any; // Stub for removed EE type
 const getData = withAppDirSsr<PaymentPageProps>(getServerSideProps);
 
 const ServerPage = async ({ params, searchParams }: PageProps) => {
