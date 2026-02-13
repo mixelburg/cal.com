@@ -12,10 +12,6 @@ import { getServerSideProps } from "@server/lib/[user]/getServerSideProps";
 import type { PageProps as LegacyPageProps } from "~/users/views/users-public-view";
 import LegacyPage from "~/users/views/users-public-view";
 
-// Stub for removed EE org function
-function getOrgFullOrigin(_orgSlug: string | null): string {
-  return "";
-}
 
 export const generateMetadata = async ({ params, searchParams }: PageProps) => {
   const props = await getData(
