@@ -11,7 +11,7 @@ import { Icon } from "@calcom/ui/components/icon";
 // Stub for removed EE organization domain config
 const getOrgDomainConfigFromHostname = (_params: any) => ({ 
   isValidOrgDomain: false, 
-  currentOrgDomain: null 
+  currentOrgDomain: "" as string | null
 });
 
 enum PageType {
