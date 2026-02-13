@@ -26,6 +26,7 @@ async function getTeamData(_teamSlug: string, _orgSlug: string | null) {
     slug: _teamSlug,
     id: 0,
     name: "",
+    hideBranding: false,
   };
 }
 
