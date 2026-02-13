@@ -14,6 +14,9 @@ import { Button } from "@calcom/ui/components/button";
 import { Spinner } from "@calcom/ui/components/icon";
 import { showToast } from "@calcom/ui/components/toast";
 
+// Stub for removed EE payment page props
+type PaymentPageProps = any;
+
 interface IAlbyPaymentComponentProps {
   payment: {
     // Will be parsed on render
