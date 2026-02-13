@@ -17,6 +17,11 @@ import {
 
 const getData = withAppDirSsr<ClientPageProps>(getServerSideProps);
 
+// Stub for removed EE org function
+function getOrgFullOrigin(_orgSlug: string | null): string {
+  return "";
+}
+
 export const generateMetadata = async ({ params, searchParams }: _PageProps) => {
   const { bookingInfo, eventType, recurringBookings, orgSlug } = await getData(
     buildLegacyCtx(await headers(), await cookies(), await params, await searchParams)
