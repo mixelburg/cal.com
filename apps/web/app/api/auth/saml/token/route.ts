@@ -8,6 +8,13 @@ import { uuid } from "short-uuid";
 
 import logger from "@calcom/lib/logger";
 
+// Stub for removed EE jackson SSO
+const jackson = async () => ({
+  oauthController: {
+    token: async (_params: any) => ({ access_token: null, token_type: null, expires_in: null }),
+  },
+});
+
 async function handler(req: NextRequest) {
   // Need these imports to fix import errors with jackson
   // https://github.com/ory/polis/blob/main/pages/api/import-hack.ts
