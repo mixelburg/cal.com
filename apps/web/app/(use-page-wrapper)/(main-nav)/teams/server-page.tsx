@@ -11,6 +11,14 @@ import { TeamsListing } from "~/ee/teams/components/TeamsListing";
 
 import { TeamsCTA } from "./CTA";
 
+// Stub for removed EE TeamRepository
+class TeamRepository {
+  constructor(_prisma: any) {}
+  async findTeamsByUserId(_params: any): Promise<any[]> {
+    return [];
+  }
+}
+
 const getCachedTeams = unstable_cache(
   async (userId: number) => {
     const teamRepo = new TeamRepository(prisma);
