@@ -19,6 +19,16 @@ export const generateMetadata = async () =>
     "/settings/developer/api-keys"
   );
 
+// Stub for removed EE PrismaApiKeyRepository
+class PrismaApiKeyRepository {
+  static async withGlobalPrisma() {
+    return new PrismaApiKeyRepository();
+  }
+  async findApiKeysFromUserId(_params: any): Promise<any[]> {
+    return [];
+  }
+}
+
 const getCachedApiKeys = unstable_cache(
   async (userId: number) => {
     const apiKeyRepository = await PrismaApiKeyRepository.withGlobalPrisma();
