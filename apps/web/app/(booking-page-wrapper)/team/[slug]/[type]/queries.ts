@@ -17,6 +17,11 @@ import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 import type { SchedulingType } from "@calcom/prisma/enums";
 
+// Stub for removed EE getTeamData
+async function getTeamData(_teamSlug: string, _orgSlug: string | null) {
+  return null;
+}
+
 export async function getCachedTeamData(teamSlug: string, orgSlug: string | null) {
   return unstable_cache(async () => getTeamData(teamSlug, orgSlug), ["team-data", teamSlug, orgSlug ?? ""], {
     revalidate: NEXTJS_CACHE_TTL,
