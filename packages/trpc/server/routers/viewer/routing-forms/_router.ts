@@ -22,5 +22,8 @@ export const routingFormsRouter = router({
     .mutation(async () => ({
       isUsingAttributeWeights: false,
       teamMembersMatchingAttributeLogic: [],
+      eventTypeRedirectUrl: null as string | null,
+      contactOwnerEmail: null as string | null,
+      result: null as any,
     })),
 });
