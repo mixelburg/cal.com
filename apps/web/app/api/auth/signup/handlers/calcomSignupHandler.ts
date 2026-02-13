@@ -226,10 +226,6 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
           email,
           locked: shouldLockByDefault,
           password: { create: { hash: hashedPassword } },
-          metadata: {
-            stripeCustomerId: customer.stripeCustomerId,
-            checkoutSessionId,
-          },
           creationSource: CreationSource.WEBAPP,
         },
       });
