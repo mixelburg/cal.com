@@ -25,7 +25,7 @@ import { getCachedTeamData, getEnrichedEventType, getCRMData, shouldUseApiV2ForT
 type TeamData = Awaited<ReturnType<typeof getCachedTeamData>>;
 
 // Stub for removed EE getOrganizationSEOSettings
-function getOrganizationSEOSettings(_teamData: any) {
+function getOrganizationSEOSettings(_teamData: any): { allowSEOIndexing?: boolean } | null {
   return null;
 }
 
