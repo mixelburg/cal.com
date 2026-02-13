@@ -8,6 +8,9 @@ import { checkUsername } from "@calcom/features/profile/lib/checkUsername";
 
 import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 
+// Stub for removed EE organization domain config
+const orgDomainConfig = (_req: any) => ({ currentOrgDomain: null });
+
 const bodySchema = z.object({
   username: z.string(),
   orgSlug: z.string().optional(),
