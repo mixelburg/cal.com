@@ -20,8 +20,6 @@ import { RedirectType } from "@calcom/prisma/enums";
 import { getRedirectWithOriginAndSearchString } from "@lib/handleOrgRedirect";
 import type { inferSSRProps } from "@lib/types/inferSSRProps";
 
-// Stub for removed EE organization domain config
-const orgDomainConfig = (_req: any) => ({ currentOrgDomain: null, isValidOrgDomain: false });
 const paramsSchema = z.object({ link: z.string(), slug: z.string() });
 
 export type PageProps = inferSSRProps<typeof getServerSideProps> & EmbedProps;
@@ -30,8 +28,8 @@ async function getUserPageProps(context: GetServerSidePropsContext) {
   const session = await getServerSession({ req: context.req });
   const { link, slug } = paramsSchema.parse(context.params);
   const { rescheduleUid, duration: queryDuration } = context.query;
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(context.req);
-  const org = isValidOrgDomain ? currentOrgDomain : null;
+  // Organizations removed - always null
+  const org = null;
 
   let name: string;
   let hideBranding = false;

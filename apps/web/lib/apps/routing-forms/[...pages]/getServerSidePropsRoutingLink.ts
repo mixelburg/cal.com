@@ -3,9 +3,6 @@ import { getSerializableForm } from "@calcom/app-store/routing-forms/lib/getSeri
 import { isAuthorizedToViewFormOnOrgDomain } from "@calcom/features/routing-forms/lib/isAuthorizedToViewForm";
 import type { AppGetServerSidePropsContext, AppPrisma } from "@calcom/types/AppGetServerSideProps";
 
-// Stub for removed EE organization domain config
-const orgDomainConfig = (_req: any) => ({ currentOrgDomain: null });
-
 export const getServerSideProps = async function getServerSideProps(
   context: AppGetServerSidePropsContext,
   prisma: AppPrisma
@@ -23,7 +20,6 @@ export const getServerSideProps = async function getServerSideProps(
       notFound: true,
     };
   }
-  const { currentOrgDomain } = orgDomainConfig(context.req);
 
   const isEmbed = appPages[1] === "embed";
 
@@ -74,13 +70,7 @@ export const getServerSideProps = async function getServerSideProps(
     user: await userRepo.enrichUserWithItsProfile({ user: form.user }),
   };
 
-  if (
-    !isAuthorizedToViewFormOnOrgDomain({ user: formWithUserProfile.user, currentOrgDomain, team: form.team })
-  ) {
-    return {
-      notFound: true,
-    };
-  }
+  // Organizations removed - skip org domain authorization
   return {
     props: {
       isEmbed,

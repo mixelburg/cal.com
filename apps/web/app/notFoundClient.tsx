@@ -8,26 +8,15 @@ import { DOCS_URL, IS_CALCOM, WEBSITE_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Icon } from "@calcom/ui/components/icon";
 
-// Stub for removed EE organization domain config
-const getOrgDomainConfigFromHostname = (_params: any) => ({ 
-  isValidOrgDomain: false, 
-  currentOrgDomain: "" as string | null
-});
-
-// Stub for removed EE organization subdomain suffix
-const subdomainSuffix = () => "";
-
 enum PageType {
-  ORG = "ORG",
   TEAM = "TEAM",
   USER = "USER",
   OTHER = "OTHER",
 }
 
-function getPageInfo(pathname: string, host: string) {
-  const { isValidOrgDomain, currentOrgDomain } = getOrgDomainConfigFromHostname({ hostname: host });
+function getPageInfo(pathname: string) {
   const [routerUsername] = pathname?.replace("%20", "-").split(/[?#]/) ?? [];
-  if (routerUsername && (!isValidOrgDomain || !currentOrgDomain)) {
+  if (routerUsername) {
     const splitPath = routerUsername.split("/");
     if (splitPath[1] === "team" && splitPath.length === 3) {
       return {
@@ -42,21 +31,18 @@ function getPageInfo(pathname: string, host: string) {
         url: `${WEBSITE_URL}/signup?username=${routerUsername.replace("/", "")}`,
       };
     }
-  } else {
-    return {
-      username: currentOrgDomain ?? "",
-      pageType: PageType.ORG,
-      url: `${WEBSITE_URL}/signup?callbackUrl=settings/organizations/new%3Fslug%3D${
-        currentOrgDomain?.replace("/", "") ?? ""
-      }`,
-    };
   }
+  return {
+    username: "",
+    pageType: PageType.OTHER,
+    url: `${WEBSITE_URL}/signup`,
+  };
 }
 
 export function NotFound({ host }: { host: string }) {
   const { t } = useLocale();
   const pathname = usePathname() ?? "";
-  const { username, pageType, url } = getPageInfo(pathname, host);
+  const { username, pageType, url } = getPageInfo(pathname);
   const isBookingSuccessPage = pathname?.startsWith("/booking");
   const isSubpage = pathname?.includes("/", 2) || isBookingSuccessPage;
   const isInsights = pathname?.startsWith("/insights");

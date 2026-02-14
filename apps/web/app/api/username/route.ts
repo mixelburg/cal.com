@@ -6,11 +6,6 @@ import { z } from "zod";
 
 import { checkUsername } from "@calcom/features/profile/lib/checkUsername";
 
-import { buildLegacyRequest } from "@lib/buildLegacyCtx";
-
-// Stub for removed EE organization domain config
-const orgDomainConfig = (_req: any) => ({ currentOrgDomain: null });
-
 const bodySchema = z.object({
   username: z.string(),
   orgSlug: z.string().optional(),
@@ -21,12 +16,8 @@ async function postHandler(request: NextRequest) {
     const body = await request.json();
     const { username, orgSlug } = bodySchema.parse(body);
 
-    const legacyReq = buildLegacyRequest(await headers(), await cookies());
-
-    // Get current org domain from request headers
-    const { currentOrgDomain } = orgDomainConfig(legacyReq);
-
-    const result = await checkUsername(username, currentOrgDomain || orgSlug);
+    // Organizations removed - always check in global namespace
+    const result = await checkUsername(username, orgSlug);
 
     return NextResponse.json(result);
   } catch (error) {

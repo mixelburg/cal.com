@@ -23,9 +23,6 @@ import { buildLegacyRequest } from "@lib/buildLegacyCtx";
 
 const log = logger.getSubLogger({ prefix: ["[api/logo]"] });
 
-// Stub for removed EE organization domain config
-const orgDomainConfig = (_req: any) => ({ isValidOrgDomain: false });
-
 function removePort(url: string) {
   return url.replace(/:\d+$/, "");
 }
@@ -130,19 +127,7 @@ async function getTeamLogos(subdomain: string, isValidOrgDomain: boolean) {
     const team = await prisma.team.findFirst({
       where: {
         slug: subdomain,
-        ...(isValidOrgDomain && {
-          OR: [
-            {
-              metadata: {
-                path: ["isOrganization"],
-                equals: true,
-              },
-            },
-            {
-              isOrganization: true,
-            },
-          ],
-        }),
+        // Organizations removed - only support regular teams
       },
       select: {
         appLogo: true,
@@ -170,10 +155,6 @@ async function getHandler(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const parsedQuery = logoApiSchema.parse(Object.fromEntries(searchParams.entries()));
 
-  // Create a legacy request object for compatibility
-  const legacyReq = buildLegacyRequest(await headers(), await cookies());
-  const { isValidOrgDomain } = orgDomainConfig(legacyReq);
-
   const hostname = request.headers.get("host");
   if (!hostname) {
     return NextResponse.json({ error: "No hostname" }, { status: 400 });
@@ -185,7 +166,8 @@ async function getHandler(request: NextRequest) {
   }
 
   const [subdomain] = domains;
-  const teamLogos = await getTeamLogos(subdomain, isValidOrgDomain);
+  // Organizations removed - only support team logos
+  const teamLogos = await getTeamLogos(subdomain, false);
 
   // Resolve all icon types to team logos, falling back to Cal.com defaults.
   const type: LogoType = parsedQuery?.type && isValidLogoType(parsedQuery.type) ? parsedQuery.type : "logo";
