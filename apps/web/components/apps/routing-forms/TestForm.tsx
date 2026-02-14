@@ -97,10 +97,9 @@ export const TestForm = ({
   const [showResults, setShowResults] = useState(false);
   const [formKey, setFormKey] = useState<number>(0);
 
-  const orgBranding = useOrgBranding();
-
   const embedLink = `forms/${form.id}`;
-  const formLink = `${orgBranding?.fullDomain ?? WEBSITE_URL}/${embedLink}`;
+  // Organizations removed - always use WEBSITE_URL
+  const formLink = `${WEBSITE_URL}/${embedLink}`;
 
   const areRequiredFieldsFilled = useMemo(() => {
     if (!form.fields) return true;
