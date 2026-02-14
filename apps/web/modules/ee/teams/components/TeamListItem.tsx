@@ -100,7 +100,7 @@ export default function TeamListItem(props: Props) {
     <div className="item-center flex truncate p-5">
       <Avatar
         size="md"
-        imageSrc={getPlaceholderAvatar(team?.logoUrl || team?.parent?.logoUrl, team?.name as string)}
+        imageSrc={getPlaceholderAvatar(team?.logoUrl, team?.name as string)} {/* parent removed */}
         alt="Team logo"
         className="inline-flex justify-center"
       />
