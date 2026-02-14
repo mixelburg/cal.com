@@ -545,9 +545,8 @@ const Route = ({
 
   const { eventOptions } = buildEventsData({ eventTypesByGroup, form, route });
 
-  const useOrgBranding = () => null;
-  const orgBranding = useOrgBranding();
-  const isOrganization = !!orgBranding;
+  // Organizations removed (EE feature) - always false for self-hosters
+  const isOrganization = false;
 
   // /team/{TEAM_SLUG}/{EVENT_SLUG} -> /team/{TEAM_SLUG}
   const eventTypePrefix =
