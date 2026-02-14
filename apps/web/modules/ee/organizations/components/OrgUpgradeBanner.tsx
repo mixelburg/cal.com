@@ -1,2 +1,3 @@
 // Stub for removed EE organization upgrade banner
-export const OrgUpgradeBanner = () => null;
+export type OrgUpgradeBannerProps = { data: any };
+export const OrgUpgradeBanner = (_props: OrgUpgradeBannerProps) => null;

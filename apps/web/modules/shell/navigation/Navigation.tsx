@@ -50,7 +50,7 @@ const getNavigationItems = (
     name: "teams",
     href: "/teams",
     icon: "users",
-    badge: <TeamInviteBadge />,
+    // TeamInviteBadge removed (EE billing feature)
     moreOnMobile: true,
   },
   {
