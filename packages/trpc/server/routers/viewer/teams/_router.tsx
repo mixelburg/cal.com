@@ -127,13 +127,32 @@ export const viewerTeamsRouter = router({
       return handler({ ctx, input });
     }),
   // Stub for removed EE managed event reassignment endpoint (infinite query)
-  getManagedEventUsersToReassign: authedProcedure.input(z.any()).query(async () => ({
-    items: [],
-    nextCursor: undefined as number | undefined,
-  })),
+  getManagedEventUsersToReassign: authedProcedure
+    .input(
+      z.object({
+        bookingId: z.number(),
+        limit: z.number(),
+        cursor: z.number().nullish(),
+        searchTerm: z.string().optional(),
+      })
+    )
+    .query(async () => ({
+      items: [],
+      nextCursor: undefined as number | undefined,
+    })),
   // Stub for removed EE round-robin reassignment endpoint (infinite query)
-  getRoundRobinHostsToReassign: authedProcedure.input(z.any()).query(async () => ({
-    items: [],
-    nextCursor: undefined as number | undefined,
-  })),
+  getRoundRobinHostsToReassign: authedProcedure
+    .input(
+      z.object({
+        bookingId: z.number(),
+        exclude: z.string(),
+        limit: z.number(),
+        cursor: z.number().nullish(),
+        searchTerm: z.string().optional(),
+      })
+    )
+    .query(async () => ({
+      items: [],
+      nextCursor: undefined as number | undefined,
+    })),
 });
