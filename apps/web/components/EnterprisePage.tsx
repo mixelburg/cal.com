@@ -46,26 +46,10 @@ export default function EnterprisePage() {
   return (
     <div>
       <Shell heading={t("enterprise")} subtitle={t("enterprise_description")}>
-        <UpgradeTip
-          plan="enterprise"
-          title={t("create_your_org")}
-          description={t("create_your_org_description")}
-          features={features}
-          background="/tips/enterprise"
-          buttons={
-            <div className="stack-y-2 rtl:space-x-reverse sm:space-x-2">
-              <ButtonGroup>
-                <Button color="primary" href="https://go.cal.com/quote" target="_blank">
-                  {t("contact_sales")}
-                </Button>
-                <Button color="minimal" href="https://cal.com/enterprise" target="_blank">
-                  {t("learn_more")}
-                </Button>
-              </ButtonGroup>
-            </div>
-          }>
-          <>Enterprise features removed for self-hosters</>
         {/* UpgradeTip removed (EE billing feature) */}
+        <div className="p-8 text-center">
+          <p>Enterprise features are not available for self-hosted instances.</p>
+        </div>
       </Shell>
     </div>
   );

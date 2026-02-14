@@ -162,25 +162,7 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
           ) : null
         }
         subtitle={t("routing_forms_description")}>
-        <UpgradeTip
-          plan="team"
-          title={t("routing_that_grows_with_you")}
-          description={t("routing_forms_upgrade_description")}
-          features={features}
-          background="/tips/routing-forms"
-          isParentLoading={<SkeletonLoaderTeamList />}
-          buttons={
-            <div className="stack-y-2 rtl:space-x-reverse sm:space-x-2">
-              <ButtonGroup>
-                <Button color="primary" href={`${WEBAPP_URL}/settings/teams/new`}>
-                  {t("get_started")}
-                </Button>
-                <Button color="minimal" href="https://cal.com/routing" target="_blank">
-                  {t("learn_more")}
-                </Button>
-              </ButtonGroup>
-            </div>
-          }> */}
+        {/* UpgradeTip removed (EE billing feature) - self-hosters always see forms */}
         <FormActionsProvider
             appUrl={appUrl}
             newFormDialogState={newFormDialogState}
