@@ -79,9 +79,7 @@ export const EventMembers = ({
             href:
               isPlatform || isPrivateLink || entity.hideProfileLink
                 ? null
-                : `${getBookerBaseUrlSync(user.profile?.organization?.slug ?? null)}/${
-                    user.profile?.username
-                  }?redirect=false`,
+                : `/${user.profile?.username}?redirect=false`, // Organizations removed (EE feature)
             alt: user.name || "",
             title: user.name || "",
             image: getUserAvatarUrl(user),
