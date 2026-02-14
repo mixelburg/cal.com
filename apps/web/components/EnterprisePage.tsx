@@ -6,7 +6,7 @@ import { ButtonGroup } from "@calcom/ui/components/buttonGroup";
 import { ChartBarIcon, CreditCardIcon, GlobeIcon, LockIcon, PaintbrushIcon, UsersIcon } from "@coss/ui/icons";
 
 import Shell from "~/shell/Shell";
-import { UpgradeTip } from "~/shell/UpgradeTip";
+// UpgradeTip removed (EE billing feature)
 
 export default function EnterprisePage() {
   const { t } = useLocale();
@@ -64,8 +64,8 @@ export default function EnterprisePage() {
               </ButtonGroup>
             </div>
           }>
-          <>Create Org</>
-        </UpgradeTip>
+          <>Enterprise features removed for self-hosters</>
+        {/* UpgradeTip removed (EE billing feature) */}
       </Shell>
     </div>
   );

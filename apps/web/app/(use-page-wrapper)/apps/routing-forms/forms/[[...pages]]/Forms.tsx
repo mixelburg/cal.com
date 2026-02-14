@@ -43,7 +43,7 @@ import LicenseRequired from "~/ee/common/components/LicenseRequired";
 import { CreateButtonWithTeamsList } from "~/ee/teams/components/createButton/CreateButtonWithTeamsList";
 import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
 import { ShellMain } from "~/shell/Shell";
-import { UpgradeTip } from "~/shell/UpgradeTip";
+// UpgradeTip removed (EE billing feature)
 
 function NewFormButton({ setNewFormDialogState }: { setNewFormDialogState: SetNewFormDialogState }) {
   const { t } = useLocale();
@@ -180,8 +180,8 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
                 </Button>
               </ButtonGroup>
             </div>
-          }>
-          <FormActionsProvider
+          }> */}
+        <FormActionsProvider
             appUrl={appUrl}
             newFormDialogState={newFormDialogState}
             setNewFormDialogState={setNewFormDialogState}>
@@ -340,7 +340,7 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
               </FilterResults>
             </div>
           </FormActionsProvider>
-        </UpgradeTip>
+        {/* UpgradeTip removed (EE billing feature) */}
       </ShellMain>
     </LicenseRequired>
   );
