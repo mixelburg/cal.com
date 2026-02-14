@@ -1,6 +1,7 @@
 import type { NextApiResponse } from "next";
 
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { getSafeRedirectUrl } from "@calcom/lib/getSafeRedirectUrl";
 import logger from "@calcom/lib/logger";
