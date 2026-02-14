@@ -74,9 +74,8 @@ interface Props {
 
 export type User = RouterOutputs["viewer"]["teams"]["listMembers"]["members"][number];
 
-const checkIsOrg = (team: Props["team"]) => {
-  return team.isOrganization;
-};
+// Organizations removed - teams are never orgs for self-hosters
+const checkIsOrg = () => false;
 
 type Payload = {
   showModal: boolean;
