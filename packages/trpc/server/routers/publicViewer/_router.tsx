@@ -26,4 +26,5 @@ export const publicViewerRouter = router({
       const { default: handler } = await import("./checkIfUserEmailVerificationRequired.handler");
       return handler(opts);
     }),
+  event,
 });
