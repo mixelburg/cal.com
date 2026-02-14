@@ -1,5 +1,5 @@
 import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
+// getBookerBaseUrlSync removed (EE organizations feature)
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import type { Team, User } from "@calcom/prisma/client";
@@ -21,7 +21,7 @@ export function UserAvatarGroupWithOrg(props: UserAvatarProps) {
   const items = [
     {
       // We don't want booker to be able to see the list of other users or teams inside the embed
-      href: isEmbed || disableHref ? null : getBookerBaseUrlSync(organization.slug),
+      href: isEmbed || disableHref ? null : "/", // Organizations removed (EE feature)
       image: getPlaceholderAvatar(organization.logoUrl, organization.name),
       alt: organization.name || undefined,
       title: organization.name,
