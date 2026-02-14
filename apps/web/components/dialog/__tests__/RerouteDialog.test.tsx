@@ -86,7 +86,7 @@ vi.mock("@calcom/lib/hooks/useLocale", () => ({
 }));
 
 vi.mock("@calcom/features/ee/organizations/context/provider", () => ({
-  useOrgBranding: vi.fn(() => null),
+  // useOrgBranding removed (EE organizations feature)
 }));
 
 vi.mock("@calcom/web/lib/hooks/useRouterQuery", () => ({
