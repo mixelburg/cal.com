@@ -11,20 +11,11 @@ import { UserBillingPortalService } from "../user/UserBillingPortalService";
  */
 export class BillingPortalServiceFactory {
   /**
-   * Determines team type and returns the appropriate service
+   * Creates billing portal service for teams
+   * Self-hosters don't have org billing, so always return team service
    */
-  static async createService(teamId: number): Promise<BillingPortalService> {
-    const teamRepository = new TeamRepository(prisma);
-    const team = await teamRepository.findById({ id: teamId });
-
-    if (!team) {
-      throw new Error("Team not found");
-    }
-
-    if (team.isOrganization) {
-      return new OrganizationBillingPortalService();
-    }
-
+  static async createService(_teamId: number): Promise<BillingPortalService> {
+    // Self-hosters don't have organizations or billing
     return new TeamBillingPortalService();
   }
 
