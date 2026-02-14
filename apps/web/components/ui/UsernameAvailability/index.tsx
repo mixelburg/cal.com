@@ -12,9 +12,6 @@ import useRouterQuery from "@lib/hooks/useRouterQuery";
 
 import type { TRPCClientErrorLike } from "@trpc/client";
 
-// Stub for removed EE organization branding
-const useOrgBranding = (): { fullDomain: string } | null => null;
-
 interface UsernameAvailabilityFieldProps {
   onSuccessMutation?: () => void;
   onErrorMutation?: (error: TRPCClientErrorLike<AppRouter>) => void;
@@ -66,11 +63,8 @@ export const UsernameAvailabilityField = ({
     },
   });
 
-  const orgBranding = useOrgBranding();
-
-  const usernamePrefix = orgBranding
-    ? orgBranding?.fullDomain.replace(/^(https?:|)\/\//, "")
-    : `${WEBSITE_URL?.replace(/^(https?:|)\/\//, "")}`;
+  // Organizations removed - always use WEBSITE_URL
+  const usernamePrefix = `${WEBSITE_URL?.replace(/^(https?:|)\/\//, "")}`;
 
   const isPremium = !IS_SELF_HOSTED && !user.organization?.id;
 
