@@ -62,7 +62,7 @@ const BookingLimitsView = ({ team }: ProfileViewProps) => {
         // Booking limits are enforced during slot generation, which relies on the same cached team data.
         revalidateTeamDataCache({
           teamSlug: team.slug,
-          orgSlug: team.parent?.slug ?? null,
+          orgSlug: null, // Organizations removed
         });
       }
       showToast(t("booking_limits_updated_successfully"), "success");
@@ -157,7 +157,7 @@ const BookingLimitsView = ({ team }: ProfileViewProps) => {
 const PrivacySettingsView = ({ team }: ProfileViewProps) => {
   const session = useSession();
   const isAdmin = team && checkAdminOrOwner(team.membership.role);
-  const isOrgAdminOrOwner = checkAdminOrOwner(session?.data?.user.org?.role);
+  const isOrgAdminOrOwner = false; // Organizations removed
   const isInviteOpen = !team?.membership.accepted;
 
   return (

@@ -76,7 +76,7 @@ const ProfileView = ({ team }: ProfileViewProps) => {
         // `getCachedTeamData` in `queries.ts`.
         await revalidateTeamDataCache({
           teamSlug: res?.slug,
-          orgSlug: team?.parent?.slug ?? null,
+          orgSlug: null, // Organizations removed
         });
       }
     },

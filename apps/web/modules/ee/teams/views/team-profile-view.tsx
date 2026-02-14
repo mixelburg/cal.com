@@ -284,7 +284,7 @@ const TeamProfileForm = ({ team, teamId }: TeamProfileFormProps) => {
       if (res?.slug) {
         await revalidateTeamDataCache({
           teamSlug: res.slug,
-          orgSlug: team?.parent?.slug ?? null,
+          orgSlug: null, // Organizations removed
         });
       }
 
@@ -351,9 +351,9 @@ const TeamProfileForm = ({ team, teamId }: TeamProfileFormProps) => {
         }
       }}>
       <div className="border-subtle border-x px-4 py-8 sm:px-6">
-        {!team.parent && (
-          <div className="flex items-center pb-8">
-            <Controller
+        {/* Organizations removed - all teams can have logos (no parent check) */}
+        <div className="flex items-center pb-8">
+          <Controller
               control={form.control}
               name="logo"
               render={({ field: { value, onChange } }) => {
