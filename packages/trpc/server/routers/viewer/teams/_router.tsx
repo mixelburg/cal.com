@@ -131,4 +131,9 @@ export const viewerTeamsRouter = router({
     items: [],
     nextCursor: undefined as number | undefined,
   })),
+  // Stub for removed EE round-robin reassignment endpoint (infinite query)
+  getRoundRobinHostsToReassign: authedProcedure.input(z.any()).query(async () => ({
+    items: [],
+    nextCursor: undefined as number | undefined,
+  })),
 });
