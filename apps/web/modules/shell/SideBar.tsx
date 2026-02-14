@@ -86,33 +86,15 @@ export function SideBar({ bannersHeight, user }: SideBarProps) {
         )}>
         <div className="flex h-full flex-col justify-between py-3 lg:pt-4">
           <header className="todesktop:-mt-3 todesktop:flex-col-reverse todesktop:[-webkit-app-region:drag] items-center justify-between md:hidden lg:flex">
-            {user?.org ? (
-              !ENABLE_PROFILE_SWITCHER ? (
-                <Link href="/settings/organizations/profile" className="w-full px-1.5">
-                  <div className="flex items-center gap-2 font-medium">
-                    <Avatar
-                      alt={`${user.org.name} logo`}
-                      imageSrc={getPlaceholderAvatar(user.org.logoUrl, user.org.name)}
-                      size="xsm"
-                    />
-                    <p className="text line-clamp-1 text-sm">
-                      <span>{user.org.name}</span>
-                    </p>
-                  </div>
-                </Link>
-              ) : (
-                <ProfileDropdown />
-              )
-            ) : (
-              <div data-testid="user-dropdown-trigger" className="todesktop:mt-4 w-full">
-                <span className="hidden lg:inline">
-                  <UserDropdown />
-                </span>
-                <span className="hidden md:inline lg:hidden">
-                  <UserDropdown small />
-                </span>
-              </div>
-            )}
+            {/* Organizations removed - always show user dropdown for self-hosters */}
+            <div data-testid="user-dropdown-trigger" className="todesktop:mt-4 w-full">
+              <span className="hidden lg:inline">
+                <UserDropdown />
+              </span>
+              <span className="hidden md:inline lg:hidden">
+                <UserDropdown small />
+              </span>
+            </div>
             <div className="flex w-full justify-end rtl:space-x-reverse">
               <button
                 color="minimal"
