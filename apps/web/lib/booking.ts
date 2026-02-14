@@ -131,7 +131,8 @@ export const getEventTypesFromDB = async (id: number) => {
   return {
     isDynamic: false,
     ...eventType,
-    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent }),
+    workflows: [], // EE-only feature removed
+    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent, workflows: [] }),
     metadata,
   };
 };
