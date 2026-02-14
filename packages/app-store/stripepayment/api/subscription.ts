@@ -3,7 +3,6 @@ import type Stripe from "stripe";
 
 import { getPremiumMonthlyPlanPriceId } from "@calcom/app-store/stripepayment/lib/utils";
 import { getServerSession } from "@calcom/features/auth/lib/getServerSession";
-import { checkPremiumUsername } from "@calcom/features/users/lib/checkPremiumUsername";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import prisma from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
@@ -58,10 +57,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     };
 
-    const checkPremiumResult = await checkPremiumUsername(intentUsername);
-    if (!checkPremiumResult.available) {
-      return res.status(404).json({ message: "Intent username not available" });
-    }
+    // Premium usernames removed (EE billing feature)
+    // Self-hosters can use any username without payment
     const stripeCustomer = await stripe.customers.retrieve(customerId);
     if (!stripeCustomer || stripeCustomer.deleted) {
       return res.status(400).json({ message: "Stripe customer not found or deleted" });
