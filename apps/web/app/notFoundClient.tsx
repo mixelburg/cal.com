@@ -172,7 +172,7 @@ export function NotFound({ host }: { host: string }) {
           <h2 className="text-subtle text-sm font-semibold uppercase tracking-wide">{t("popular_pages")}</h2>
           <ul role="list" className="border-subtle divide-subtle divide-y">
             {links
-              .filter((_, idx) => pageType === PageType.ORG || idx !== 0)
+              .filter((_, idx) => idx !== 0)
               .map((link, linkIdx) => (
                 <li key={linkIdx} className="px-4 py-2">
                   <a
