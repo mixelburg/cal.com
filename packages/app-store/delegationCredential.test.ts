@@ -4,6 +4,7 @@ import { setupAndTeardown } from "@calcom/testing/lib/bookingScenario/setupAndTe
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 import { metadata as googleCalendarMetadata } from "@calcom/app-store/googlecalendar/_metadata";
+import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import { metadata as googleMeetMetadata } from "@calcom/app-store/googlevideo/_metadata";
 import type { ServiceAccountKey } from "@calcom/features/delegation-credentials/repositories/DelegationCredentialRepository";
 import { DelegationCredentialRepository } from "@calcom/features/delegation-credentials/repositories/DelegationCredentialRepository";
