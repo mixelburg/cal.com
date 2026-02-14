@@ -3,11 +3,12 @@ import { UserPermissionRole } from "@calcom/prisma/enums";
 import type { NavigationItemType } from "./NavigationItem";
 import { useSession } from "next-auth/react";
 
-export function useMobileMoreItems(): NavigationItemType[] {
+export function useMobileMoreItems() {
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.user as any; // Extended with org properties in session
   const isAdmin = user?.role === UserPermissionRole.ADMIN;
-  const publicPageUrl = `${getBookerBaseUrlSync(user?.org?.slug ?? null)}/${user?.orgAwareUsername ?? user?.username}`;
+  // Organizations removed - use simple username
+  const publicPageUrl = `/${user?.username || ""}`;
 
   const bottomNavItems = useBottomNavItems({
     publicPageUrl,
@@ -18,5 +19,5 @@ export function useMobileMoreItems(): NavigationItemType[] {
   const filteredBottomNavItems = bottomNavItems.filter(
     (item: NavigationItemType) => item.name !== "settings"
   );
-  return filteredBottomNavItems;
+  return { isPending: false, isPlatformUser: false };
 }

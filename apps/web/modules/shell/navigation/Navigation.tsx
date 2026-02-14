@@ -9,14 +9,17 @@ import { useHasPaidPlan } from "@calcom/web/modules/billing/hooks/useHasPaidPlan
 
 import UnconfirmedBookingBadge from "../../bookings/components/UnconfirmedBookingBadge";
 import { KBarTrigger } from "../Kbar";
-import { TeamInviteBadge } from "../TeamInviteBadge";
+// TeamInviteBadge removed (EE billing feature)
 import type { NavigationItemType } from "./NavigationItem";
 import { NavigationItem, MobileNavigationItem, MobileNavigationMoreItem } from "./NavigationItem";
 
 export const MORE_SEPARATOR_NAME = "more";
 
+// Organization branding removed (EE feature)
+type OrganizationBranding = { fullDomain?: string | null };
+
 const getNavigationItems = (
-  orgBranding: OrganizationBranding,
+  _orgBranding: OrganizationBranding,
   hasAllInsightsAccess: boolean
 ): NavigationItemType[] => [
   {
@@ -199,8 +202,9 @@ const platformNavigationItems: NavigationItemType[] = [
 ];
 
 const useNavigationItems = (isPlatformNavigation = false) => {
-  const orgBranding = useOrgBranding();
-  const { hasPaidPlan, isPending } = useHasPaidPlan();
+  // Organization branding removed (EE feature)
+  const orgBranding: OrganizationBranding = { fullDomain: null };
+  const { hasPaidPlan, isLoading: isPending } = useHasPaidPlan();
   return useMemo(() => {
     const hasAllInsightsAccess = !isPending && !!hasPaidPlan;
     const items = !isPlatformNavigation
