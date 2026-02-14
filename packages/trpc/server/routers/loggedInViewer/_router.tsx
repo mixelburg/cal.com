@@ -65,4 +65,10 @@ export const loggedInViewerRouter = router({
       );
       return removeNotificationsSubscriptionHandler({ ctx, input });
     }),
+  // Stub for removed EE no-show fee tracking
+  markNoShow: authedProcedure
+    .input(z.any())
+    .mutation(async () => {
+      return { message: "No-show tracking not available in Cal.diy" };
+    }),
 });
