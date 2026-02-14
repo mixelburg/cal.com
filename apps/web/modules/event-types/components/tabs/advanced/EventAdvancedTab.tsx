@@ -414,7 +414,7 @@ export const EventAdvancedTab = ({
   showBookerLayoutSelector,
   customClassNames,
   verifiedEmails,
-  orgId,
+  // orgId removed (EE organizations feature)
   localeOptions,
 }: EventAdvancedTabProps) => {
   const isPlatform = useIsPlatform();
