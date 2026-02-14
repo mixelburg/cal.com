@@ -167,4 +167,8 @@ export const viewerTeamsRouter = router({
   roundRobinManualReassign: authedProcedure.input(z.any()).mutation(async () => ({
     success: true,
   })),
+  // Stub for removed EE managed event manual reassignment mutation
+  managedEventManualReassign: authedProcedure.input(z.any()).mutation(async () => ({
+    success: true,
+  })),
 });
