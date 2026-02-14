@@ -10,3 +10,7 @@ export const useTeamInvites = () => {
 export const useHasTeamPlan = () => {
   return { isPending: false, hasTeamPlan: false };
 };
+
+export const useHasActiveTeamPlanAsOwner = () => {
+  return { hasActiveTeamPlanAsOwner: false, isLoading: false, isTrial: false };
+};

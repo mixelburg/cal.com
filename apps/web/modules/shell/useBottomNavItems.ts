@@ -21,33 +21,11 @@ export function useBottomNavItems({
   user,
 }: BottomNavItemsProps): NavigationItemType[] {
   const { t } = useLocale();
-  const { isTrial } = useHasActiveTeamPlanAsOwner();
-  const utils = trpc.useUtils();
-
-  const skipTeamTrialsMutation = trpc.viewer.teams.skipTeamTrials.useMutation({
-    onSuccess: () => {
-      utils.viewer.teams.hasActiveTeamPlan.invalidate();
-      showToast(t("team_trials_skipped_successfully"), "success");
-    },
-    onError: () => {
-      showToast(t("something_went_wrong"), "error");
-    },
-  });
+  // Team trials removed (EE billing feature)
+  const isTrial = false;
 
   return [
-    // Render above to prevent layout shift as much as possible
-    isTrial
-      ? {
-          name: "skip_trial",
-          href: "",
-          isLoading: skipTeamTrialsMutation.isPending,
-          icon: "clock",
-          onClick: (e: { preventDefault: () => void }) => {
-            e.preventDefault();
-            skipTeamTrialsMutation.mutate({});
-          },
-        }
-      : null,
+    // Team trial skip button removed (EE billing feature)
     {
       name: "view_public_page",
       href: publicPageUrl,
@@ -84,7 +62,8 @@ export function useBottomNavItems({
       : null,
     {
       name: "settings",
-      href: user?.org ? `/settings/organizations/profile` : "/settings/my-account/profile",
+      // Organizations removed - always use my-account settings
+      href: "/settings/my-account/profile",
       icon: "settings",
     },
   ].filter(Boolean) as NavigationItemType[];
