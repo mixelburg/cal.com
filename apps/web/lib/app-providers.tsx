@@ -264,6 +264,9 @@ function useOrgBrandingValues() {
   return session?.data?.user.org;
 }
 
+// Stub for removed EE organization branding provider
+const OrgBrandingProvider = ({ children, value }: { children: React.ReactNode; value: any }) => <>{children}</>;
+
 function OrgBrandProvider({ children }: { children: React.ReactNode }) {
   const orgBrand = useOrgBrandingValues();
   return <OrgBrandingProvider value={{ orgBrand }}>{children}</OrgBrandingProvider>;
