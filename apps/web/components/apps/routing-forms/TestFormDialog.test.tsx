@@ -86,10 +86,6 @@ vi.mock("@calcom/lib/hooks/useLocale", () => ({
   useLocale: vi.fn(() => ({ t: (key: string) => key })),
 }));
 
-vi.mock("@calcom/features/ee/organizations/context/provider", () => ({
-  // useOrgBranding removed (EE organizations feature)
-}));
-
 let findTeamMembersMatchingAttributeLogicResponse: {
   result: { users: { email: string }[] } | null;
   checkedFallback: boolean;

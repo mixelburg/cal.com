@@ -31,7 +31,6 @@ import {
   DataTableWrapper,
   DataTableSelectionBar,
 } from "~/data-table/components";
-// useOrgBranding removed (EE organizations feature)
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
