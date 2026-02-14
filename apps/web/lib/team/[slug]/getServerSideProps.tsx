@@ -232,7 +232,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
             : null,
         },
         safeBio: markdownToSafeHTML(member.bio || ""),
-        bookerUrl: getBookerBaseUrlSync(member.organization?.slug || ""),
+        bookerUrl: "", // Organizations removed (EE feature)
       }))
     : [];
 

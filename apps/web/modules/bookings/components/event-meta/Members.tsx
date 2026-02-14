@@ -60,8 +60,8 @@ export const EventMembers = ({
               isEmbed || isPlatform || isPrivateLink || entity.hideProfileLink
                 ? null
                 : entity.teamSlug
-                  ? getTeamUrlSync({ orgSlug: entity.orgSlug, teamSlug: entity.teamSlug })
-                  : getBookerBaseUrlSync(entity.orgSlug),
+                  ? `/team/${entity.teamSlug}`
+                  : "/", // Organizations removed (EE feature)
             image: entity.logoUrl ?? profile.image ?? "",
             alt: entity.name ?? profile.name ?? "",
             title: entity.name ?? profile.name ?? "",
