@@ -38,27 +38,11 @@ const patchHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       upId: "",
     };
   }
-  // Team publishing not supported in self-hosted version
+  // Team publishing not supported in self-hosted version (EE feature removed)
   throw new HttpError({
     statusCode: 501,
     message: "Team publishing not supported in self-hosted version",
   });
-
-  // /** @see https://trpc.io/docs/server-side-calls */
-  // const ctx = await createContext({ req, res }, sessionGetter);
-  // try {
-  //   const createCaller = createCallerFactory(viewerTeamsRouter);
-  //   const caller = createCaller(ctx);
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   return await caller.publish(req.query as any /* Let tRPC handle this */);
-  // } catch (cause) {
-  try {} catch (cause) {
-    if (cause instanceof TRPCError) {
-      const statusCode = getHTTPStatusCodeFromError(cause);
-      throw new HttpError({ statusCode, message: cause.message });
-    }
-    throw cause;
-  }
 };
 
 export default withMiddleware()(
