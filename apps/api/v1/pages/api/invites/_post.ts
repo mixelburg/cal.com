@@ -38,34 +38,11 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
     };
   }
 
-  // Team invitations not supported in self-hosted version
+  // Team invitations not supported in self-hosted version (EE feature removed)
   throw new HttpError({
     statusCode: 501,
     message: "Team member invitations via API not supported in self-hosted version. Please use the web interface.",
   });
-
-  // const ctx = await createContext({ req, res }, sessionGetter);
-  // try {
-  //   const createCaller = createCallerFactory(viewerTeamsRouter);
-  //   const caller = createCaller(ctx);
-  //   await caller.inviteMember({
-  //     role: data.role,
-  //     language: data.language,
-  //     teamId: data.teamId,
-  //     usernameOrEmail: data.usernameOrEmail,
-  //     creationSource: CreationSource.API_V1,
-  //   });
-
-  //   return { success: true, message: `${data.usernameOrEmail} has been invited.` };
-  // } catch (cause) {
-  try {} catch (cause) {
-    if (cause instanceof TRPCError) {
-      const statusCode = getHTTPStatusCodeFromError(cause);
-      throw new HttpError({ statusCode, message: cause.message });
-    }
-
-    throw cause;
-  }
 }
 
 async function checkPermissions(req: NextApiRequest, body: TInviteMemberInputSchema) {
