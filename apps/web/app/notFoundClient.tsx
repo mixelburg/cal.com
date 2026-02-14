@@ -152,14 +152,14 @@ export function NotFound({ host }: { host: string }) {
                     <h3 className="text-emphasis text-base font-medium">
                       <span className="focus-within:ring-empthasis rounded-sm focus-within:ring-2 focus-within:ring-offset-2">
                         <span className="focus:outline-none">
-                          <span className="absolute inset-0" aria-hidden="true" />
-                          {t("register")}{" "}
-                          <strong className="text-green-500">{`${
-                            pageType === PageType.TEAM ? `${new URL(WEBSITE_URL).host}/team/` : ""
-                          }${username}${pageType === PageType.ORG ? `.${subdomainSuffix()}` : ""}`}</strong>
-                        </span>
+                        <span className="absolute inset-0" aria-hidden="true" />
+                        {t("register")}{" "}
+                        <strong className="text-green-500">{`${
+                          pageType === PageType.TEAM ? `${new URL(WEBSITE_URL).host}/team/` : ""
+                        }${username}`}</strong>
                       </span>
-                    </h3>
+                    </span>
+                  </h3>
                     <p className="text-subtle text-base">{t(`404_claim_entity_${pageType.toLowerCase()}`)}</p>
                   </div>
                   <div className="shrink-0 self-center">
