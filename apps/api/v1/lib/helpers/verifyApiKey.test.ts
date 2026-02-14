@@ -16,6 +16,9 @@ import { isLockedOrBlocked } from "../utils/isLockedOrBlocked";
 import { ScopeOfAdmin } from "../utils/scopeOfAdmin";
 import { verifyApiKey } from "./verifyApiKey";
 
+import { ApiKeyService } from "@calcom/features/ee/api-keys/services/ApiKeyService";
+import { PrismaApiKeyRepository } from "@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository";
+
 vi.mock("@calcom/features/ee/api-keys/services/ApiKeyService");
 vi.mock("@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository");
 
