@@ -412,12 +412,7 @@ const TeamProfileForm = ({ team, teamId }: TeamProfileFormProps) => {
                 value={value}
                 data-testid="team-url"
                 addOnClassname="testid-leading-text-team-url"
-                addOnLeading={`${getTeamUrlSync(
-                  { orgSlug: team.parent ? team.parent.slug : null, teamSlug: null },
-                  {
-                    protocol: false,
-                  }
-                )}`}
+                addOnLeading="/team/"
                 onChange={(e) => {
                   form.clearErrors("slug");
                   form.setValue("slug", slugify(e?.target.value, true), { shouldDirty: true });
