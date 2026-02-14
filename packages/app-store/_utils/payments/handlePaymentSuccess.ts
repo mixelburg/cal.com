@@ -2,7 +2,7 @@ import { eventTypeAppMetadataOptionalSchema } from "@calcom/app-store/zod-utils"
 import { sendScheduledEmailsAndSMS } from "@calcom/emails/email-manager";
 import EventManager, { placeholderCreatedEvent } from "@calcom/features/bookings/lib/EventManager";
 import { BookingStatus } from "@calcom/prisma/enums";
-import { doesBookingRequireConfirmation } from "@calcom/features/bookings/lib/doesBookingRequested";
+import { doesBookingRequireConfirmation } from "@calcom/features/bookings/lib/doesBookingRequireConfirmation";
 import { getAllCredentialsIncludeServiceAccountKey } from "@calcom/features/bookings/lib/getAllCredentialsForUsersOnEvent/getAllCredentials";
 import { handleBookingRequested } from "@calcom/features/bookings/lib/handleBookingRequested";
 import { handleConfirmation } from "@calcom/features/bookings/lib/handleConfirmation";
@@ -133,8 +133,7 @@ export async function handlePaymentSuccess(params: {
   const bookerUrl = "";
 
   try {
-    // Get workflows for BOOKING_PAID trigger
-    const workflows = await getAllWorkflowsFromEventType(booking.eventType, booking.userId);
+    // Workflows removed (EE feature) - getAllWorkflowsFromEventType always returns []
 
     const paymentExternalId = payment.externalId;
 
@@ -170,11 +169,9 @@ export async function handlePaymentSuccess(params: {
 
     // Trigger BOOKING_PAID webhooks
     const subscriberMeetingPaid = await getWebhooks({
-      userId,
       eventTypeId: booking.eventTypeId,
       triggerEvent: WebhookTriggerEvents.BOOKING_PAID,
       teamId: booking.eventType?.teamId,
-      orgId,
       oAuthClientId: platformClientParams?.platformClientId,
     });
 
@@ -197,39 +194,7 @@ export async function handlePaymentSuccess(params: {
     // Wait for webhook invocations to finish before returning
     await Promise.all(bookingPaidSubscribers);
 
-    // Trigger BOOKING_PAID workflows
-    try {
-      const meetingUrl = getVideoCallUrlFromCalEvent(evt);
-      const calendarEventForWorkflow = {
-        ...evt,
-        eventType: {
-          slug: booking.eventType?.slug || "",
-          schedulingType: booking.eventType?.schedulingType,
-          hosts:
-            booking.eventType?.hosts?.map((host) => ({
-              user: {
-                email: host.user.email,
-                destinationCalendar: host.user.destinationCalendar,
-              },
-            })) || [],
-        },
-        bookerUrl: bookerUrl,
-        metadata: meetingUrl ? { videoCallUrl: meetingUrl } : undefined,
-      };
-
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
-        workflows,
-        smsReminderNumber: booking.smsReminderNumber,
-        calendarEvent: calendarEventForWorkflow,
-        hideBranding: !!booking.eventType?.owner?.hideBranding,
-        triggers: [WorkflowTriggerEvents.BOOKING_PAID],
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-      });
-    } catch (error) {
-      log.error("Error while scheduling workflow reminders for booking paid", safeStringify(error));
-    }
+    // Workflows removed (EE feature) - BOOKING_PAID workflows no longer scheduled
   } catch (error) {
     log.error("Error while triggering BOOKING_PAID webhook", safeStringify(error));
   }
