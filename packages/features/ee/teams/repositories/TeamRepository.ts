@@ -25,4 +25,8 @@ export class TeamRepository {
   async findByIdIncludePlatformBilling(_params: { id: number } | number): Promise<any | null> {
     return null;
   }
+
+  async isSlugAvailableForUpdate(_params: any): Promise<boolean> {
+    return true; // Self-hosters can always update slugs
+  }
 }

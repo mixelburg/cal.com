@@ -2,10 +2,16 @@
 export class ApiKeyService {
   constructor(_deps: any) {}
   
-  async verifyKeyByHashedKey(_hashedKey: string) {
+  async verifyKeyByHashedKey(_hashedKey: string): Promise<{
+    valid: boolean;
+    error?: string;
+    userId?: number;
+    user?: any;
+  }> {
     return {
       valid: false,
       error: "API keys not supported in self-hosted version",
     };
   }
 }
+
