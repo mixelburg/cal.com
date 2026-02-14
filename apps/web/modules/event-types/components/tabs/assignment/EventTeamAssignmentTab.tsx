@@ -733,7 +733,7 @@ export const EventTeamAssignmentTab = ({
   teamMembers,
   eventType,
   customClassNames,
-  orgId,
+  // orgId removed (EE organizations feature)
   isSegmentApplicable,
   hideFixedHostsForCollective = false,
 }: EventTeamAssignmentTabBaseProps) => {
