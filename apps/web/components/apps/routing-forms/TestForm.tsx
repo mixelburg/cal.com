@@ -25,9 +25,6 @@ import type { getServerSidePropsForSingleFormView } from "@lib/apps/routing-form
 
 import { TRPCClientError } from "@trpc/react-query";
 
-// Stub for removed EE organization branding
-const useOrgBranding = (): { fullDomain?: string } | null => null;
-
 export type UptoDateForm = Brand<
   NonNullable<inferSSRProps<typeof getServerSidePropsForSingleFormView>["enrichedWithUserProfileForm"]>,
   "UptoDateForm"
