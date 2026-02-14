@@ -749,8 +749,8 @@ export const EventAdvancedTab = ({
               title={t("translate_description_button")}
               checked={value}
               onCheckedChange={(e) => onChange(e)}
-              disabled={!orgId}
-              tooltip={!orgId ? t("orgs_upgrade_to_enable_feature") : undefined}
+              disabled={true}
+              tooltip={t("feature_not_available_self_hosted")}
               data-testid="ai_translation_toggle"
               toggleSwitchAtTheEnd={true}
               switchContainerClassName="border-subtle rounded-lg border py-6 px-4 sm:px-6"

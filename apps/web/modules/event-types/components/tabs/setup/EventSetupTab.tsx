@@ -75,7 +75,7 @@ export const EventSetupTab = (
   const { t } = useLocale();
   const isPlatform = useIsPlatform();
   const formMethods = useFormContext<FormValues>();
-  const { eventType, team, urlPrefix, hasOrgBranding, customClassNames, orgId } = props;
+  const { eventType, team, urlPrefix, hasOrgBranding, customClassNames } = props;
 
   const [multipleDuration, setMultipleDuration] = useState(
     formMethods.getValues("metadata")?.multipleDuration
