@@ -20,8 +20,6 @@ import { RedirectType } from "@calcom/prisma/enums";
 import { getRedirectWithOriginAndSearchString } from "@lib/handleOrgRedirect";
 import type { inferSSRProps } from "@lib/types/inferSSRProps";
 
-const paramsSchema = z.object({ link: z.string(), slug: z.string() });
-
 export type PageProps = inferSSRProps<typeof getServerSideProps> & EmbedProps;
 
 async function getUserPageProps(context: GetServerSidePropsContext) {
