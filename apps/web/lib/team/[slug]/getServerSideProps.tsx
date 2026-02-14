@@ -97,14 +97,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const metadata = teamMetadataSchema.parse(team?.metadata ?? {});
 
-  // Taking care of sub-teams and orgs
-  if (
-    (!isValidOrgDomain && team?.parent) ||
-    (!isValidOrgDomain && !!team?.isOrganization) ||
-    !organizationsEnabled
-  ) {
-    return { notFound: true } as const;
-  }
+  // Organizations removed - no sub-teams or org domains for self-hosters
+  // If organizations feature is disabled (always for self-hosters), skip org checks
 
   if (!team) {
     // Because we are fetching by requestedSlug being set, it can either be an organization or a regular team. But it can't be a sub-team i.e.
@@ -238,17 +232,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const markdownStrippedBio = stripMarkdown(team?.bio || "");
 
-  const minimalParent = team.parent
-    ? {
-        id: team.parent.id,
-        slug: team.parent.slug,
-        name: team.parent.name,
-        isOrganization: team.parent.isOrganization,
-        isPrivate: team.parent.isPrivate,
-        logoUrl: team.parent.logoUrl,
-        requestedSlug: teamMetadataSchema.parse(team.parent.metadata)?.requestedSlug ?? null,
-      }
-    : null;
+  // Organizations removed - no parent teams/orgs for self-hosters
+  const minimalParent = null;
 
   const minimalChildren = isTeamOrParentOrgPrivate
     ? []
@@ -257,9 +242,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
         name: child.name,
       }));
 
-  // For a team or Organization we check if it's unpublished
-  // For a subteam, we check if the parent org is unpublished. A subteam can't be unpublished in itself
-  const isUnpublished = team.parent ? !team.parent.slug : !team.slug;
+  // Organizations removed - simple unpublished check (no parent orgs)
+  const isUnpublished = !team.slug;
   const isARedirectFromNonOrgLink = context.query.orgRedirection === "true";
 
   const considerUnpublished = isUnpublished && !isARedirectFromNonOrgLink;
