@@ -1,5 +1,6 @@
 import type { NextApiRequest } from "next";
 
+import { purchaseTeamOrOrgSubscription } from "@calcom/features/ee/billing/lib/purchaseTeamOrOrgSubscription";
 import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";
 import { defaultResponder } from "@calcom/lib/server/defaultResponder";
