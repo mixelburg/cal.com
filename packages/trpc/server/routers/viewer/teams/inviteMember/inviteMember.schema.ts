@@ -6,6 +6,7 @@ export const ZInviteMemberInputSchema = z.object({
   usernameOrEmail: z.string(),
   role: z.enum(["MEMBER", "ADMIN", "OWNER"]),
   sendEmailInvitation: z.boolean().optional(),
+  language: z.string().optional(),
 });
 
 export type TInviteMemberInputSchema = z.infer<typeof ZInviteMemberInputSchema>;

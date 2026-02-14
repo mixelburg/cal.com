@@ -113,12 +113,12 @@ export async function patchHandler(req: NextApiRequest) {
         userId,
         pricePerSeat: null,
       });
-      if (!checkoutSession.url)
+      if (!checkoutSession?.url)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed retrieving a checkout session URL.",
         });
-      paymentUrl = checkoutSession.url;
+      paymentUrl = checkoutSession?.url;
     }
   }
 

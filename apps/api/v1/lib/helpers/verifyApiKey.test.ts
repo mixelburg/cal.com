@@ -16,13 +16,8 @@ import { isLockedOrBlocked } from "../utils/isLockedOrBlocked";
 import { ScopeOfAdmin } from "../utils/scopeOfAdmin";
 import { verifyApiKey } from "./verifyApiKey";
 
-vi.mock("@calcom/features/ee/api-keys/services/ApiKeyService", () => ({
-  ApiKeyService: vi.fn(),
-}));
-
-vi.mock("@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository", () => ({
-  PrismaApiKeyRepository: vi.fn(),
-}));
+vi.mock("@calcom/features/ee/api-keys/services/ApiKeyService");
+vi.mock("@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository");
 
 vi.mock("../utils/isAdmin", () => ({
   isAdminGuard: vi.fn(),
