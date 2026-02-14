@@ -1,6 +1,7 @@
 import { eventTypeAppMetadataOptionalSchema } from "@calcom/app-store/zod-utils";
 import { sendScheduledEmailsAndSMS } from "@calcom/emails/email-manager";
 import EventManager, { placeholderCreatedEvent } from "@calcom/features/bookings/lib/EventManager";
+import { BookingStatus } from "@calcom/prisma/enums";
 import { doesBookingRequireConfirmation } from "@calcom/features/bookings/lib/doesBookingRequireConfirmation";
 import { getAllCredentialsIncludeServiceAccountKey } from "@calcom/features/bookings/lib/getAllCredentialsForUsersOnEvent/getAllCredentials";
 import { handleBookingRequested } from "@calcom/features/bookings/lib/handleBookingRequested";

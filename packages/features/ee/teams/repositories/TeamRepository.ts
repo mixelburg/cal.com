@@ -1,4 +1,4 @@
-// Stub for removed EE TeamRepository
+// Stub for removed EE TeamRepository - self-hosters have teams but no org/billing features
 export class TeamRepository {
   constructor(_prisma: any) {}
   
@@ -10,11 +10,11 @@ export class TeamRepository {
     return null;
   }
   
-  async findById(_id: number): Promise<any | null> {
+  async findById(_params: { id: number } | number): Promise<any | null> {
     return null;
   }
   
-  async findByIdWithMembers(_id: number): Promise<any | null> {
+  async findByIdWithMembers(_params: { id: number } | number): Promise<any | null> {
     return null;
   }
   
@@ -22,7 +22,7 @@ export class TeamRepository {
     return [];
   }
 
-  async findByIdIncludePlatformBilling(_id: number): Promise<any | null> {
+  async findByIdIncludePlatformBilling(_params: { id: number } | number): Promise<any | null> {
     return null;
   }
 }

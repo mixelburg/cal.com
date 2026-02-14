@@ -1,5 +1,8 @@
 import { CredentialRepository } from "@calcom/features/credentials/repositories/CredentialRepository";
 import { CreditService } from "@calcom/features/ee/billing/CreditService";
+import { getAttributeSyncFieldMappingService } from "@calcom/features/ee/integration-attribute-sync/lib/getAttributeSyncFieldMappingService";
+import { getAttributeSyncRuleService } from "@calcom/features/ee/integration-attribute-sync/lib/getAttributeSyncRuleService";
+import { getIntegrationAttributeSyncService } from "@calcom/features/ee/integration-attribute-sync/lib/getIntegrationAttributeSyncService";
 import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
 import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";
 import { WorkflowTriggerEvents } from "@calcom/features/ee/workflows/lib/WorkflowTriggerEvents";

@@ -188,7 +188,7 @@ describe("getAllDelegationCredentialsForUserIncludeServiceAccountKey", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    organizationRepositoryMock.findByMemberEmail.mockResolvedValue(mockOrganization);
+    // organizationRepositoryMock removed (EE organizations feature deleted)
   });
 
   it("should return empty array when no DelegationCredential found", async () => {
