@@ -125,4 +125,9 @@ export const viewerTeamsRouter = router({
       const { default: handler } = await import("./updateInternalNotesPresets.handler");
       return handler({ ctx, input });
     }),
+  // Stub for removed EE managed event reassignment endpoint
+  getManagedEventUsersToReassign: authedProcedure.input(z.any()).query(async () => ({
+    users: [],
+    nextCursor: undefined as number | undefined,
+  })),
 });
