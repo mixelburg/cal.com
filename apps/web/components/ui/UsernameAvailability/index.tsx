@@ -12,6 +12,9 @@ import useRouterQuery from "@lib/hooks/useRouterQuery";
 
 import type { TRPCClientErrorLike } from "@trpc/client";
 
+// Stub for removed EE organization branding
+const useOrgBranding = (): { fullDomain?: string } | null => null;
+
 interface UsernameAvailabilityFieldProps {
   onSuccessMutation?: () => void;
   onErrorMutation?: (error: TRPCClientErrorLike<AppRouter>) => void;
