@@ -34,7 +34,7 @@ export function EditUserSheet({
 }) {
   const { t } = useLocale();
   const { user: selectedUser } = state.editSheet;
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const [editMode, setEditMode] = useEditMode((state) => [state.editMode, state.setEditMode], shallow);
   const { data: loadedUser, isPending } = trpc.viewer.organizations.getUser.useQuery(
     {

@@ -152,7 +152,7 @@ function UserListTableContent({
   permissions,
 }: UserListTableProps): JSX.Element {
   const [dynamicLinkVisible, setDynamicLinkVisible] = useQueryState("dynamicLink", parseAsBoolean);
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const domain = orgBranding?.fullDomain ?? WEBAPP_URL;
   const { t } = useLocale();
 

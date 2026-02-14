@@ -983,7 +983,7 @@ const InfiniteScrollMain = ({
 }) => {
   const searchParams = useSearchParams();
   const { data } = useTypedQuery(querySchema);
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
 
   const tabs = eventTypeGroups.map((item) => ({
     name: item.profile.name ?? "",
@@ -1073,7 +1073,7 @@ export const EventTypesCTA = ({ userEventGroupsData }: Omit<Props, "user">) => {
 
 const EventTypesPage = ({ userEventGroupsData, user }: Props) => {
   const [_showProfileBanner, setShowProfileBanner] = useState(false);
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const router = useRouter();
 
   useEffect(() => {

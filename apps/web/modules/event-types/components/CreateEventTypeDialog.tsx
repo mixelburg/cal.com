@@ -65,7 +65,7 @@ const querySchema = z.object({
 export function CreateEventTypeDialog({ profileOptions }: { profileOptions: ProfileOption[] }) {
   const { t } = useLocale();
   const router = useRouter();
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
 
   const {
     data: { teamId, eventPage: pageSlug },

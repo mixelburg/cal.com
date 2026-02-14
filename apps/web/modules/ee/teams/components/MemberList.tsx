@@ -31,7 +31,7 @@ import {
   DataTableWrapper,
   DataTableSelectionBar,
 } from "~/data-table/components";
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
+// useOrgBranding removed (EE organizations feature)
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -186,7 +186,7 @@ function MemberListContent(props: Props) {
   const { data: session } = useSession();
 
   const utils = trpc.useUtils();
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const domain = orgBranding?.fullDomain ?? WEBAPP_URL;
 
   const tableContainerRef = useRef<HTMLDivElement>(null);

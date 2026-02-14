@@ -7,7 +7,7 @@ import posthog from "posthog-js";
 import { useState, useMemo } from "react";
 
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
+// useOrgBranding removed (EE organizations feature)
 import { APP_NAME } from "@calcom/lib/constants";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -46,7 +46,7 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
   const { t } = useLocale();
 
   const router = useRouter();
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
 
   const showDialog = searchParams?.get("inviteModal") === "true";
   const [memberInviteModal, setMemberInviteModal] = useState(showDialog);

@@ -48,7 +48,7 @@ export const CreateTeamEventType = ({ permissions }: CreateTeamEventTypeProps) =
 
   const { form, createMutation, isManagedEventType } = useCreateEventType(onSuccessMutation, onErrorMutation);
 
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const urlPrefix = orgBranding?.fullDomain ?? process.env.NEXT_PUBLIC_WEBSITE_URL;
 
   return (

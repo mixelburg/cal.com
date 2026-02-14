@@ -20,7 +20,7 @@ type ValidatedTeamSlugProps = {
 
 export function ValidatedTeamSlug({ value, onChange, onValidationChange }: ValidatedTeamSlugProps) {
   const { t } = useLocale();
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const [validationState, setValidationState] = useState<ValidationState>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [_isPending, startTransition] = useTransition();
