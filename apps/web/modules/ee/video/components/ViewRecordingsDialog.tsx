@@ -1,3 +1,3 @@
 // Stub for removed EE ViewRecordingsDialog component
-const ViewRecordingsDialog = () => null;
+const ViewRecordingsDialog = (_props: any) => null;
 export default ViewRecordingsDialog;
