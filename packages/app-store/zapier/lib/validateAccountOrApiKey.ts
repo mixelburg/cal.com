@@ -1,12 +1,8 @@
 import type { NextApiRequest } from "next";
 
 import isAuthorized from "@calcom/features/auth/lib/oAuthAuthorization";
+import { findValidApiKey } from "@calcom/features/ee/api-keys/lib/findValidApiKey";
 import { HttpError } from "@calcom/lib/http-error";
-
-// Stub for removed EE API key validation
-async function findValidApiKey(_hashedApiKey: string, _appSlug?: string): Promise<any | null> {
-  return null;
-}
 
 export async function validateAccountOrApiKey(req: NextApiRequest, requiredScopes: string[] = []) {
   const apiKey = req.query.apiKey as string;

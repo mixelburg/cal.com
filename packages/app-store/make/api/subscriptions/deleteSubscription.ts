@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import z from "zod";
 
+import { findValidApiKey } from "@calcom/features/ee/api-keys/lib/findValidApiKey";
 import { deleteSubscription } from "@calcom/features/webhooks/lib/scheduleTrigger";
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import { defaultHandler } from "@calcom/lib/server/defaultHandler";

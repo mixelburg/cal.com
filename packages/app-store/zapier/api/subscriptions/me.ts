@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { findValidApiKey } from "@calcom/features/ee/api-keys/lib/findValidApiKey";
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import prisma from "@calcom/prisma";
 

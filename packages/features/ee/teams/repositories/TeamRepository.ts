@@ -21,4 +21,8 @@ export class TeamRepository {
   async findAllByParentId(_params: any): Promise<any[]> {
     return [];
   }
+
+  async findByIdIncludePlatformBilling(_id: number): Promise<any | null> {
+    return null;
+  }
 }
