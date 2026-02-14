@@ -200,14 +200,6 @@ const handler: CustomNextApiHandler = async (body, usernameStatus, query) => {
         user,
         team,
       });
-
-      // Accept any child team invites for orgs.
-      if (team.parent) {
-        await joinAnyChildTeamOnOrgInvite({
-          userId: user.id,
-          org: team.parent,
-        });
-      }
     }
 
     // Cleanup token after use

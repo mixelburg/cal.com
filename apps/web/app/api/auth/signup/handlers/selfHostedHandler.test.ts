@@ -48,7 +48,6 @@ vi.mock("@calcom/features/auth/signup/utils/createOrUpdateMemberships", () => ({
 vi.mock("@calcom/features/auth/signup/utils/validateUsername", () => ({
   validateAndGetCorrectedUsernameAndEmail: vi.fn().mockResolvedValue({ isValid: true, username: "testuser" }),
 }));
-vi.mock("@calcom/features/auth/signup/utils/organization", () => ({ joinAnyChildTeamOnOrgInvite: vi.fn() }));
 vi.mock("@calcom/features/auth/signup/utils/prefillAvatar", () => ({ prefillAvatar: vi.fn() }));
 vi.mock("@calcom/features/auth/signup/utils/token", () => ({
   findTokenByToken: (...args: unknown[]) => mockFindTokenByToken(...args),

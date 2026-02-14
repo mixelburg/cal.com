@@ -1,9 +1,5 @@
 import { sendAttendeeRequestEmailAndSMS, sendOrganizerRequestEmail } from "@calcom/emails/email-manager";
 import { getWebhookPayloadForBooking } from "@calcom/features/bookings/lib/getWebhookPayloadForBooking";
-import { CreditService } from "@calcom/features/ee/billing/CreditService";
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";
-import { WorkflowTriggerEvents } from "@calcom/features/ee/workflows/lib/WorkflowTriggerEvents";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import sendPayload from "@calcom/features/webhooks/lib/sendOrSchedulePayload";
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
@@ -103,27 +99,7 @@ export async function handleBookingRequested(args: {
     );
     await Promise.all(promises);
 
-    const workflows = await getAllWorkflowsFromEventType(booking.eventType, booking.userId);
-    if (workflows.length > 0) {
-      const creditService = new CreditService();
-
-      await WorkflowService.scheduleWorkflowsFilteredByTriggerEvent({
-        workflows,
-        smsReminderNumber: booking.smsReminderNumber,
-        hideBranding: !!booking.eventType?.owner?.hideBranding,
-        calendarEvent: {
-          ...evt,
-          bookerUrl: evt.bookerUrl as string,
-          eventType: {
-            slug: evt.type,
-            hosts: booking.eventType?.hosts,
-            schedulingType: evt.schedulingType,
-          },
-        },
-        triggers: [WorkflowTriggerEvents.BOOKING_REQUESTED],
-        creditCheckFn: creditService.hasAvailableCredits.bind(creditService),
-      });
-    }
+    // Workflows removed (EE feature) - getAllWorkflowsFromEventType always returns []
   } catch (error) {
     // Silently fail
     log.error("Error in handleBookingRequested", safeStringify(error));

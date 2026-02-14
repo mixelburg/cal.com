@@ -92,7 +92,6 @@ vi.mock("@calcom/features/watchlist/lib/utils/normalization", () => ({
   normalizeEmail: vi.fn((e: string) => e.toLowerCase()),
 }));
 vi.mock("@calcom/web/lib/buildLegacyCtx", () => ({ buildLegacyRequest: vi.fn() }));
-vi.mock("@calcom/features/auth/signup/utils/organization", () => ({ joinAnyChildTeamOnOrgInvite: vi.fn() }));
 vi.mock("@calcom/features/auth/signup/utils/token", () => ({
   findTokenByToken: (...args: unknown[]) => mockFindTokenByToken(...args),
   throwIfTokenExpired: vi.fn(),
