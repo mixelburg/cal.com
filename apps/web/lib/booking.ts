@@ -5,6 +5,9 @@ import type { Prisma } from "@calcom/prisma/client";
 import { BookingStatus } from "@calcom/prisma/enums";
 import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 
+// Stub for removed EE workflow select
+const workflowSelect = {};
+
 export const getEventTypesFromDB = async (id: number) => {
   const userSelect = {
     id: true,
