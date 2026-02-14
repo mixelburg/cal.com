@@ -3,6 +3,15 @@
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import dayjs from "@calcom/dayjs";
+import { CreditService } from "@calcom/features/ee/billing/CreditService";
+import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
+import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
+import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";
+import { WorkflowTriggerEvents } from "@calcom/features/ee/workflows/lib/WorkflowTriggerEvents";
+import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
+import { BookingStatus } from "@calcom/prisma/enums";
+
 import { handlePaymentSuccess } from "./handlePaymentSuccess";
 
 // Mock dependencies
