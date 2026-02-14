@@ -50,7 +50,7 @@ export type EventTeamAssignmentTabBaseProps = Pick<
   "teamMembers" | "team" | "eventType"
 > & {
   customClassNames?: EventTeamAssignmentTabCustomClassNames;
-  orgId: number | null;
+  // orgId removed (EE organizations feature)
   isSegmentApplicable: boolean;
   hideFixedHostsForCollective?: boolean;
 };
@@ -277,7 +277,6 @@ type RoundRobinHostsCustomClassNames = {
 };
 
 const RoundRobinHosts = ({
-  orgId,
   teamMembers,
   value,
   onChange,
@@ -287,7 +286,7 @@ const RoundRobinHosts = ({
   teamId,
   isSegmentApplicable,
 }: {
-  orgId: number | null;
+  // orgId removed (EE organizations feature)
   value: Host[];
   onChange: (hosts: Host[]) => void;
   teamMembers: TeamMember[];
@@ -708,7 +707,6 @@ const Hosts = ({
                 customClassNames={customClassNames?.fixedHosts}
               />
               <RoundRobinHosts
-                orgId={orgId}
                 teamId={teamId}
                 teamMembers={teamMembers}
                 value={value}
@@ -941,7 +939,6 @@ export const EventTeamAssignmentTab = ({
             </div>
           )}
           <Hosts
-            orgId={orgId}
             isSegmentApplicable={isSegmentApplicable}
             teamId={team.id}
             assignAllTeamMembers={assignAllTeamMembers}

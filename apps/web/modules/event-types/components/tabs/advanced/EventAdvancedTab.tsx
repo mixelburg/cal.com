@@ -119,7 +119,7 @@ export type EventAdvancedBaseProps = Pick<EventTypeSetupProps, "eventType" | "te
   >;
   isUserLoading?: boolean;
   showToast: (message: string, variant: "success" | "warning" | "error") => void;
-  orgId: number | null;
+  // orgId removed (EE organizations feature)
   customClassNames?: EventAdvancedTabCustomClassNames;
 };
 
