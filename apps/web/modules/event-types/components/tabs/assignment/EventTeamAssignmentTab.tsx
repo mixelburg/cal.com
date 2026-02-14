@@ -608,7 +608,6 @@ type HostsCustomClassNames = {
   roundRobinHosts?: RoundRobinHostsCustomClassNames;
 };
 const Hosts = ({
-  orgId,
   teamId,
   teamMembers,
   assignAllTeamMembers,
@@ -617,7 +616,7 @@ const Hosts = ({
   isSegmentApplicable,
   hideFixedHostsForCollective = false,
 }: {
-  orgId: number | null;
+  // orgId removed (EE organizations feature)
   teamId: number;
   teamMembers: TeamMember[];
   assignAllTeamMembers: boolean;

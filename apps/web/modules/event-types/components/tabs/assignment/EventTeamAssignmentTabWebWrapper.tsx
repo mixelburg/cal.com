@@ -3,7 +3,8 @@ import { EventTeamAssignmentTab, type EventTeamAssignmentTabBaseProps } from "./
 const EventTeamAssignmentTabWebWrapper = (
   props: Omit<EventTeamAssignmentTabBaseProps, "isSegmentApplicable">
 ) => {
-  const isSegmentApplicable = !!props.orgId;
+  // Organizations removed - segments not applicable for self-hosters
+  const isSegmentApplicable = false;
   return <EventTeamAssignmentTab {...props} isSegmentApplicable={isSegmentApplicable} />;
 };
 
