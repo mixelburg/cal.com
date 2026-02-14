@@ -363,7 +363,7 @@ const useTabs = ({
 }) => {
   const session = useSession();
   const { data: user } = trpc.viewer.me.get.useQuery({ includePasswordAdded: true });
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const isAdmin = session.data?.user.role === UserPermissionRole.ADMIN;
 
   const processTabsMemod = useMemo(() => {
@@ -717,7 +717,7 @@ const SettingsSidebarContainer = ({
   permissions,
 }: SettingsSidebarContainerProps) => {
   const searchParams = useCompatSearchParams();
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
   const { t } = useLocale();
   const [otherTeamMenuState, setOtherTeamMenuState] =
     useState<
