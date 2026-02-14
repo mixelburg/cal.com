@@ -94,9 +94,8 @@ export default function TeamListItem(props: Props) {
   };
 
   if (!team) return null;
-  const teamUrl = team.isOrganization
-    ? getTeamUrlSync({ orgSlug: team.slug, teamSlug: null })
-    : getTeamUrlSync({ orgSlug: team.parent ? team.parent.slug : null, teamSlug: team.slug });
+  // Organizations removed - use simple team URL
+  const teamUrl = `/team/${team.slug}`;
   const teamInfo = (
     <div className="item-center flex truncate p-5">
       <Avatar
