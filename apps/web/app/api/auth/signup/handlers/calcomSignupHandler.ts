@@ -4,7 +4,6 @@ import { getLocaleFromRequest } from "@calcom/features/auth/lib/getLocaleFromReq
 import { sendEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
 import { SIGNUP_ERROR_CODES } from "@calcom/features/auth/signup/constants";
 import { createOrUpdateMemberships } from "@calcom/features/auth/signup/utils/createOrUpdateMemberships";
-import { joinAnyChildTeamOnOrgInvite } from "@calcom/features/auth/signup/utils/organization";
 import { prefillAvatar } from "@calcom/features/auth/signup/utils/prefillAvatar";
 import {
   findTokenByToken,

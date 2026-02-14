@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { sendEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
+import { SIGNUP_ERROR_CODES } from "@calcom/features/auth/signup/constants";
 import { createOrUpdateMemberships } from "@calcom/features/auth/signup/utils/createOrUpdateMemberships";
+import { prefillAvatar } from "@calcom/features/auth/signup/utils/prefillAvatar";
 import { validateAndGetCorrectedUsernameAndEmail } from "@calcom/features/auth/signup/utils/validateUsername";
 import { hashPassword } from "@calcom/lib/auth/hashPassword";
 import { IS_PREMIUM_USERNAME_ENABLED } from "@calcom/lib/constants";
@@ -12,10 +14,6 @@ import slugify from "@calcom/lib/slugify";
 import prisma from "@calcom/prisma";
 import { IdentityProvider } from "@calcom/prisma/enums";
 import { signupSchema } from "@calcom/prisma/zod-utils";
-
-import { joinAnyChildTeamOnOrgInvite } from "@calcom/features/auth/signup/utils/organization";
-import { prefillAvatar } from "@calcom/features/auth/signup/utils/prefillAvatar";
-import { SIGNUP_ERROR_CODES } from "@calcom/features/auth/signup/constants";
 import {
   findTokenByToken,
   throwIfTokenExpired,
@@ -154,13 +152,7 @@ export default async function handler(body: Record<string, string>) {
         team,
       });
 
-      // Accept any child team invites for orgs.
-      if (team.parent) {
-        await joinAnyChildTeamOnOrgInvite({
-          userId: user.id,
-          org: team.parent,
-        });
-      }
+      // Organizations removed - no parent teams
     }
 
     // Cleanup token after use
