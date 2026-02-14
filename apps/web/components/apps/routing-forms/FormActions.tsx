@@ -434,7 +434,7 @@ export const FormAction = forwardRef(function FormAction<T extends typeof Button
   const dropdownCtxValue = useContext(dropdownCtx);
   const dropdown = dropdownCtxValue?.dropdown;
   const embedLink = `forms/${routingForm?.id}`;
-  const orgBranding = useOrgBranding();
+  const orgBranding = null; // Organizations removed (EE feature)
 
   const formLink = `${orgBranding?.fullDomain ?? WEBSITE_URL}/${embedLink}`;
   let redirectUrl = `${orgBranding?.fullDomain ?? WEBSITE_URL}/router?form=${routingForm?.id}`;

@@ -97,10 +97,8 @@ function FeatureFlagsProvider({ children }: { children: React.ReactNode }) {
   return <FeatureProvider value={flags}>{children}</FeatureProvider>;
 }
 
-function useOrgBrandingValues() {
-  const session = useSession();
-  return session?.data?.user.org;
-}
+// useOrgBrandingValues removed (EE organizations feature)
+// Organizations are not available for self-hosters
 
 // Organizations removed - no branding provider needed
 function OrgBrandProvider({ children }: { children: React.ReactNode }) {
