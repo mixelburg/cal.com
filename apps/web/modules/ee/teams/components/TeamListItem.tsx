@@ -206,12 +206,7 @@ export default function TeamListItem(props: Props) {
                     <Button
                       color="secondary"
                       onClick={() => {
-                        navigator.clipboard.writeText(
-                          `${getTeamUrlSync({
-                            orgSlug: team.parent ? team.parent.slug : null,
-                            teamSlug: team.slug,
-                          })}`
-                        );
+                        navigator.clipboard.writeText(`/team/${team.slug}`);
                         showToast(t("link_copied"), "success");
                       }}
                       variant="icon"
@@ -246,10 +241,7 @@ export default function TeamListItem(props: Props) {
                         <DropdownItem
                           type="button"
                           target="_blank"
-                          href={`${getTeamUrlSync({
-                            orgSlug: team.parent ? team.parent.slug : null,
-                            teamSlug: team.slug,
-                          })}`}
+                          href={`/team/${team.slug}`}
                           StartIcon="external-link">
                           {t("preview_team") as string}
                         </DropdownItem>

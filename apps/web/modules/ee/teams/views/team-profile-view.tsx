@@ -99,12 +99,8 @@ const ProfileView = () => {
   );
   const isAdmin = team && checkAdminOrOwner(team.membership.role);
 
-  const permalink = team
-    ? `${getTeamUrlSync({
-        orgSlug: team.parent ? team.parent.slug : null,
-        teamSlug: team.slug,
-      })}`
-    : "";
+  // Organizations removed - use simple team URL
+  const permalink = team ? `/team/${team.slug}` : "";
 
   const isBioEmpty = !team || !team.bio || !team.bio.replace("<p><br></p>", "").length;
 

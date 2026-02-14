@@ -62,7 +62,8 @@ export function SideBar({ bannersHeight, user }: SideBarProps) {
   const isAdmin = session.data?.user.role === UserPermissionRole.ADMIN;
   const flags = useFlagMap();
 
-  const publicPageUrl = `${getBookerBaseUrlSync(user?.org?.slug ?? null)}/${user?.orgAwareUsername}`;
+  // Organizations removed - use simple username URL
+  const publicPageUrl = `/${user?.username}`;
 
   const bottomNavItems = useBottomNavItems({
     publicPageUrl,
