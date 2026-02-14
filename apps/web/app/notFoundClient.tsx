@@ -135,7 +135,7 @@ export function NotFound({ host }: { host: string }) {
           )}
         </div>
         <div className="mt-12">
-          {((!isSubpage && IS_CALCOM) || pageType === PageType.ORG || pageType === PageType.TEAM) && (
+          {((!isSubpage && IS_CALCOM) || pageType === PageType.TEAM) && (
             <ul role="list" className="my-4">
               <li className="border-2 border-green-500 px-4 py-2">
                 <a
