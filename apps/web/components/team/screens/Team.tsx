@@ -6,6 +6,20 @@ import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import type { UserProfile } from "@calcom/types/UserProfile";
 import { UserAvatar } from "@calcom/ui/components/avatar";
 
+// Stub for removed EE TeamWithMembers type
+type TeamWithMembers = {
+  inviteToken?: string;
+  members: Array<{
+    id: number;
+    name: string | null;
+    bio: string | null;
+    username: string | null;
+    organizationId: number | null;
+    avatarUrl: string | null;
+    profile: UserProfile;
+  }>;
+};
+
 type TeamType = Omit<NonNullable<TeamWithMembers>, "inviteToken">;
 type MembersType = TeamType["members"];
 type MemberType = Pick<
