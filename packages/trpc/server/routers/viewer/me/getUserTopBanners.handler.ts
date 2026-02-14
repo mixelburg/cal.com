@@ -9,7 +9,6 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import { getUpgradeableHandler } from "../teams/getUpgradeable.handler";
 import { checkInvalidAppCredentials } from "./checkForInvalidAppCredentials";
-import { getDueInvoiceBannerDataHandler } from "./getDueInvoiceBannerData.handler";
 import { shouldVerifyEmailHandler } from "./shouldVerifyEmail.handler";
 
 type Props = {
@@ -44,20 +43,18 @@ export const getUserTopBannersHandler = async ({ ctx }: Props) => {
   const shouldEmailVerify = shouldVerifyEmailHandler({ ctx });
   // const isInvalidCalendarCredential = checkInvalidGoogleCalendarCredentials({ ctx });
   const appsWithInavlidCredentials = checkInvalidAppCredentials({ ctx });
-  const dueInvoiceBannerData = getDueInvoiceBannerDataHandler({ ctx });
+  // Billing removed - no due invoice banners
 
   const [
     teamUpgradeBanner,
     verifyEmailBanner,
     // calendarCredentialBanner,
     invalidAppCredentialBanners,
-    dueInvoiceBanner,
   ] = await Promise.allSettled([
     upgradeableTeamMememberships,
     shouldEmailVerify,
     // isInvalidCalendarCredential,
     appsWithInavlidCredentials,
-    dueInvoiceBannerData,
   ]);
 
   return {
@@ -67,6 +64,6 @@ export const getUserTopBannersHandler = async ({ ctx }: Props) => {
     calendarCredentialBanner: false,
     invalidAppCredentialBanners:
       invalidAppCredentialBanners.status === "fulfilled" ? invalidAppCredentialBanners.value : [],
-    dueInvoiceBanner: dueInvoiceBanner.status === "fulfilled" ? dueInvoiceBanner.value : [],
+    dueInvoiceBanner: [], // Billing removed - no invoices
   };
 };
