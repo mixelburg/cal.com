@@ -95,13 +95,7 @@ export const getEventTypesFromDB = async (id: number) => {
           createdByOAuthClientId: true,
         },
       },
-      workflows: {
-        select: {
-          workflow: {
-            select: workflowSelect,
-          },
-        },
-      },
+      // workflows removed (EE-only feature)
       metadata: true,
       seatsPerTimeSlot: true,
       seatsShowAttendees: true,
