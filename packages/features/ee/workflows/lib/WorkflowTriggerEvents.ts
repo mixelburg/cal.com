@@ -1,0 +1,7 @@
+// Stub for removed EE workflows trigger events
+export enum WorkflowTriggerEvents {
+  BOOKING_REQUESTED = "BOOKING_REQUESTED",
+  BOOKING_CONFIRMED = "BOOKING_CONFIRMED",
+  BOOKING_RESCHEDULED = "BOOKING_RESCHEDULED",
+  BOOKING_CANCELLED = "BOOKING_CANCELLED",
+}
