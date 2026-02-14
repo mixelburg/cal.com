@@ -1,5 +1,6 @@
 import type { NextApiRequest } from "next";
 
+import stripe from "@calcom/app-store/stripepayment/lib/server";
 import { getStripeCustomerIdFromUserId } from "@calcom/app-store/stripepayment/lib/customer";
 import { getDubCustomer } from "@calcom/features/auth/lib/dub";
 import { IS_PRODUCTION } from "@calcom/lib/constants";

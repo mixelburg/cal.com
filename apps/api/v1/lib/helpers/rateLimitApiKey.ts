@@ -1,5 +1,6 @@
 import type { NextMiddleware } from "next-api-middleware";
 
+import { handleAutoLock } from "@calcom/features/ee/rate-limiting/lib/handleAutoLock";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { HttpError } from "@calcom/lib/http-error";
 
