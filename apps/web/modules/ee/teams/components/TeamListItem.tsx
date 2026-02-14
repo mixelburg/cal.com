@@ -64,13 +64,8 @@ export default function TeamListItem(props: Props) {
       revalidateTeamsList();
       utils.viewer.teams.hasTeamPlan.invalidate();
       utils.viewer.teams.listInvites.invalidate();
-      const userOrganizationId = orgId ?? undefined;
-      const isSubTeamOfDifferentOrg = team.parentId ? team.parentId != userOrganizationId : false;
-      const isDifferentOrg = team.isOrganization && team.id !== userOrganizationId;
-      // If the user team being accepted is a sub-team of different organization or the different organization itself then page must be reloaded to let the session change reflect reliably everywhere.
-      if (variables.accept && (isSubTeamOfDifferentOrg || isDifferentOrg)) {
-        refreshData();
-      }
+      // Organizations removed - no org switching logic needed for self-hosters
+      // All teams are independent, no parent orgs or sub-teams
     },
   });
 
