@@ -260,7 +260,7 @@ const EventType = forwardRef<
         eventType={eventType}
         teamMembers={teamMembers}
         customClassNames={customClassNames?.eventAssignmentTab}
-        orgId={organizationId}
+        {/* orgId removed (EE organizations feature) */}
       />
     ) : (
       <></>
