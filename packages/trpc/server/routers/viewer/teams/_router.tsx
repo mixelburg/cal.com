@@ -155,4 +155,8 @@ export const viewerTeamsRouter = router({
       items: [] as Array<{ id: number; name: string | null; email: string; status: string }>,
       nextCursor: undefined as number | undefined,
     })),
+  // Stub for removed EE round-robin reassignment mutation
+  roundRobinReassign: authedProcedure.input(z.any()).mutation(async () => ({
+    reassignedTo: { name: "N/A" },
+  })),
 });
