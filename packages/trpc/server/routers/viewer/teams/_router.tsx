@@ -137,7 +137,7 @@ export const viewerTeamsRouter = router({
       })
     )
     .query(async () => ({
-      items: [],
+      items: [] as Array<{ id: number; name: string | null; email: string; status: string }>,
       nextCursor: undefined as number | undefined,
     })),
   // Stub for removed EE round-robin reassignment endpoint (infinite query)
@@ -152,7 +152,7 @@ export const viewerTeamsRouter = router({
       })
     )
     .query(async () => ({
-      items: [],
+      items: [] as Array<{ id: number; name: string | null; email: string; status: string }>,
       nextCursor: undefined as number | undefined,
     })),
 });
