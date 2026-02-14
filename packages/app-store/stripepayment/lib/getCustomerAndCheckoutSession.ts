@@ -1,3 +1,4 @@
+import { getBillingProviderService } from "@calcom/features/ee/billing/lib/getBillingProviderService";
 import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
 
 export async function getCustomerAndCheckoutSession(checkoutSessionId: string) {
