@@ -2,12 +2,11 @@ import { eventTypeAppMetadataOptionalSchema } from "@calcom/app-store/zod-utils"
 import { sendScheduledEmailsAndSMS } from "@calcom/emails/email-manager";
 import EventManager, { placeholderCreatedEvent } from "@calcom/features/bookings/lib/EventManager";
 import { BookingStatus } from "@calcom/prisma/enums";
-import { doesBookingRequireConfirmation } from "@calcom/features/bookings/lib/doesBookingRequireConfirmation";
+import { doesBookingRequireConfirmation } from "@calcom/features/bookings/lib/doesBookingRequested";
 import { getAllCredentialsIncludeServiceAccountKey } from "@calcom/features/bookings/lib/getAllCredentialsForUsersOnEvent/getAllCredentials";
 import { handleBookingRequested } from "@calcom/features/bookings/lib/handleBookingRequested";
 import { handleConfirmation } from "@calcom/features/bookings/lib/handleConfirmation";
 import { getBooking } from "@calcom/features/bookings/lib/payment/getBooking";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
 import { getPlatformParams } from "@calcom/features/platform-oauth-client/get-platform-params";
 import { PlatformOAuthClientRepository } from "@calcom/features/platform-oauth-client/platform-oauth-client.repository";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
@@ -130,10 +129,8 @@ export async function handlePaymentSuccess(params: {
       parentId: booking.eventType?.parentId ?? null,
     },
   });
-  const triggerForUser = !teamId || (teamId && booking.eventType?.parentId);
-  const userId = triggerForUser ? booking.userId : null;
-  const orgId = await getOrgIdFromMemberOrTeamId({ memberId: userId, teamId });
-  const bookerUrl = await getBookerBaseUrl(orgId ?? null);
+  // Organizations removed - no booker URL needed
+  const bookerUrl = "";
 
   try {
     // Get workflows for BOOKING_PAID trigger
