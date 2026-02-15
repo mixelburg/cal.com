@@ -996,7 +996,7 @@ const InfiniteScrollMain = ({
   const activeEventTypeGroup =
     eventTypeGroups.filter((item) => item.teamId === data.teamId) ?? eventTypeGroups[0];
 
-  const bookerUrl = orgBranding ? orgBranding?.fullDomain : WEBSITE_URL;
+  const bookerUrl = WEBSITE_URL; // Organizations removed
 
   // If the event type group is the same as the org branding team, or the parent team, set the bookerUrl to the org branding URL
   // This is to ensure that the bookerUrl is always the same as the one in the org branding settings
