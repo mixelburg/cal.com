@@ -2,12 +2,13 @@ import { prisma } from "@calcom/prisma";
 
 import { getPublicEventSelect } from "./getPublicEvent";
 
-export async function getTeamEventType(teamSlug: string, meetingSlug: string, orgSlug: string | null) {
+export async function getTeamEventType(teamSlug: string, meetingSlug: string, _orgSlug: string | null) {
+  // Organization support removed (EE feature)
   return await prisma.eventType.findFirst({
     where: {
       team: {
-        ...getSlugOrRequestedSlug(teamSlug),
-        parent: orgSlug ? getSlugOrRequestedSlug(orgSlug) : null,
+        slug: teamSlug,
+        parent: null, // Organizations removed
       },
       OR: [{ slug: meetingSlug }, { slug: { startsWith: `${meetingSlug}-team-id-` } }],
     },

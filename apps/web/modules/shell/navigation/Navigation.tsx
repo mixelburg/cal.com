@@ -39,16 +39,7 @@ const getNavigationItems = (
     href: "/availability",
     icon: "clock",
   },
-  ...(orgBranding
-    ? [
-        {
-          name: "members",
-          href: `/settings/organizations/${orgBranding.slug}/members`,
-          icon: "building",
-          moreOnMobile: true,
-        } satisfies NavigationItemType,
-      ]
-    : []),
+  // Organization members link removed (EE feature)
   {
     name: "teams",
     href: "/teams",

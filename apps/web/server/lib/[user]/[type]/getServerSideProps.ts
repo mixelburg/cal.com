@@ -116,11 +116,13 @@ async function processSeatedEvent({
 
 async function getDynamicGroupPageProps(context: GetServerSidePropsContext) {
   const session = await getServerSession({ req: context.req });
-  const { user: usernames, type: slug } = paramsSchema.parse(context.params);
+  const { user: usernames, type: slug} = paramsSchema.parse(context.params);
   const { rescheduleUid, bookingUid } = context.query;
   const allowRescheduleForCancelledBooking = context.query.allowRescheduleForCancelledBooking === "true";
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(context.req, context.params?.orgSlug);
-  const org = isValidOrgDomain ? currentOrgDomain : null;
+  // Organization domain config removed (EE feature)
+  const currentOrgDomain = null;
+  const isValidOrgDomain = false;
+  const org = null;
 
   const redirect = await handleOrgRedirect({
     slugs: usernames,
@@ -236,7 +238,9 @@ async function getUserPageProps(context: GetServerSidePropsContext) {
   const username = usernames[0];
   const { rescheduleUid, bookingUid } = context.query;
   const allowRescheduleForCancelledBooking = context.query.allowRescheduleForCancelledBooking === "true";
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(context.req, context.params?.orgSlug);
+  // Organization domain config removed (EE feature)
+  const currentOrgDomain = null;
+  const isValidOrgDomain = false;
 
   const redirect = await handleOrgRedirect({
     slugs: usernames,

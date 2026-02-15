@@ -35,11 +35,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     });
   }
 
-  // Check if there's already a valid license using LicenseKeyService
-  const licenseKeyService = await LicenseKeySingleton.getInstance(deploymentRepo);
-  const hasValidLicense = await licenseKeyService.checkLicense();
-
-  const isFreeLicense = (await getDeploymentKey(deploymentRepo)) === "";
+  // License key check removed (EE feature)
+  const hasValidLicense = false;
+  const isFreeLicense = true; // Self-hosted version is always free
 
   return {
     props: {

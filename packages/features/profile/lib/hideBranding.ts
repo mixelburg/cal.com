@@ -4,7 +4,7 @@ import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
 
 const log = logger.getSubLogger({ name: "hideBranding" });
-const teamRepository = new TeamRepository(prisma);
+// TeamRepository removed - EE feature. Using direct Prisma queries instead.
 const userRepository = new UserRepository(prisma);
 type Team = {
   hideBranding: boolean | null;
@@ -54,8 +54,11 @@ export async function getHideBranding({
   teamId?: number;
 }): Promise<boolean> {
   if (teamId) {
-    // Get team data with parent organization
-    const team = await teamRepository.findTeamWithParentHideBranding({ teamId });
+    // Get team data (direct query since TeamRepository is EE)
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      select: { hideBranding: true },
+    });
 
     if (!team) return false;
 

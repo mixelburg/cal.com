@@ -78,7 +78,9 @@ type UserPageProps = {
 } & EmbedProps;
 
 export const getServerSideProps: GetServerSideProps<UserPageProps> = async (context) => {
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(context.req, context.params?.orgSlug);
+  // Organization domain config removed (EE feature)
+  const currentOrgDomain = null;
+  const isValidOrgDomain = false;
   const usernameList = getUsernameList(context.query.user as string);
   const isARedirectFromNonOrgLink = context.query.orgRedirection === "true";
   const dataFetchStart = Date.now();

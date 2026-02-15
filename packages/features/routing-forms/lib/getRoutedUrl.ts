@@ -91,7 +91,8 @@ const _getRoutedUrl = async (context: Pick<GetServerSidePropsContext, "query" | 
     ...(isBookingDryRunParam ? { "cal.isBookingDryRun": isBookingDryRunParam } : null),
   };
 
-  const { currentOrgDomain } = orgDomainConfig(context.req);
+  // Organization domain config removed (EE feature)
+  const currentOrgDomain = null;
 
   let timeTaken: Record<string, number | null> = {};
 
