@@ -15,7 +15,7 @@ import { apiKeyCreateBodySchema, apiKeyPublicSchema } from "~/lib/validations/ap
 async function postHandler(req: NextApiRequest) {
   const { userId, isSystemWideAdmin } = req;
   const { neverExpires, userId: bodyUserId, ...input } = apiKeyCreateBodySchema.parse(req.body);
-  const [hashedKey, apiKey] = generateUniqueAPIKey();
+  const [hashedKey, apiKey] = await generateUniqueAPIKey();
   const args: Prisma.ApiKeyCreateArgs = {
     data: {
       id: v4(),

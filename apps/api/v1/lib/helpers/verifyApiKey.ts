@@ -4,7 +4,9 @@ import type { NextMiddleware } from "next-api-middleware";
 class ApiKeyService {
   constructor(_repo: any) {}
   async verify(_hashedKey: string) { return null; }
-  async verifyKeyByHashedKey(_hashedKey: string) { return null; }
+  async verifyKeyByHashedKey(_hashedKey: string) { 
+    return { valid: false, error: "API keys not supported", userId: null, user: null }; 
+  }
 }
 class PrismaApiKeyRepository {
   constructor(_prisma: any) {}
