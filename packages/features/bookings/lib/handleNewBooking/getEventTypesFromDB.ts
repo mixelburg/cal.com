@@ -214,7 +214,8 @@ export const getEventTypesFromDB = async (eventTypeId: number) => {
 
   const { profile, hosts, users, ...restEventType } = eventType;
 
-  const isOrgTeamEvent = !!eventType?.team && !!profile?.organizationId;
+  // Organizations removed - no org team events for self-hosters
+  const isOrgTeamEvent = false;
 
   const hostsWithSelectedCalendars = hosts.map((host) => ({
     ...host,

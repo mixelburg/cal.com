@@ -217,7 +217,8 @@ export const getEventTypeById = async ({
     });
   }
 
-  const isOrgTeamEvent = !!eventType?.teamId && !!eventType.team?.parentId;
+  // Organizations removed - teams never have parents
+  const isOrgTeamEvent = false;
   const eventTypeObject = Object.assign({}, eventType, {
     users: eventTypeUsers,
     periodStartDate: eventType.periodStartDate?.toString() ?? null,
