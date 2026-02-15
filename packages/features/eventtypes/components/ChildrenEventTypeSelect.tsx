@@ -162,7 +162,7 @@ export const ChildrenEventTypeSelect = ({
                           target="_blank"
                           variant="icon"
                           className={customClassNames?.selectedChildrenList?.listItem?.previewEventTypeButton}
-                        href={`/${children.owner?.username}/${children.slug}`} {/* Org removed */}
+                          href={`/${children.owner?.username}/${children.slug}`} // Org removed
                           StartIcon="external-link"
                         />
                       </Tooltip>
