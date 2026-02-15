@@ -166,10 +166,8 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
             is_org: isOrg,
             members_count: totalFetched,
           });
+          // Organizations removed - always use team URI
           let uri = `/settings/teams/${teamId}/event-type`;
-          if (isOrg) {
-            uri = `/settings/organizations/${teamId}/add-teams`;
-          }
           router.push(uri);
         }}>
         {t("continue")}

@@ -50,7 +50,7 @@ const RoundRobinSettings = ({ team }: RoundRobinSettingsProps) => {
         // Rounb robin reset interval / basis governs host selection logic on the booking page.
         revalidateTeamDataCache({
           teamSlug: team.slug,
-          orgSlug: team.parent?.slug ?? null,
+          orgSlug: null, // Organizations removed
         });
       }
       showToast(t("round_robin_settings_updated_successfully"), "success");
