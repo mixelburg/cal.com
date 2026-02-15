@@ -208,8 +208,8 @@ export const getActiveOnOptions = async ({ ctx, input }: GetActiveOnOptions) => 
 
   const userProfile = ctx.user.profile;
   const profile = await ProfileRepository.findByUpIdWithAuth(userProfile.upId, ctx.user.id);
-  const parentOrgHasLockedEventTypes =
-    profile?.organization?.organizationSettings?.lockEventTypeCreationForUsers;
+  // Organizations removed - event type creation never locked
+  const parentOrgHasLockedEventTypes = false;
 
   if (!profile) {
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });

@@ -40,8 +40,8 @@ export class EventGroupBuilder {
       throw new Error("Profile not found");
     }
 
-    const parentOrgHasLockedEventTypes =
-      profile.organization?.organizationSettings?.lockEventTypeCreationForUsers;
+    // Organizations removed - event type creation never locked
+    const parentOrgHasLockedEventTypes = false;
 
     // Get memberships
     const profileMemberships = await this.dependencies.membershipRepository.findAllByUpIdIncludeTeam(
