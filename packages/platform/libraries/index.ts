@@ -4,14 +4,15 @@ import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/
 import getBookingInfo from "@calcom/features/bookings/lib/getBookingInfo";
 import handleCancelBooking from "@calcom/features/bookings/lib/handleCancelBooking";
 import { handleCreatePhoneCall } from "@calcom/features/handleCreatePhoneCall";
-import handleMarkNoShow from "@calcom/features/handleMarkNoShow";
+import { handleMarkNoShow } from "@calcom/features/handleMarkNoShow";
 import { getRoutedUrl } from "@calcom/features/routing-forms/lib/getRoutedUrl";
 import { symmetricDecrypt, symmetricEncrypt } from "@calcom/lib/crypto";
 import { getTranslation } from "@calcom/lib/server/i18n";
 import type { Prisma } from "@calcom/prisma/client";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import { paymentDataSelect } from "@calcom/prisma/selects/payment";
-import { createNewUsersConnectToOrgIfExists } from "@calcom/trpc/server/routers/viewer/teams/inviteMember/utils";
+// Organizations removed (EE feature)
+const createNewUsersConnectToOrgIfExists = async () => {};
 
 export { slugify } from "@calcom/lib/slugify";
 export { slugifyLenient } from "@calcom/lib/slugify-lenient";
@@ -114,5 +115,6 @@ export { getTasker } from "@calcom/features/tasker/tasker-factory";
 export { verifyCodeChallenge } from "@calcom/lib/pkce";
 export { validateUrlForSSRFSync } from "@calcom/lib/ssrfProtection";
 export { checkEmailVerificationRequired } from "@calcom/trpc/server/routers/publicViewer/checkIfUserEmailVerificationRequired.handler";
-export { verifyCode as verifyCodeAuthenticated } from "@calcom/trpc/server/routers/viewer/organizations/verifyCode.handler";
+// Organizations removed (EE feature)
+export const verifyCodeAuthenticated = async () => false;
 export type { OrgMembershipLookup } from "@calcom/features/di/modules/OrgMembershipLookup";
