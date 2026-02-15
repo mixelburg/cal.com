@@ -1,11 +1,11 @@
 import { WEBAPP_URL, WEBSITE_URL } from "@calcom/lib/constants";
 
 export const useBookerUrl = () => {
-  const orgBranding = null; // Organizations removed (EE feature)
-  return orgBranding?.fullDomain ?? WEBSITE_URL ?? WEBAPP_URL;
+  // Organizations removed - always use WEBSITE_URL for self-hosters
+  return WEBSITE_URL ?? WEBAPP_URL;
 };
 
 export const useEmbedBookerUrl = () => {
-  const orgBranding = null; // Organizations removed (EE feature)
-  return orgBranding?.fullDomain ?? WEBAPP_URL;
+  // Organizations removed - always use WEBAPP_URL for self-hosters
+  return WEBAPP_URL;
 };
