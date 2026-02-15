@@ -477,11 +477,8 @@ export class UserRepository {
   }
 
   async findIfAMemberOfSomeOrganization({ user }: { user: { id: number } }) {
-    return !!(
-      await ProfileRepository.findManyForUser({
-        id: user.id,
-      })
-    ).length;
+    // Organizations removed - users never belong to orgs for self-hosters
+    return false;
   }
 
   isMigratedToOrganization({
