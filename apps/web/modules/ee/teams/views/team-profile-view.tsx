@@ -386,8 +386,7 @@ const TeamProfileForm = ({ team, teamId }: TeamProfileFormProps) => {
                 );
               }}
             />
-          </div>
-        )}
+        </div>
 
         <Controller
           control={form.control}

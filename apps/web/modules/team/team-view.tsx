@@ -213,7 +213,6 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
               </div>
             )}
           </>
-        )}
       </main>
     </>
   );
