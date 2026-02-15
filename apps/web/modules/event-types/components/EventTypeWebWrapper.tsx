@@ -95,7 +95,12 @@ export const EventTypeWebWrapper = ({
       canUpdate: false,
       canDelete: false,
     },
-    // Workflows removed (EE feature)
+    workflows: {
+      canRead: false,
+      canCreate: false,
+      canUpdate: false,
+      canDelete: false,
+    },
   },
 }: EventTypeWebWrapperProps) => {
   const { data: eventTypeQueryData } = trpc.viewer.eventTypes.get.useQuery(
