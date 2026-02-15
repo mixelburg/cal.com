@@ -166,11 +166,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       ).profile
     : null;
 
-  const organizationRepository = getOrganizationRepository();
-
-  const calVideoLogo = profile?.organization
-    ? await organizationRepository.findCalVideoLogoByOrgId({ id: profile.organization.id })
-    : null;
+  // Organizations removed - no custom calVideoLogo for self-hosters
+  const calVideoLogo = null;
 
   //daily.co calls have a 14 days exit buffer when a user enters a call when it's not available it will trigger the modals
   const now = new Date();

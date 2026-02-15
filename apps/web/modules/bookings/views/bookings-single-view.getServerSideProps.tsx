@@ -183,7 +183,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const isLoggedInUserHost = checkIfUserIsHost(userId);
   const eventTeamId = eventType.team?.id ?? eventType.parent?.teamId;
-  const isLoggedInUserTeamMember = !!(userId && eventTeamId && (await isTeamMember(userId, eventTeamId)));
+  // Organizations removed - simplified team member check
+  const isLoggedInUserTeamMember = false; // TODO: Re-implement basic team membership check
 
   const canViewHiddenData = isLoggedInUserHost || isLoggedInUserTeamMember;
 
@@ -214,7 +215,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  const { currentOrgDomain } = orgDomainConfig(context.req);
+  // Organizations removed - no org domains for self-hosters
+  const currentOrgDomain = null;
 
   async function getInternalNotePresets(teamId: number | null) {
     if (!teamId || !canViewHiddenData) return [];

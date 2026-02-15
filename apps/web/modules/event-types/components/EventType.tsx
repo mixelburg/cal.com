@@ -47,6 +47,9 @@ const tabs = [
 export type EventTypeSetup = RouterOutputs["viewer"]["eventTypes"]["get"]["eventType"];
 export type TeamMembers = RouterOutputs["viewer"]["eventTypes"]["get"]["teamMembers"];
 
+// EE feature removed - workflows not available in self-hosted version
+type Workflow = any;
+
 export type EventTypeComponentProps = EventTypeSetupProps & {
   allActiveWorkflows?: Workflow[];
   tabMap: TabMap;
