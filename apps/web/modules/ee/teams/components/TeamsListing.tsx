@@ -14,7 +14,7 @@ import { Icon } from "@calcom/ui/components/icon";
 import { showToast } from "@calcom/ui/components/toast";
 
 import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
-import { UpgradeTip } from "@calcom/web/shell/UpgradeTip";
+// UpgradeTip import removed (EE feature)
 
 import TeamList from "./TeamList";
 
@@ -130,48 +130,25 @@ export function TeamsListing({
 
       {teams.length > 0 && <TeamList orgId={orgId} teams={teams} />}
 
+      {/* UpgradeTip removed (EE feature) - showing EmptyScreen directly */}
       {teams.length === 0 && (
-        <UpgradeTip
-          plan="team"
-          title={t("calcom_is_better_with_team", { appName: APP_NAME })}
-          description={t("add_your_team_members")}
-          features={features}
-          background="/tips/teams"
-          buttons={
-            !orgId || permissions.canCreateTeam ? (
-              <div className="stack-y-2 rtl:space-x-reverse sm:space-x-2">
-                <ButtonGroup>
-                  <Button color="primary" href={`${WEBAPP_URL}/settings/teams/new`}>
-                    {t("create_team")}
-                  </Button>
-                  <Button color="minimal" href="https://cal.com/teams" target="_blank">
-                    {t("learn_more")}
-                  </Button>
-                </ButtonGroup>
-              </div>
-            ) : (
-              <p>{t("org_admins_can_create_new_teams")}</p>
-            )
+        <EmptyScreen
+          Icon="users"
+          headline={t("create_team_to_get_started")}
+          description={t("create_first_team_and_invite_others")}
+          buttonRaw={
+            <Button
+              color="secondary"
+              data-testid="create-team-btn"
+              disabled={!!isCreateTeamButtonDisabled}
+              tooltip={
+                isCreateTeamButtonDisabled ? t("org_admins_can_create_new_teams") : t("create_new_team")
+              }
+              onClick={() => router.push(`${WEBAPP_URL}/settings/teams/new?returnTo=${WEBAPP_URL}/teams`)}>
+              {t(`create_new_team`)}
+            </Button>
           }
-          isParentLoading={<SkeletonLoaderTeamList />}>
-          <EmptyScreen
-            Icon="users"
-            headline={t("create_team_to_get_started")}
-            description={t("create_first_team_and_invite_others")}
-            buttonRaw={
-              <Button
-                color="secondary"
-                data-testid="create-team-btn"
-                disabled={!!isCreateTeamButtonDisabled}
-                tooltip={
-                  isCreateTeamButtonDisabled ? t("org_admins_can_create_new_teams") : t("create_new_team")
-                }
-                onClick={() => router.push(`${WEBAPP_URL}/settings/teams/new?returnTo=${WEBAPP_URL}/teams`)}>
-                {t(`create_new_team`)}
-              </Button>
-            }
-          />
-        </UpgradeTip>
+        />
       )}
 
       <p className="text-subtle mb-8 mt-4 flex w-full items-center gap-1 text-sm md:justify-center md:text-center">

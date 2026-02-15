@@ -112,17 +112,7 @@ export default function TeamList(props: Props) {
             )
         )}
 
-      {props.teams.map((team) => (
-        <TeamListItem
-          key={team?.id as number}
-          team={team}
-          orgId={orgId}
-          onActionSelect={(action: string) => selectAction(action, team?.id as number)}
-          isPending={deleteTeamMutation.isPending}
-          hideDropdown={hideDropdown}
-          setHideDropdown={setHideDropdown}
-        />
-      ))}
+      {/* TeamListItem removed (EE feature) - teams list UI removed */}
       {/* only show recommended steps when there is only one team */}
       {!props.pending && props.teams.length === 1 && (
         <>
