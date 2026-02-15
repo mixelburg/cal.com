@@ -56,7 +56,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
         include: {
           users: {
             include: {
-              profile: {
+              profiles: {
                 include: {
                   organization: true,
                 },
@@ -69,7 +69,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
         include: {
           user: {
             include: {
-              profile: {
+              profiles: {
                 include: {
                   organization: true,
                 },
@@ -152,61 +152,73 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       metadata: type.metadata,
       descriptionAsSafeHTML: markdownToSafeHTML(type.description),
       users: !isTeamOrParentOrgPrivate
-        ? type.users.map((user) => ({
-            name: user.name,
-            username: user.username,
-            avatarUrl: user.avatarUrl,
-            avatar: getUserAvatarUrl(user),
-            profile: {
-              id: user.profile.id,
-              upId: user.profile.upId,
-              username: user.profile.username,
-              organizationId: user.profile.organizationId,
-              organization: user.profile.organization
+        ? type.users.map((user) => {
+            // Organizations removed - use primary profile only
+            const primaryProfile = user.profiles?.[0];
+            return {
+              name: user.name,
+              username: user.username,
+              avatarUrl: user.avatarUrl,
+              avatar: getUserAvatarUrl(user),
+              profile: primaryProfile
                 ? {
-                    id: user.profile.organization.id,
-                    slug: user.profile.organization.slug,
-                    name: user.profile.organization.name,
-                    requestedSlug: user.profile.organization.requestedSlug,
-                    calVideoLogo: user.profile.organization.calVideoLogo,
-                    bannerUrl: user.profile.organization.bannerUrl,
+                    id: primaryProfile.id,
+                    upId: primaryProfile.upId,
+                    username: primaryProfile.username,
+                    organizationId: primaryProfile.organizationId,
+                    organization: primaryProfile.organization
+                      ? {
+                          id: primaryProfile.organization.id,
+                          slug: primaryProfile.organization.slug,
+                          name: primaryProfile.organization.name,
+                          requestedSlug: primaryProfile.organization.requestedSlug,
+                          calVideoLogo: primaryProfile.organization.calVideoLogo,
+                          bannerUrl: primaryProfile.organization.bannerUrl,
+                        }
+                      : null,
                   }
                 : null,
-            },
-          }))
+            };
+          })
         : [],
     })) ?? null;
 
   const safeBio = markdownToSafeHTML(team.bio) || "";
 
   const minimalMembers = !isTeamOrParentOrgPrivate
-    ? team.members.map((member) => ({
-        id: member.user.id,
-        name: member.user.name,
-        username: member.user.username,
-        avatarUrl: member.user.avatarUrl,
-        bio: member.user.bio,
-        organizationId: member.user.profile.organizationId,
-        subteams: [], // Organizations removed - no subteams for self-hosters
-        accepted: member.accepted,
-        profile: {
-          id: member.user.profile.id,
-          username: member.user.profile.username,
-          organizationId: member.user.profile.organizationId,
-          organization: member.user.profile.organization
+    ? team.members.map((member) => {
+        // Organizations removed - profiles are for org structure, use primary profile only
+        const primaryProfile = member.user.profiles?.[0];
+        return {
+          id: member.user.id,
+          name: member.user.name,
+          username: member.user.username,
+          avatarUrl: member.user.avatarUrl,
+          bio: member.user.bio,
+          organizationId: primaryProfile?.organizationId ?? null,
+          subteams: [], // Organizations removed - no subteams for self-hosters
+          accepted: member.accepted,
+          profile: primaryProfile
             ? {
-                id: member.user.profile.organization.id,
-                slug: member.user.profile.organization.slug,
-                name: member.user.profile.organization.name,
-                requestedSlug: member.user.profile.organization.requestedSlug,
-                calVideoLogo: member.user.profile.organization.calVideoLogo,
-                bannerUrl: member.user.profile.organization.bannerUrl,
+                id: primaryProfile.id,
+                username: primaryProfile.username,
+                organizationId: primaryProfile.organizationId,
+                organization: primaryProfile.organization
+                  ? {
+                      id: primaryProfile.organization.id,
+                      slug: primaryProfile.organization.slug,
+                      name: primaryProfile.organization.name,
+                      requestedSlug: primaryProfile.organization.requestedSlug,
+                      calVideoLogo: primaryProfile.organization.calVideoLogo,
+                      bannerUrl: primaryProfile.organization.bannerUrl,
+                    }
+                  : null,
               }
             : null,
-        },
-        safeBio: markdownToSafeHTML(member.user.bio || ""),
-        bookerUrl: "", // Organizations removed (EE feature)
-      }))
+          safeBio: markdownToSafeHTML(member.user.bio || ""),
+          bookerUrl: "", // Organizations removed (EE feature)
+        };
+      })
     : [];
 
   const markdownStrippedBio = stripMarkdown(team?.bio || "");
