@@ -1,2 +1,2 @@
 // Stub for removed EE upgrade badge
-export const UpgradeTeamsBadgeWebWrapper = () => null;
+export const UpgradeTeamsBadgeWebWrapper = (_props: any) => null;

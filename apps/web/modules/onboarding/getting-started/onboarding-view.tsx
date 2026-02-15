@@ -16,7 +16,7 @@ import { RadioAreaGroup } from "@calcom/ui/components/radio";
 import { OnboardingCard } from "../components/OnboardingCard";
 import { OnboardingLayout } from "../components/OnboardingLayout";
 import { OnboardingContinuationPrompt } from "../components/onboarding-continuation-prompt";
-import { PlanIcon } from "../components/plan-icon";
+// PlanIcon import removed (EE feature)
 import { useOnboardingStore, type PlanType } from "../store/onboarding-store";
 
 type OnboardingViewProps = {
@@ -211,16 +211,7 @@ export const OnboardingView = ({ userEmail }: OnboardingViewProps) => {
 
         {/* Right column - Icon display */}
         <div className="bg-cal-muted border-subtle hidden h-full w-full rounded-l-2xl border-b border-l border-t xl:flex xl:items-center xl:justify-center">
-          <AnimatePresence mode="wait">
-            {selectedPlanData && (
-              <PlanIcon
-                key={selectedPlan}
-                icon={selectedPlanData.icon}
-                variant={selectedPlanData.variant}
-                animationDirection={direction}
-              />
-            )}
-          </AnimatePresence>
+          {/* PlanIcon removed (EE feature) */}
         </div>
       </OnboardingLayout>
     </>

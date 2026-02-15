@@ -32,7 +32,7 @@ import { BookerLayouts } from "@calcom/prisma/zod-utils";
 import classNames from "@calcom/ui/classNames";
 import { DialogContent } from "@calcom/ui/components/dialog";
 import { UnpublishedEntity } from "@calcom/ui/components/unpublished-entity";
-import PoweredBy from "@calcom/web/modules/ee/common/components/PoweredBy";
+// PoweredBy import removed (EE feature)
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { useEffect, useMemo, useRef } from "react";
 import StickyBox from "react-sticky-box";
@@ -618,7 +618,7 @@ const BookerComponent = ({
               hasDarkBackground ? "dark" : "",
               layout === BookerLayouts.MONTH_VIEW ? "block" : "hidden"
             )}>
-            <PoweredBy logoOnly hasValidLicense={hasValidLicense} />
+            {/* PoweredBy removed (EE feature) */}
           </m.span>
         )}
       </div>

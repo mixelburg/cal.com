@@ -77,8 +77,7 @@ const EventWebhooksTab = dynamic(() =>
   import("./tabs/webhooks/EventWebhooksTab").then((mod) => mod.EventWebhooksTab)
 );
 
-// EventAITab removed (EE-only)
-const EventAITab = () => null;
+// EventAITab removed (EE feature)
 
 export type EventTypeWebWrapperProps = {
   id: number;
@@ -254,7 +253,7 @@ const EventTypeWeb = ({
     ),
     // Workflows tab removed (EE feature)
     webhooks: <EventWebhooksTab eventType={eventType} />,
-    ai: <EventAITab eventType={eventType} isTeamEvent={!!team} />,
+    // AI tab removed (EE feature)
   } as const;
 
   useHandleRouteChange({
@@ -320,7 +319,7 @@ const EventTypeWeb = ({
         "apps",
         // "workflows" removed (EE feature)
         "webhooks",
-        "ai",
+        // "ai" removed (EE feature)
       ])
       .optional()
       .default("setup"),
