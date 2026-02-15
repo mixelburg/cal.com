@@ -380,7 +380,7 @@ export const getPublicEvent = async (
           : {}),
       },
       entity: {
-        considerUnpublished: !fromRedirectOfNonOrgLink && unPublishedOrgUser !== undefined,
+        considerUnpublished: false, // Organizations removed
         fromRedirectOfNonOrgLink,
         orgSlug: org,
         name: unPublishedOrgUser?.profile?.organization?.name ?? null,
