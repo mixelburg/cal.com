@@ -37,15 +37,15 @@ export function EventTypesList({ table, orgTeams }: Props) {
   });
   // Organization event type management removed (EE feature)
   const addMutation = {
-    mutate: () => showToast("Organization event type management not available", "error"),
-    mutateAsync: async () => {
+    mutate: (..._args: any[]) => showToast("Organization event type management not available", "error"),
+    mutateAsync: async (..._args: any[]) => {
       showToast("Organization event type management not available", "error");
     },
     isPending: false,
   };
   const removeHostsMutation = {
-    mutate: () => showToast("Organization event type management not available", "error"),
-    mutateAsync: async () => {
+    mutate: (..._args: any[]) => showToast("Organization event type management not available", "error"),
+    mutateAsync: async (..._args: any[]) => {
       showToast("Organization event type management not available", "error");
     },
     isPending: false,

@@ -148,7 +148,7 @@ export function EditForm({
 
   // Organization user update removed (EE feature)
   const mutation = {
-    mutate: () => {
+    mutate: (..._args: any[]) => {
       showToast("Organization user management not available", "error");
       setMutationLoading(false);
     },
