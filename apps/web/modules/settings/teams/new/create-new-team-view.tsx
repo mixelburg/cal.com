@@ -14,7 +14,7 @@ import { showToast } from "@calcom/ui/components/toast";
 
 import { OnboardingCard } from "~/onboarding/components/OnboardingCard";
 import { OnboardingLayout } from "~/onboarding/components/OnboardingLayout";
-import { OnboardingBrowserView } from "~/onboarding/components/onboarding-browser-view";
+// OnboardingBrowserView import removed (EE feature, file deleted)
 import { useCreateTeam } from "~/onboarding/hooks/useCreateTeam";
 import { useOnboardingStore } from "~/onboarding/store/onboarding-store";
 import { ValidatedTeamSlug } from "~/onboarding/teams/details/validated-team-slug";
@@ -201,8 +201,7 @@ export const CreateNewTeamView = ({ userEmail }: CreateNewTeamViewProps) => {
         </form>
       </div>
 
-      {/* Right column - Browser view */}
-      <OnboardingBrowserView teamSlug={teamSlug} name={teamName} bio={teamBio} avatar={teamLogo || null} />
+      {/* OnboardingBrowserView removed (EE feature) */}
     </OnboardingLayout>
   );
 };
