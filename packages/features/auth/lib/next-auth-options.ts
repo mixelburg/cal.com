@@ -96,6 +96,20 @@ const ORGANIZATIONS_AUTOLINK =
 const usernameSlug = (username: string) => `${slugify(username)}-${randomString(6).toLowerCase()}`;
 const getDomainFromEmail = (email: string): string => email.split("@")[1];
 
+// EE features removed (self-hosted version) - only stub what's actually needed
+const ImpersonationProvider = null as any;
+const getOrgFullOrigin = () => "";
+const subdomainSuffix = () => "";
+class DeploymentRepository {
+  constructor(_prisma: any) {}
+}
+class LicenseKeySingleton {
+  static async getInstance(_repo: any) {
+    return { get: () => null, checkLicense: async () => false };
+  }
+}
+const getBillingProviderService = () => null;
+
 const loginWithTotp = async (email: string) =>
   `/auth/login?totp=${encodeURIComponent(await (await import("./signJwt")).default({ email }))}`;
 
@@ -271,17 +285,6 @@ export const CalComCredentialsProvider = CredentialsProvider({
 });
 
 const providers: Provider[] = [CalComCredentialsProvider, ImpersonationProvider];
-type SamlIdpUser = {
-  id: number;
-  userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  name: string;
-  email_verified: boolean;
-  profile: UserProfile;
-  samlTenant?: string;
-};
 
 if (IS_GOOGLE_LOGIN_ENABLED) {
   providers.push(
@@ -300,165 +303,7 @@ if (IS_GOOGLE_LOGIN_ENABLED) {
   );
 }
 
-if (isSAMLLoginEnabled) {
-  providers.push({
-    id: "saml",
-    name: "BoxyHQ",
-    type: "oauth",
-    version: "2.0",
-    checks: ["pkce", "state"],
-    authorization: {
-      url: `${WEBAPP_URL}/api/auth/saml/authorize`,
-      params: {
-        scope: "",
-        response_type: "code",
-        provider: "saml",
-      },
-    },
-    token: {
-      url: `${WEBAPP_URL}/api/auth/saml/token`,
-      params: { grant_type: "authorization_code" },
-    },
-    userinfo: `${WEBAPP_URL}/api/auth/saml/userinfo`,
-    profile: async (profile: {
-      id?: number;
-      firstName?: string;
-      lastName?: string;
-      email?: string;
-      locale?: string;
-      requested?: {
-        tenant?: string;
-        product?: string;
-      };
-    }) => {
-      log.debug("BoxyHQ:profile", safeStringify({ profile }));
-      if (!profile.email) {
-        log.warn("saml:profile - email missing from IdP response", {
-          hasFirstName: !!profile.firstName,
-          hasLastName: !!profile.lastName,
-          tenant: profile.requested?.tenant,
-        });
-      }
-      const userRepo = new UserRepository(prisma);
-      const user = await userRepo.findByEmailAndIncludeProfilesAndPassword({
-        email: profile.email || "",
-      });
-      return {
-        id: profile.id || 0,
-        firstName: profile.firstName || "",
-        lastName: profile.lastName || "",
-        email: profile.email || "",
-        name: `${profile.firstName || ""} ${profile.lastName || ""}`.trim(),
-        email_verified: true,
-        locale: profile.locale,
-        // Pass SAML tenant for domain authority checks in signIn callback
-        samlTenant: profile.requested?.tenant,
-        ...(user && { profile: user.allProfiles[0] }),
-      };
-    },
-    options: {
-      clientId: "dummy",
-      clientSecret: clientSecretVerifier,
-    },
-    allowDangerousEmailAccountLinking: true,
-  });
-
-  // Idp initiated login
-  providers.push(
-    CredentialsProvider({
-      id: "saml-idp",
-      name: "IdP Login",
-      credentials: {
-        code: {},
-      },
-      async authorize(credentials): Promise<SamlIdpUser | null> {
-        log.debug("CredentialsProvider:saml-idp:authorize", safeStringify({ credentials }));
-        if (!credentials) {
-          log.warn("saml-idp:authorize - missing credentials object");
-          return null;
-        }
-
-        const { code } = credentials;
-
-        if (!code) {
-          log.warn("saml-idp:authorize - missing code in credentials");
-          return null;
-        }
-
-        // Fetch access token
-        const { access_token } = await oauthController.token({
-          code,
-          grant_type: "authorization_code",
-          redirect_uri: `${process.env.NEXTAUTH_URL}`,
-          client_id: "dummy",
-          client_secret: clientSecretVerifier,
-        });
-
-        if (!access_token) {
-          log.warn("saml-idp:authorize - failed to obtain access_token from oauthController.token");
-          return null;
-        }
-        // Fetch user info
-        const userInfo = await oauthController.userInfo(access_token);
-
-        if (!userInfo) {
-          log.warn("saml-idp:authorize - failed to obtain userInfo from oauthController.userInfo");
-          return null;
-        }
-
-        const { id, firstName, lastName, requested } = userInfo;
-        const email = userInfo.email.toLowerCase();
-        const userRepo = new UserRepository(prisma);
-        let user = !email ? undefined : await userRepo.findByEmailAndIncludeProfilesAndPassword({ email });
-        if (!user) {
-          const hostedCal = Boolean(HOSTED_CAL_FEATURES);
-          if (hostedCal && email) {
-            const domain = getDomainFromEmail(email);
-            const organizationRepository = getOrganizationRepository();
-            const org = await organizationRepository.getVerifiedOrganizationByAutoAcceptEmailDomain(domain);
-            if (org) {
-              const createUsersAndConnectToOrgProps = {
-                emailsToCreate: [email],
-                identityProvider: IdentityProvider.SAML,
-                identityProviderId: email,
-              };
-              await createUsersAndConnectToOrg({
-                createUsersAndConnectToOrgProps,
-                org,
-              });
-              user = await userRepo.findByEmailAndIncludeProfilesAndPassword({
-                email: email,
-              });
-            }
-          }
-          if (!user) {
-            log.warn("saml-idp:authorize - user not found and could not be auto-provisioned", {
-              emailDomain: email.split("@")[1],
-              hostedCal: Boolean(HOSTED_CAL_FEATURES),
-            });
-            throw new Error(ErrorCode.UserNotFound);
-          }
-        }
-        const [userProfile] = user?.allProfiles ?? [];
-        return {
-          // This `id` is actually email as sent by the saml configuration of NameId=email
-          // Instead of changing it, we introduce a new userId field to the object
-          // Also, another reason to not touch it is that setting to to user.id starts breaking the saml-idp flow with an uncaught error something related to that it is expected to be a string
-          id: id as unknown as number,
-          userId: user.id,
-          firstName,
-          lastName,
-          email,
-          name: `${firstName} ${lastName}`.trim(),
-          email_verified: true,
-          profile: userProfile,
-          // Pass SAML tenant for domain authority checks in signIn callback (IdP-initiated flow)
-          samlTenant: requested?.tenant,
-        };
-      },
-    })
-  );
-}
+// SAML removed (EE feature) - entire SAML/SSO authentication removed for self-hosters
 
 providers.push(
   EmailProvider({
