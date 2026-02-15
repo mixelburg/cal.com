@@ -97,17 +97,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       team: {
         select: {
           metadata: true,
-          isOrganization: true,
-          parentId: true,
-          parent: {
-            select: {
-              slug: true,
-              isOrganization: true,
-              organizationSettings: true,
-            },
-          },
+          // Organizations removed - simplified team data
           slug: true,
-          organizationSettings: true,
         },
       },
     },
@@ -173,25 +164,20 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     metadata: teamMetadataSchema.parse(verificationToken.team.metadata ?? null),
   };
 
-  const isATeamInOrganization = tokenTeam?.parentId !== null;
-  // Detect if the team is an org by either the metadata flag or if it has a parent team
-  const isOrganization = tokenTeam.isOrganization;
-  const isOrganizationOrATeamInOrganization = isOrganization || isATeamInOrganization;
-  // If we are dealing with an org, the slug may come from the team itself or its parent
-  const orgSlug = isOrganizationOrATeamInOrganization
-    ? tokenTeam.metadata?.requestedSlug || tokenTeam.parent?.slug || tokenTeam.slug
-    : null;
+  // Organizations removed - teams are never orgs or sub-teams for self-hosters
+  const isOrganizationOrATeamInOrganization = false;
+  const orgSlug = null;
 
-  // Org context shouldn't check if a username is premium
-  if (!IS_SELF_HOSTED && !isOrganizationOrATeamInOrganization && username) {
+  // Organizations removed - check premium username for all contexts
+  if (!IS_SELF_HOSTED && username) {
     // Im not sure we actually hit this because of next redirects signup to website repo - but just in case this is pretty cool :)
     const { available, suggestion } = await checkPremiumUsername(username);
 
     username = available ? username : suggestion || username;
   }
 
-  const isOrgInviteByLink = isOrganizationOrATeamInOrganization && !isValidEmail;
-  const parentOrgSettings = tokenTeam?.parent?.organizationSettings ?? null;
+  // Organizations removed - no org invites for self-hosters
+  const isOrgInviteByLink = false;
 
   return {
     props: {
@@ -201,22 +187,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         !isOrgInviteByLink && isValidEmail
           ? {
               email: verificationToken.identifier,
-              username: isOrganizationOrATeamInOrganization
-                ? getOrgUsernameFromEmail(
-                    verificationToken.identifier,
-                    (isOrganization
-                      ? tokenTeam.organizationSettings?.orgAutoAcceptEmail
-                      : parentOrgSettings?.orgAutoAcceptEmail) || ""
-                  )
-                : slugify(username),
+              // Organizations removed - simple username slugification
+              username: slugify(username),
             }
           : null,
-      orgSlug,
-      orgAutoAcceptEmail: isOrgInviteByLink
-        ? (tokenTeam?.organizationSettings?.orgAutoAcceptEmail ??
-          parentOrgSettings?.orgAutoAcceptEmail ??
-          null)
-        : null,
+      orgSlug: null, // Organizations removed
+      orgAutoAcceptEmail: null, // Organizations removed
     },
   };
 };
