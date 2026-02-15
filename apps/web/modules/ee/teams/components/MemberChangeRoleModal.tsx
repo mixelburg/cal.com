@@ -1,2 +1,4 @@
 // EE feature removed - member role changes not available in self-hosted version
-export const MemberChangeRoleModal = () => null;
+const MemberChangeRoleModal = () => null;
+export default MemberChangeRoleModal;
+export { MemberChangeRoleModal };

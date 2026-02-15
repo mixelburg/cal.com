@@ -44,7 +44,6 @@ export function EditUserSheet({
   const { data: usersAttributes, isPending: usersAttributesPending } =
     trpc.viewer.attributes.getByUserId.useQuery(
       {
-        // @ts-expect-error We know it exists as it is only called when selectedUser is defined
         userId: selectedUser?.id,
       },
       {
