@@ -94,7 +94,7 @@ export function shouldHideBrandingForEventUsingProfile({
   if (team) {
     hideBranding = resolveHideBranding({
       entityHideBranding: team.hideBranding ?? null,
-      organizationHideBranding: team.parent?.hideBranding ?? null,
+      organizationHideBranding: null, // Organizations removed - no parent teams
     });
   } else if (owner) {
     hideBranding = resolveHideBranding({
