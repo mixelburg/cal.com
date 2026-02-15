@@ -1,2 +1,2 @@
 // EE feature removed - user invitations not available in self-hosted version
-export const InviteMemberModal = () => null;
+export const InviteMemberModal = (_props: any) => null;
