@@ -31,7 +31,7 @@ interface Props {
 export function EventTypesList({ table, orgTeams }: Props) {
   const { t } = useLocale();
   const utils = trpc.useUtils();
-  const teamIds = orgTeams?.map((team) => team.id);
+  const teamIds = orgTeams?.map((team: any) => team.id) ?? [];
   const { data } = trpc.viewer.eventTypes.getByViewer.useQuery({
     filters: { teamIds, schedulingTypes: [SchedulingType.ROUND_ROBIN] },
   });
