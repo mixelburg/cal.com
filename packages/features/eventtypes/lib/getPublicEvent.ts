@@ -333,18 +333,8 @@ export const getPublicEvent = async (
     // Organizations removed - no org user checks needed
     const unPublishedOrgUser = null;
 
-    let orgDetails: Pick<Team, "logoUrl" | "name"> | undefined;
-    if (org) {
-      orgDetails = await prisma.team.findFirstOrThrow({
-        where: {
-          slug: org,
-        },
-        select: {
-          logoUrl: true,
-          name: true,
-        },
-      });
-    }
+    // Organizations removed - no org details needed
+    const orgDetails = undefined;
 
     return {
       ...defaultEvent,
