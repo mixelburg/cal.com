@@ -162,9 +162,7 @@ export const ChildrenEventTypeSelect = ({
                           target="_blank"
                           variant="icon"
                           className={customClassNames?.selectedChildrenList?.listItem?.previewEventTypeButton}
-                          href={`${getBookerBaseUrlSync(
-                            children.owner.profile?.organization?.slug ?? null
-                          )}/${children.owner?.username}/${children.slug}`}
+                        href={`/${children.owner?.username}/${children.slug}`} {/* Org removed */}
                           StartIcon="external-link"
                         />
                       </Tooltip>
