@@ -51,41 +51,8 @@ export default async function SettingsLayoutAppDir(props: SettingsLayoutProps) {
   let canViewAttributes = false;
   const orgId = session?.user?.profile?.organizationId ?? session?.user.org?.id;
 
-  // Organizations removed - no org permission checks for self-hosters
-  if (false) {
-    const isOrgAdminOrOwner = false;
-    const features = null;
-
-    if (features) {
-      teamFeatures = {
-        [orgId]: features,
-      };
-    }
-
-    // Check if PBAC feature is enabled
-    const isPbacEnabled = features?.pbac === true;
-
-    if (isPbacEnabled) {
-      // Only fetch and apply PBAC permissions if the feature is enabled
-      const [rolePermissions, organizationPermissions, attributesPermissions] = await Promise.all([
-        getCachedResourcePermissions(userId, orgId, Resource.Role),
-        getCachedResourcePermissions(userId, orgId, Resource.Organization),
-        getCachedResourcePermissions(userId, orgId, Resource.Attributes),
-      ]);
-
-      // Check if user has permission to read roles
-      const roleActions = PermissionMapper.toActionMap(rolePermissions, Resource.Role);
-      canViewRoles = false;
-      canViewOrganizationBilling = false;
-      canUpdateOrganization = false;
-      canViewAttributes = false;
-    } else {
-      canViewRoles = false;
-      canViewOrganizationBilling = false;
-      canUpdateOrganization = false;
-      canViewAttributes = false;
-    }
-  }
+  // Organizations removed (EE feature) - PBAC and org permissions dead code deleted
+  // Self-hosters don't have organization-based permissions or PBAC
 
   return (
     <>

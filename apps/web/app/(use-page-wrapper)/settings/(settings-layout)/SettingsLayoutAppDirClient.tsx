@@ -432,11 +432,12 @@ const useTabs = ({
           }
         }
 
+        // Organizations removed - no org branding for self-hosters
         return {
           ...tab,
           children: newArray,
-          name: orgBranding?.name || "organization",
-          avatar: getPlaceholderAvatar(orgBranding?.logoUrl, orgBranding?.name),
+          name: "organization",
+          avatar: getPlaceholderAvatar(null, "organization"),
         };
       } else if (
         tab.href === "/settings/security" &&
@@ -859,7 +860,8 @@ const SettingsSidebarContainer = ({
                       </div>
                     </Link>
                     <TeamListCollapsible teamFeatures={teamFeatures} />
-                    {(!orgBranding?.id || permissions?.canUpdateOrganization) && (
+                    {/* Organizations removed - always allow team creation for self-hosters */}
+                    {(
                       <VerticalTabItem
                         name={t("add_a_team")}
                         href={`${WEBAPP_URL}/settings/teams/new`}

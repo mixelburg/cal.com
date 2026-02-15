@@ -12,10 +12,11 @@ Convert the private cal.com repository into a public cal.diy repository by remov
 
 **Type Check Progress:**
 - **Started with:** ~800+ errors across all packages
-- **Currently:** 328 errors remaining in `@calcom/web` package
+- **Currently:** 295 errors remaining in `@calcom/web` package  
 - **All other packages:** ✅ Passing type checks (`@calcom/api`, `@calcom/app-store`, `@calcom/trpc`, `@calcom/prisma`, etc.)
 
-**Last successful check:** 328 errors in 102 files (down from 371)
+**Last successful check:** 295 errors (down from 328 at start of this session)
+**Errors eliminated today:** 33 errors
 
 ## ✅ Completed Work
 
@@ -262,5 +263,31 @@ refactor: surgically remove [FEATURE] code block
 ---
 
 **Last Updated:** 2026-02-15 by AI Agent  
-**Handoff Reason:** Context window getting too large, fresh start needed  
-**Confidence:** High - Clear patterns established, good progress made (328 errors from ~800)
+**Latest Session:** Surgical removal approach successful - eliminated 33 errors  
+**Confidence:** High - Clear patterns established, good progress made (295 errors from ~800)
+
+## 📝 Latest Session Summary (2026-02-15)
+
+**Commits Made:** 3 commits
+1. ✅ `refactor: surgically remove SAML/SSO authentication code` + org domain config
+2. ✅ `refactor: add missing EE component stubs and exports`
+3. ✅ `refactor: delete org test files and fix Prisma queries`
+
+**Key Achievements:**
+- **Surgical removal over stubbing** - Demonstrated that org code can be removed without breaking teams
+- **No meaningless stubs** - Only created stubs where absolutely needed for imports
+- **Inlined org-free logic** - Replaced helper functions with direct Prisma queries
+- **Test cleanup** - Deleted 2 test files (37KB) for removed org features
+
+**Errors Fixed:** 33 (328 → 295)
+- Deleted `handleOrgRedirect.test.ts` (21KB, 100% org tests)
+- Deleted `getTeamMemberEmailFromCrm.test.ts` (15KB, uses removed functions)
+- Fixed PostHog imports path
+- Fixed team members Prisma query structure
+- Updated member property accesses
+
+**What's Left:** 295 errors, mostly:
+- Property access on `never` types (org properties in components)
+- Booking page profile type mismatches  
+- Missing tRPC endpoints (workflows, teams operations)
+- More test files to potentially delete
