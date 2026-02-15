@@ -21,7 +21,7 @@ type Props = {
   eventType: EventTypeSetupProps["eventType"];
   team: EventTypeSetupProps["team"];
   eventTypeApps?: EventTypeApps;
-  allActiveWorkflows?: Workflow[];
+  allActiveWorkflows?: never[]; // Workflows removed (EE feature)
   canReadWorkflows?: boolean;
 };
 export const useTabsNavigations = ({
@@ -220,16 +220,7 @@ function getNavigation({
     },
   ];
 
-  // Only add workflows tab if user has permission to read workflows
-  if (canReadWorkflows) {
-    baseNavigation.push({
-      name: t("workflows"),
-      href: `/event-types/${id}?tabName=workflows`,
-      icon: "zap",
-      info: `${enabledWorkflowsNumber} ${t("active")}`,
-      "data-testid": "workflows",
-    });
-  }
+  // Workflows tab removed (EE feature)
 
   return baseNavigation;
 }

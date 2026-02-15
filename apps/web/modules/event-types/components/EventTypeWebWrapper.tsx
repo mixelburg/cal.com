@@ -36,12 +36,7 @@ type EventPermissions = {
     canUpdate: boolean;
     canDelete: boolean;
   };
-  workflows: {
-    canRead: boolean;
-    canCreate: boolean;
-    canUpdate: boolean;
-    canDelete: boolean;
-  };
+  // Workflows removed (EE feature)
 };
 
 const ManagedEventTypeDialog = dynamic(
@@ -76,7 +71,7 @@ const EventRecurringTab = dynamic(() =>
 
 const EventAppsTab = dynamic(() => import("./tabs/apps/EventAppsTab").then((mod) => mod.EventAppsTab));
 
-const EventWorkflowsTab = dynamic(() => import("./tabs/workflows/EventWorkflowsTab"));
+// EventWorkflowsTab removed (EE feature)
 
 const EventWebhooksTab = dynamic(() =>
   import("./tabs/webhooks/EventWebhooksTab").then((mod) => mod.EventWebhooksTab)
@@ -101,12 +96,7 @@ export const EventTypeWebWrapper = ({
       canUpdate: false,
       canDelete: false,
     },
-    workflows: {
-      canRead: false,
-      canCreate: false,
-      canUpdate: false,
-      canDelete: false,
-    },
+    // Workflows removed (EE feature)
   },
 }: EventTypeWebWrapperProps) => {
   const { data: eventTypeQueryData } = trpc.viewer.eventTypes.get.useQuery(
@@ -209,15 +199,8 @@ const EventTypeWeb = ({
   const { form, handleSubmit } = useEventTypeForm({ eventType, onSubmit: updateMutation.mutate });
   const slug = form.watch("slug") ?? eventType.slug;
 
-  const { data: allActiveWorkflows } = trpc.viewer.workflows.getAllActiveWorkflows.useQuery({
-    eventType: {
-      id,
-      teamId: eventType.teamId,
-      userId: eventType.userId,
-      parent: eventType.parent,
-      metadata: eventType.metadata,
-    },
-  });
+  // Workflows query removed (EE feature)
+  const allActiveWorkflows: never[] = [];
 
   // Organizations removed (EE feature)
   const bookerUrl = WEBSITE_URL;
@@ -269,12 +252,7 @@ const EventTypeWeb = ({
         isPendingApps={isPendingApps}
       />
     ),
-    workflows:
-      allActiveWorkflows && canReadWorkflows ? (
-        <EventWorkflowsTab eventType={eventType} workflows={allActiveWorkflows} />
-      ) : (
-        <></>
-      ),
+    // Workflows tab removed (EE feature)
     webhooks: <EventWebhooksTab eventType={eventType} />,
     ai: <EventAITab eventType={eventType} isTeamEvent={!!team} />,
   } as const;
@@ -309,7 +287,7 @@ const EventTypeWeb = ({
         EventInstantTab,
         EventRecurringTab,
         EventAppsTab,
-        EventWorkflowsTab,
+        // EventWorkflowsTab removed (EE feature)
         EventWebhooksTab,
       ];
 
@@ -340,7 +318,7 @@ const EventTypeWeb = ({
         "instant",
         "recurring",
         "apps",
-        "workflows",
+        // "workflows" removed (EE feature)
         "webhooks",
         "ai",
       ])

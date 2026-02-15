@@ -19,7 +19,7 @@ import { Label } from "@calcom/ui/components/form";
 import { TextField } from "@calcom/ui/components/form";
 import { Switch } from "@calcom/ui/components/form";
 
-import { TimeTimeUnitInput } from "~/ee/workflows/components/TimeTimeUnitInput";
+// TimeTimeUnitInput removed (EE workflow feature)
 
 import WebhookTestDisclosure from "./WebhookTestDisclosure";
 
@@ -455,12 +455,7 @@ const WebhookForm = (props: {
           }}
         />
 
-        {showTimeSection && (
-          <div className="mt-5">
-            <Label>{t("how_long_after_user_no_show_minutes")}</Label>
-            <TimeTimeUnitInput disabled={false} defaultTime={5} />
-          </div>
-        )}
+        {/* No-show time input removed (EE workflow feature) */}
 
         <Controller
           name="secret"

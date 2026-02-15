@@ -6,9 +6,8 @@ import { EventAdvancedTab } from "./EventAdvancedTab";
 
 const EventAdvancedWebWrapper = ({ ...props }: EventAdvancedBaseProps) => {
   const connectedCalendarsQuery = trpc.viewer.calendars.connectedCalendars.useQuery();
-  const { data: verifiedEmails } = trpc.viewer.workflows.getVerifiedEmails.useQuery({
-    teamId: props.team?.id,
-  });
+  // Workflows verified emails removed (EE feature)
+  const verifiedEmails: never[] = [];
   return (
     <EventAdvancedTab
       {...props}
