@@ -36,7 +36,8 @@ export const getUpgradeableHandler = async ({ userId }: GetUpgradeableOptions) =
     if (metadata.success && metadata.data?.subscriptionId) return false;
     // Organizations removed - teams never are orgs
     if (false) return false;
-    if (m.team.children.length > 0) return false; // We also don't return ORGs as it will be handled in OrgUpgradeBanner
+    // Organizations removed - teams never have children (sub-teams)
+    if (false) return false;
     return true;
   });
   return teams;
