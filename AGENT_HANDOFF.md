@@ -268,10 +268,12 @@ refactor: surgically remove [FEATURE] code block
 
 ## 📝 Latest Session Summary (2026-02-15)
 
-**Commits Made:** 3 commits
+**Commits Made:** 5 commits
 1. ✅ `refactor: surgically remove SAML/SSO authentication code` + org domain config
 2. ✅ `refactor: add missing EE component stubs and exports`
 3. ✅ `refactor: delete org test files and fix Prisma queries`
+4. ✅ `refactor: surgically remove org property accesses`
+5. ✅ `refactor: fix Prisma profiles relation access`
 
 **Key Achievements:**
 - **Surgical removal over stubbing** - Demonstrated that org code can be removed without breaking teams
@@ -279,15 +281,22 @@ refactor: surgically remove [FEATURE] code block
 - **Inlined org-free logic** - Replaced helper functions with direct Prisma queries
 - **Test cleanup** - Deleted 2 test files (37KB) for removed org features
 
-**Errors Fixed:** 33 (328 → 295)
-- Deleted `handleOrgRedirect.test.ts` (21KB, 100% org tests)
-- Deleted `getTeamMemberEmailFromCrm.test.ts` (15KB, uses removed functions)
-- Fixed PostHog imports path
-- Fixed team members Prisma query structure
-- Updated member property accesses
+**Errors Fixed:** 53 total (328 → 275)
+- Session 1: 33 errors (328 → 295)
+  - Deleted `handleOrgRedirect.test.ts` (21KB, 100% org tests)
+  - Deleted `getTeamMemberEmailFromCrm.test.ts` (15KB, uses removed functions)
+  - Fixed PostHog imports path
+  - Fixed team members Prisma query structure
+  - Updated member property accesses
+- Session 2: 20 errors (295 → 275)
+  - Deleted PBAC permission checking dead code
+  - Removed orgBranding property accesses (fullDomain, name, logoUrl, id)
+  - Fixed Prisma `profiles` array access (was singular `profile`)
+  - Updated event type and member user mappings to use `profiles[0]`
 
-**What's Left:** 295 errors, mostly:
-- Property access on `never` types (org properties in components)
-- Booking page profile type mismatches  
-- Missing tRPC endpoints (workflows, teams operations)
-- More test files to potentially delete
+**What's Left:** 275 errors remaining:
+- Missing tRPC endpoints: `publish`, `removeMember`, `inviteMember`, `changeMemberRole`, `deleteInvite`, `setInviteExpiration`, `createInvite`
+- Booking page profile types missing `name` and `image` properties
+- SAML references still in login view (samlTenantID, samlProductID)
+- Organization property mismatches (`requestedSlug`, `upId` vs `uid`)
+- Component return type issues (PostHog, DataTableProvider)
