@@ -38,13 +38,13 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
   const isBioEmpty = !team.bio || !team.bio.replace("<p><br></p>", "").length;
   const metadata = teamMetadataSchema.parse(team.metadata);
 
-  const teamOrOrgIsPrivate = team.isPrivate || (team?.parent?.isOrganization && team.parent?.isPrivate);
+  // Organizations removed - simple privacy check
+  const teamOrOrgIsPrivate = team.isPrivate;
 
   if (considerUnpublished) {
-    const teamSlug = team.slug || metadata?.requestedSlug;
-    const parentSlug = team.parent?.slug || team.parent?.requestedSlug;
-    // Show unpublished state for parent Organization itself, if the team is a subteam(team.parent is NOT NULL)
-    const slugPropertyName = team.parent || team.isOrganization ? "orgSlug" : "teamSlug";
+    // Organizations removed - simple slug handling (no requestedSlug or parent)
+    const teamSlug = team.slug;
+    const slugPropertyName = "teamSlug";
     return (
       <div className="flex h-full min-h-[calc(100dvh)] items-center justify-center">
         <UnpublishedEntity
