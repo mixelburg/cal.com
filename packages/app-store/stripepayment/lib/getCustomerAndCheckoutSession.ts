@@ -1,8 +1,21 @@
-// EE billing removed - stub functions
+// EE billing removed - stub functions with full types
+type StripeCustomer = {
+  id: string;
+  email: string;
+  deleted?: boolean;
+  metadata: { username?: string };
+};
+type CheckoutSession = {
+  customer: string | null;
+  payment_status: string;
+};
 function getBillingProviderService() {
   return {
-    getCheckoutSession: async (_id: string) => ({ customer: null }),
-    getCustomer: async (_id: string) => null,
+    getCheckoutSession: async (_id: string): Promise<CheckoutSession> => ({
+      customer: null,
+      payment_status: "unpaid",
+    }),
+    getCustomer: async (_id: string): Promise<StripeCustomer | null> => null,
   };
 }
 async function getBookerBaseUrl(_orgId: number | null): Promise<string> {

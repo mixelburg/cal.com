@@ -1,14 +1,17 @@
 import { CredentialRepository } from "@calcom/features/credentials/repositories/CredentialRepository";
-// EE features removed - stub functions with types
+// EE features removed - stub functions with full types
 const CreditService = { deductUserCredits: async (_userId: number, _credits: number) => {} };
 const getAttributeSyncFieldMappingService = () => ({
   getFieldMappingById: async (_id: string) => null,
+  syncIntegrationFieldsToAttributes: async (_params: any) => {},
 });
 const getAttributeSyncRuleService = () => ({
   getAttributeSyncRulesByTeamId: async (_teamId: number) => [],
+  shouldSyncApplyToUser: async (_params: any) => false,
 });
 const getIntegrationAttributeSyncService = () => ({
   getIntegrationAttributeSyncsByUserId: async (_userId: number) => [],
+  getAllByCredentialId: async (_credentialId: number): Promise<any[]> => [],
 });
 import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
 import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";
