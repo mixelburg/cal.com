@@ -70,6 +70,7 @@ describe("generate Csv for Org Users Table", () => {
     disableImpersonation: false,
     completedOnboarding: true,
     teams: [],
+    schedules: [], // Added missing schedules property
     attributes: [],
     lastActiveAt: new Date().toISOString(),
     createdAt: null,

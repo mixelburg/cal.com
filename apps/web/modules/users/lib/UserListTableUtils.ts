@@ -85,7 +85,7 @@ export const generateCsvRawForMembersTable = (
       if (!attributes?.length) return "";
 
       return sanitizeValue(
-        attributes.map((attr) => (attr.weight ? `${attr.value} (${attr.weight}%)` : attr.value)).join(",")
+        attributes.map((attr: any) => (attr.weight ? `${attr.value} (${attr.weight}%)` : attr.value)).join(",")
       );
     });
 

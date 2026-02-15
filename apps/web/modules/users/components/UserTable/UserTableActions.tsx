@@ -36,14 +36,13 @@ export function TableActions({
 }) {
   const { t, i18n } = useLocale();
   const { data: session } = useSession();
-  const resendInvitationMutation = trpc.viewer.teams.resendInvitation.useMutation({
-    onSuccess: () => {
-      showToast(t("invitation_resent"), "success");
+  // Organizations removed (EE feature)
+  const resendInvitationMutation = {
+    mutate: (..._args: any[]) => {
+      showToast("Organization invitation resend not available", "error");
     },
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-  });
+    isPending: false,
+  };
   // Organizations removed (EE feature)
   const sendPasswordResetMutation = {
     mutate: (..._args: any[]) => {
