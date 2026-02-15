@@ -174,7 +174,8 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
   const safeBio = markdownToSafeHTML(user.bio) || "";
 
   const markdownStrippedBio = stripMarkdown(user?.bio || "");
-  const org = usersInOrgContext[0].profile.organization;
+  // Organizations removed - no org context
+  const org = null;
 
   return {
     props: {
