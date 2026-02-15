@@ -64,7 +64,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   // Provided by Rewrite from next.config.js
   const isOrgProfile = context.query?.isOrgProfile === "1";
   const featuresRepository = new FeaturesRepository(prisma);
-  const organizationsEnabled = await featuresRepository.checkIfFeatureIsEnabledGlobally("organizations");
+  // Organizations removed - always disabled for self-hosters
+  const organizationsEnabled = false;
 
   log.debug("getServerSideProps", {
     isOrgProfile,
