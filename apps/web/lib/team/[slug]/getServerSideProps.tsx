@@ -41,7 +41,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   });
 
   // Fetch team with members and event types (org logic removed)
-  // Using full include for now - this loads all team data with related entities
   const team = await prisma.team.findFirst({
     where: {
       OR: [
@@ -55,10 +54,30 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       parent: true,
       eventTypes: {
         include: {
-          users: true,
+          users: {
+            include: {
+              profile: {
+                include: {
+                  organization: true,
+                },
+              },
+            },
+          },
         },
       },
-      members: true,
+      members: {
+        include: {
+          user: {
+            include: {
+              profile: {
+                include: {
+                  organization: true,
+                },
+              },
+            },
+          },
+        },
+      },
       children: true,
     },
   });
@@ -162,30 +181,30 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const minimalMembers = !isTeamOrParentOrgPrivate
     ? team.members.map((member) => ({
-        id: member.id,
-        name: member.name,
-        username: member.username,
-        avatarUrl: member.avatarUrl,
-        bio: member.bio,
-        organizationId: member.organizationId,
-        subteams: member.subteams,
+        id: member.user.id,
+        name: member.user.name,
+        username: member.user.username,
+        avatarUrl: member.user.avatarUrl,
+        bio: member.user.bio,
+        organizationId: member.user.profile.organizationId,
+        subteams: [], // Organizations removed - no subteams for self-hosters
         accepted: member.accepted,
         profile: {
-          id: member.profile.id,
-          username: member.profile.username,
-          organizationId: member.profile.organizationId,
-          organization: member.profile.organization
+          id: member.user.profile.id,
+          username: member.user.profile.username,
+          organizationId: member.user.profile.organizationId,
+          organization: member.user.profile.organization
             ? {
-                id: member.profile.organization.id,
-                slug: member.profile.organization.slug,
-                name: member.profile.organization.name,
-                requestedSlug: member.profile.organization.requestedSlug,
-                calVideoLogo: member.profile.organization.calVideoLogo,
-                bannerUrl: member.profile.organization.bannerUrl,
+                id: member.user.profile.organization.id,
+                slug: member.user.profile.organization.slug,
+                name: member.user.profile.organization.name,
+                requestedSlug: member.user.profile.organization.requestedSlug,
+                calVideoLogo: member.user.profile.organization.calVideoLogo,
+                bannerUrl: member.user.profile.organization.bannerUrl,
               }
             : null,
         },
-        safeBio: markdownToSafeHTML(member.bio || ""),
+        safeBio: markdownToSafeHTML(member.user.bio || ""),
         bookerUrl: "", // Organizations removed (EE feature)
       }))
     : [];

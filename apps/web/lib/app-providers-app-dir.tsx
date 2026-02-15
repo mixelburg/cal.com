@@ -7,8 +7,8 @@ import type { ReadonlyURLSearchParams } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-import DynamicPostHogProvider from "~/ee/posthog/providerDynamic";
-import DynamicPostHogPageView from "~/ee/posthog/pageViewDynamic";
+import DynamicPostHogProvider from "@calcom/web/ee/posthog/providerDynamic";
+import DynamicPostHogPageView from "@calcom/web/ee/posthog/pageViewDynamic";
 import { FeatureProvider } from "@calcom/features/flags/context/provider";
 import { useFlags } from "@calcom/web/modules/feature-flags/hooks/useFlags";
 import DynamicHelpscoutProvider from "@calcom/web/modules/ee/support/lib/helpscout/providerDynamic";
