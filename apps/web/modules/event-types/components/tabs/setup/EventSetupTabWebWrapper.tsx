@@ -16,7 +16,6 @@ const EventSetupTabWebWrapper = (props: EventSetupTabProps) => {
     <EventSetupTab
       urlPrefix={urlPrefix}
       hasOrgBranding={!!orgBranding}
-      {/* orgId removed (EE organizations feature) */}
       localeOptions={localeOptions}
       {...props}
     />

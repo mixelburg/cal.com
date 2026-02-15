@@ -246,7 +246,6 @@ const EventTypeWeb = ({
     ),
     team: (
       <EventTeamAssignmentTab
-        {/* orgId removed (EE organizations feature) */}
         teamMembers={teamMembers}
         team={team}
         eventType={eventType}
@@ -260,7 +259,6 @@ const EventTypeWeb = ({
         user={user}
         isUserLoading={isLoggedInUserPending}
         showToast={showToast}
-        {/* orgId removed (EE organizations feature) */}
       />
     ),
     instant: <EventInstantTab eventType={eventType} isTeamEvent={!!team} />,

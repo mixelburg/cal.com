@@ -156,7 +156,7 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
       <hr className="border-subtle my-6" />
       <Button
         data-testid="publish-button"
-        EndIcon="arrow-right" {/* Organizations removed */}
+        EndIcon="arrow-right" // Organizations removed
         color="primary"
         className="w-full justify-center"
         disabled={publishTeamMutation.isPending}
