@@ -1,2 +1,3 @@
 // PostHog removed (EE feature)
-export const PostHogProviderDynamic = ({ children }: { children: React.ReactNode }) => children;
+const PostHogProviderDynamic = ({ children }: { children: React.ReactNode }) => children;
+export default PostHogProviderDynamic;

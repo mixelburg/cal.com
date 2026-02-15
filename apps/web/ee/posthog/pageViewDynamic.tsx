@@ -1,2 +1,3 @@
 // PostHog removed (EE feature)
-export const PageViewDynamic = () => null;
+const PageViewDynamic = () => null;
+export default PageViewDynamic;

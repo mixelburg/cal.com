@@ -1,2 +1,4 @@
 // Team availability removed (EE feature)
-export const TeamAvailabilityTimes = () => null;
+const TeamAvailabilityTimes = () => null;
+export default TeamAvailabilityTimes;
+export { TeamAvailabilityTimes };

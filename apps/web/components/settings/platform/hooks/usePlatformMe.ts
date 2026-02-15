@@ -1,2 +1,4 @@
 // Platform removed (EE feature)
-export const usePlatformMe = () => ({ data: null, isLoading: false });
+const usePlatformMe = () => ({ data: null, isLoading: false });
+export default usePlatformMe;
+export { usePlatformMe };

@@ -50,7 +50,7 @@ import {
 import { DeleteBulkUsers } from "./BulkActions/DeleteBulkUsers";
 import { DynamicLink } from "./BulkActions/DynamicLink";
 import { EventTypesList } from "./BulkActions/EventTypesList";
-import { MassAssignAttributesBulkAction } from "./BulkActions/MassAssignAttributes";
+import { MassAssignAttributes } from "./BulkActions/MassAssignAttributes";
 import { TeamListBulkAction } from "./BulkActions/TeamList";
 import { ChangeUserRoleModal } from "./ChangeUserRoleModal";
 import { DeleteMemberModal } from "./DeleteMemberModal";
@@ -675,7 +675,7 @@ function UserListTableContent({
                   </DataTableSelectionBar.Button>
                 )}
                 {(permissions?.canEditAttributesForUser ?? adminOrOwner) && (
-                  <MassAssignAttributesBulkAction table={table} filters={columnFilters} />
+                  <MassAssignAttributes table={table} filters={columnFilters} />
                 )}
                 {(permissions?.canChangeMemberRole ?? adminOrOwner) && (
                   <EventTypesList table={table} orgTeams={teams} />
