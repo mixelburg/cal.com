@@ -574,11 +574,8 @@ export const getPublicEvent = async (
         !fromRedirectOfNonOrgLink && eventWithUserProfiles.team?.slug === null,
       orgSlug: org,
       teamSlug: (eventWithUserProfiles.team?.slug || teamMetadata?.requestedSlug) ?? null,
-      name:
-        (eventWithUserProfiles.owner?.profile?.organization?.name ||
-          eventWithUserProfiles.team?.parent?.name ||
-          eventWithUserProfiles.team?.name) ??
-        null,
+      // Organizations removed - simple team or user name
+      name: eventWithUserProfiles.team?.name ?? null,
       hideProfileLink: eventWithUserProfiles.team?.hideTeamProfileLink ?? false,
       ...(orgDetails
         ? {
