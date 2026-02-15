@@ -5,7 +5,7 @@ class ApiKeyService {
   constructor(_repo: any) {}
   async verify(_hashedKey: string) { return null; }
   async verifyKeyByHashedKey(_hashedKey: string) { 
-    return { valid: false, error: "API keys not supported", userId: null, user: { uuid: "" } }; 
+    return { valid: false, error: "API keys not supported", userId: null, user: { uuid: "", role: "", locked: false, email: "" } }; 
   }
 }
 class PrismaApiKeyRepository {
