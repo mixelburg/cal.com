@@ -146,6 +146,9 @@ export class CalendarEventBuilder {
       typeof customInputs === "object" ? (customInputs as Record<string, string>) : null;
 
     const recurring = parseRecurringEvent(eventType.recurringEvent) ?? undefined;
+    
+    // Organizations removed - no organizationId for self-hosters
+    const organizationId = null;
 
     // Base builder setup
     builder

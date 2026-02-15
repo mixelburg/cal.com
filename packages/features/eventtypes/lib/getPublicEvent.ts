@@ -334,7 +334,7 @@ export const getPublicEvent = async (
     const unPublishedOrgUser = null;
 
     // Organizations removed - no org details needed
-    const orgDetails = undefined;
+    const orgDetails: Pick<Team, "logoUrl" | "name"> | undefined = undefined;
 
     return {
       ...defaultEvent,
@@ -494,7 +494,7 @@ export const getPublicEvent = async (
   }
 
   // Organizations removed - no org details for self-hosters
-  const orgDetails = null;
+  const orgDetails: Pick<Team, "logoUrl" | "name"> | null = null;
 
   let showInstantEventConnectNowModal = eventWithUserProfiles.isInstantEvent;
 
