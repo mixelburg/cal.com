@@ -21,7 +21,7 @@ import { UserAvatar } from "@calcom/ui/components/avatar";
 import { Button } from "@calcom/ui/components/button";
 import { ButtonGroup } from "@calcom/ui/components/buttonGroup";
 
-import { UpgradeTip } from "~/shell/UpgradeTip";
+// UpgradeTip removed (EE feature)
 
 import { createTimezoneBuddyStore, TBContext } from "../store";
 import { AvailabilityEditSheet } from "./AvailabilityEditSheet";
