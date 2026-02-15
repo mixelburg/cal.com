@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { setShowNewOrgModalFlag } from "@calcom/web/modules/ee/organizations/hooks/useWelcomeModal";
+// setShowNewOrgModalFlag removed (EE organization feature)
 import { useFlagMap } from "@calcom/features/flags/context/provider";
 import { CreationSource } from "@calcom/prisma/enums";
 import { trpc } from "@calcom/trpc/react";

@@ -20,7 +20,8 @@ import { Icon } from "@calcom/ui/components/icon";
 import { Popover, PopoverContent, PopoverTrigger } from "@calcom/ui/components/popover";
 import { showToast } from "@calcom/ui/components/toast";
 
-import type { User } from "./MemberList";
+// User type removed (MemberList deleted) - using minimal type
+type User = { id: number };
 
 interface Props {
   table: Table<User>;

@@ -11,7 +11,7 @@ import { Badge } from "@calcom/ui/components/badge";
 import { Button } from "@calcom/ui/components/button";
 import { type IconName } from "@calcom/ui/components/icon";
 import { RadioAreaGroup } from "@calcom/ui/components/radio";
-import { useHasTeamMembership } from "@calcom/web/modules/billing/hooks/useHasPaidPlan";
+// useHasTeamMembership removed (EE billing feature)
 
 import { OnboardingCard } from "../components/OnboardingCard";
 import { OnboardingLayout } from "../components/OnboardingLayout";
@@ -29,7 +29,9 @@ export const OnboardingView = ({ userEmail }: OnboardingViewProps) => {
   const { selectedPlan, setSelectedPlan, resetOnboardingPreservingPlan } = useOnboardingStore();
   const previousPlanRef = useRef<PlanType | null>(null);
   const [isPending, startTransition] = useTransition();
-  const { hasTeamMembership, isPending: isPendingMembership } = useHasTeamMembership();
+  // Team membership check removed (EE billing feature)
+  const hasTeamMembership = false;
+  const isPendingMembership = false;
 
   // Reset onboarding data when visiting this page, but preserve the selected plan
   useEffect(() => {
