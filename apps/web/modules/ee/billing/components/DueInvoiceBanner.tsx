@@ -1,3 +1,3 @@
 // Billing removed (EE feature)
-export type DueInvoiceBannerProps = Record<string, never>;
+export type DueInvoiceBannerProps = { data?: any; key?: string };
 export const DueInvoiceBanner = () => null;
