@@ -349,7 +349,7 @@ export class AvailableSlotsService {
     const userRepo = this.dependencies.userRepo;
     const [user] = await userRepo.findUsersByUsername({
       usernameList: [username],
-      orgSlug: isValidOrgDomain ? currentOrgDomain : null,
+      orgSlug: null, // Organizations removed
     });
     return user?.id;
   }
