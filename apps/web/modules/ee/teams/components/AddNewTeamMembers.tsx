@@ -121,7 +121,7 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
           StartIcon="plus"
           onClick={() => setMemberInviteModal(true)}
           className={classNames("w-full justify-center", totalFetched > 0 && "mt-6")}>
-          {isOrg ? t("add_org_members") : t("add_team_member")}
+          {t("add_team_member")} {/* Organizations removed */}
         </Button>
       </div>
       {isPending ? (
@@ -156,7 +156,7 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
       <hr className="border-subtle my-6" />
       <Button
         data-testid="publish-button"
-        EndIcon={!orgBranding || isOrg ? "arrow-right" : undefined}
+        EndIcon="arrow-right" {/* Organizations removed */}
         color="primary"
         className="w-full justify-center"
         disabled={publishTeamMutation.isPending}
