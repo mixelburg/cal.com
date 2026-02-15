@@ -79,12 +79,9 @@ export default function MemberInvitationModal(props: MemberInvitationModalProps)
 
   const checkIfMembershipExistsMutation = trpc.viewer.teams.checkIfMembershipExists.useMutation();
 
-  // Check current org role and not team role
-  const isOrgAdminOrOwner = currentOrg && checkAdminOrOwner(currentOrg.user.role);
-
-  const canSeeOrganization = currentOrg?.isPrivate
-    ? isOrgAdminOrOwner
-    : !!(props?.orgMembers && props.orgMembers?.length > 0 && isOrgAdminOrOwner);
+  // Organizations removed - no org admin checks for self-hosters
+  const isOrgAdminOrOwner = false;
+  const canSeeOrganization = false;
 
   const [modalImportMode, setModalInputMode] = useState<ModalMode>(
     canSeeOrganization ? "ORGANIZATION" : "INDIVIDUAL"
@@ -108,13 +105,9 @@ export default function MemberInvitationModal(props: MemberInvitationModalProps)
       { value: MembershipRole.OWNER, label: t("owner") },
     ];
 
-    // Adjust options for organizations where the user isn't the owner
-    if (isOrg && !isOrgAdminOrOwner) {
-      return options.filter((option) => option.value !== MembershipRole.OWNER);
-    }
-
+    // Organizations removed - no role filtering
     return options;
-  }, [t, isOrgAdminOrOwner, isOrg]);
+  }, [t]);
 
   const toggleGroupOptions = useMemo(() => {
     const array = [
