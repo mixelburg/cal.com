@@ -130,8 +130,8 @@ export class CalendarEventBuilder {
       : undefined;
     const appsStatus: AppsStatus[] = [];
 
-    const organizationId = user.profiles?.[0]?.organizationId ?? null;
-    const bookerUrl = await getBookerBaseUrl(eventType.team?.parentId ?? organizationId);
+    // Organizations removed - use default URL
+    const bookerUrl = "";
 
     const parsedBookingResponses = bookingResponsesSchema.safeParse(responses);
     const bookingResponses = parsedBookingResponses.success ? parsedBookingResponses.data : null;
