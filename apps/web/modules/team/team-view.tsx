@@ -163,26 +163,18 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
             </>
           )}
         </div>
-        {team.isOrganization ? (
-          !teamOrOrgIsPrivate ? (
-            <SubTeams />
-          ) : (
-            <div className="w-full text-center">
-              <h2 className="text-emphasis font-semibold">{t("you_cannot_see_teams_of_org")}</h2>
-            </div>
-          )
-        ) : (
-          <>
-            {(showMembers.isOn || !team.eventTypes?.length) &&
-              (teamOrOrgIsPrivate ? (
-                <div className="w-full text-center">
-                  <h2 data-testid="you-cannot-see-team-members" className="text-emphasis font-semibold">
-                    {t("you_cannot_see_team_members")}
-                  </h2>
-                </div>
-              ) : (
-                <Team members={team.members} teamName={team.name} />
-              ))}
+        {/* Organizations removed - always show team content, never SubTeams */}
+        <>
+          {(showMembers.isOn || !team.eventTypes?.length) &&
+            (teamOrOrgIsPrivate ? (
+              <div className="w-full text-center">
+                <h2 data-testid="you-cannot-see-team-members" className="text-emphasis font-semibold">
+                  {t("you_cannot_see_team_members")}
+                </h2>
+              </div>
+            ) : (
+              <Team members={team.members} teamName={team.name} />
+            ))}
             {!showMembers.isOn && team.eventTypes && team.eventTypes.length > 0 && (
               <div className="mx-auto max-w-3xl ">
                 <EventTypes eventTypes={team.eventTypes} />
