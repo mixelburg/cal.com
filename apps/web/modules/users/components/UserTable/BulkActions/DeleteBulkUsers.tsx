@@ -15,16 +15,13 @@ interface Props {
 export function DeleteBulkUsers({ users, onRemove }: Props) {
   const { t } = useLocale();
   const selectedRows = users; // Get selected rows from table
-  const utils = trpc.useUtils();
-  const deleteMutation = trpc.viewer.organizations.bulkDeleteUsers.useMutation({
-    onSuccess: () => {
-      showToast("Deleted Users", "success");
-      utils.viewer.organizations.listMembers.invalidate();
+  // Bulk user deletion removed (EE organization feature)
+  const deleteMutation = {
+    mutate: () => {
+      showToast("Bulk user deletion not available in self-hosted version", "error");
     },
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-  });
+    isPending: false,
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -38,9 +35,7 @@ export function DeleteBulkUsers({ users, onRemove }: Props) {
         confirmBtnText={t("remove")}
         isPending={deleteMutation.isPending}
         onConfirm={() => {
-          deleteMutation.mutateAsync({
-            userIds: selectedRows.map((user) => user.id),
-          });
+          deleteMutation.mutate();
           onRemove();
         }}>
         <p className="mt-5">

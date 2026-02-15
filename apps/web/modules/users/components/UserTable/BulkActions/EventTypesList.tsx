@@ -25,7 +25,7 @@ import type { UserTableUser } from "../types";
 
 interface Props {
   table: Table<UserTableUser>;
-  orgTeams: RouterOutputs["viewer"]["organizations"]["getTeams"] | undefined;
+  orgTeams: never[] | undefined; // Organization teams removed (EE feature)
 }
 
 export function EventTypesList({ table, orgTeams }: Props) {
@@ -35,43 +35,15 @@ export function EventTypesList({ table, orgTeams }: Props) {
   const { data } = trpc.viewer.eventTypes.getByViewer.useQuery({
     filters: { teamIds, schedulingTypes: [SchedulingType.ROUND_ROBIN] },
   });
-  const addMutation = trpc.viewer.organizations.addMembersToEventTypes.useMutation({
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-    onSuccess: () => {
-      showToast(
-        `${selectedUsers.length} users added to ${Array.from(selectedEvents).length} events`,
-        "success"
-      );
-
-      utils.viewer.organizations.listMembers.invalidate();
-      utils.viewer.eventTypes.invalidate();
-
-      // Clear the selected values
-      setSelectedEvents(new Set());
-      setSelectedTeams(new Set());
-      table.toggleAllRowsSelected(false);
-    },
-  });
-  const removeHostsMutation = trpc.viewer.organizations.removeHostsFromEventTypes.useMutation({
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-    onSuccess: () => {
-      showToast(
-        `${selectedUsers.length} users were removed from ${Array.from(removeHostFromEvents).length} events`,
-        "success"
-      );
-
-      utils.viewer.organizations.listMembers.invalidate();
-      utils.viewer.eventTypes.invalidate();
-
-      // Clear the selected values
-      setRemoveHostFromEvents(new Set());
-      table.toggleAllRowsSelected(false);
-    },
-  });
+  // Organization event type management removed (EE feature)
+  const addMutation = {
+    mutate: () => showToast("Organization event type management not available", "error"),
+    isPending: false,
+  };
+  const removeHostsMutation = {
+    mutate: () => showToast("Organization event type management not available", "error"),
+    isPending: false,
+  };
   const [selectedEvents, setSelectedEvents] = useState<Set<number>>(new Set());
   const [selectedTeams, setSelectedTeams] = useState<Set<number>>(new Set());
   const [removeHostFromEvents, setRemoveHostFromEvents] = useState<Set<number>>(new Set());
