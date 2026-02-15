@@ -570,10 +570,8 @@ export const getPublicEvent = async (
     entity: {
       fromRedirectOfNonOrgLink,
       considerUnpublished:
-        !fromRedirectOfNonOrgLink &&
-        (eventWithUserProfiles.team?.slug === null ||
-          eventWithUserProfiles.owner?.profile?.organization?.slug === null ||
-          eventWithUserProfiles.team?.parent?.slug === null),
+        // Organizations removed - simplified unpublished check
+        !fromRedirectOfNonOrgLink && eventWithUserProfiles.team?.slug === null,
       orgSlug: org,
       teamSlug: (eventWithUserProfiles.team?.slug || teamMetadata?.requestedSlug) ?? null,
       name:
