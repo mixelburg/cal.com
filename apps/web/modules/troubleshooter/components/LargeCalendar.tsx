@@ -36,7 +36,7 @@ export const LargeCalendar = ({ extraDays }: { extraDays: number }) => {
 
   const isTeamEvent = !!event?.teamId;
   const { data: schedule } = useSchedule({
-    username: session?.user.orgAwareUsername || "",
+    username: session?.user.username || "", // Organizations removed - no orgAwareUsername
     // For team events, don't pass eventSlug to avoid slug lookup issues - use eventId instead
     eventSlug: isTeamEvent ? null : event?.slug,
     eventId: event?.id,
