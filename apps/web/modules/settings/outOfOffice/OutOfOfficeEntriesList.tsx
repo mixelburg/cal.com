@@ -124,7 +124,7 @@ function OutOfOfficeEntriesListContent({
         endDateFilterEndRange: endDateRange?.endDate ?? undefined,
       },
       {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage: any) => lastPage.nextCursor,
         placeholderData: keepPreviousData,
       }
     );
@@ -136,7 +136,7 @@ function OutOfOfficeEntriesListContent({
   const totalRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
   const flatData = useMemo(
     () =>
-      isPending || isFetching ? new Array(5).fill(null) : (data?.pages?.flatMap((page) => page.rows) ?? []),
+      isPending || isFetching ? new Array(5).fill(null) : (data?.pages?.flatMap((page: any) => page.rows) ?? []),
     [data, isPending, isFetching]
   ) as OutOfOfficeEntry[];
 

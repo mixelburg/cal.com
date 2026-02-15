@@ -103,7 +103,7 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
 
   const { data: outOfOfficeReasonList, isPending: isReasonListPending } =
     trpc.viewer.ooo.outOfOfficeReasonList.useQuery();
-  const reasonList = (outOfOfficeReasonList || []).map((reason) => ({
+  const reasonList = (outOfOfficeReasonList || []).map((reason: any) => ({
     label: `${reason.emoji} ${reason.userId === null ? t(reason.reason) : reason.reason}`,
     value: reason.id,
   }));
@@ -172,7 +172,7 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
       utils.viewer.ooo.outOfOfficeEntriesList.invalidate();
       closeModal();
     },
-    onError: (error) => {
+    onError: (error: any) => {
       showToast(t(error.message), "error");
     },
   });
@@ -313,7 +313,7 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
                       name="reason"
                       data-testid="reason_select"
                       menuPlacement="bottom"
-                      value={reasonList.find((reason) => reason.value === value)}
+                      value={reasonList.find((reason: any) => reason.value === value)}
                       placeholder={t("ooo_select_reason")}
                       options={reasonList}
                       onChange={(selectedOption) => {
