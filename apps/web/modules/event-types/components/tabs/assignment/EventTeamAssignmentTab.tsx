@@ -755,8 +755,8 @@ export const EventTeamAssignmentTab = ({
       // description: t("round_robin_description"),
     },
   ];
-  const pendingMembers = (member: (typeof teamMembers)[number]) =>
-    !!eventType.team?.parentId || !!member.username;
+  // Organizations removed - no parent teams (sub-teams)
+  const pendingMembers = (member: (typeof teamMembers)[number]) => !!member.username;
   const teamMembersOptions = teamMembers
     .filter(pendingMembers)
     .map((member) => mapUserToValue(member, t("pending")));

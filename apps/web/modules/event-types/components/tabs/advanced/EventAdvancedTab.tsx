@@ -1539,7 +1539,8 @@ export const EventAdvancedTab = ({
         />
       )}
 
-      {team?.parentId && (
+      {/* Organizations removed - no parent teams (sub-teams) */}
+      {false && (
         <>
           <Controller
             name="metadata.disableStandardEmails.all.attendee"

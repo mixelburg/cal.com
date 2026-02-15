@@ -87,8 +87,9 @@ function EventTypeSingleLayout({
     formMethods,
   });
   const EventTypeTabs = tabsNavigation;
+  // Organizations removed - teams always use /team/ prefix
   const permalink = `${bookerUrl}/${
-    team ? `${!team.parentId ? "team/" : ""}${team.slug}` : formMethods.getValues("users")[0].username
+    team ? `team/${team.slug}` : formMethods.getValues("users")[0].username
   }/${eventType.slug}`;
 
   const embedLink = `${
