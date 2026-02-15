@@ -48,9 +48,9 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
     return (
       <div className="flex h-full min-h-[calc(100dvh)] items-center justify-center">
         <UnpublishedEntity
-          {...{ [slugPropertyName]: team.parent ? parentSlug : teamSlug }}
-          logoUrl={team.parent?.logoUrl || team.logoUrl}
-          name={team.parent ? team.parent.name : team.name}
+          {...{ [slugPropertyName]: teamSlug }} // Parent (org) removed
+          logoUrl={team.logoUrl}
+          name={team.name}
         />
       </div>
     );

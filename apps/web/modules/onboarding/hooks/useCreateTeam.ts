@@ -2,4 +2,6 @@
 export const useCreateTeam = () => ({
   createTeam: () => Promise.resolve(),
   isPending: false,
+  isSubmitting: false,
+  inviteMembers: () => Promise.resolve(),
 });

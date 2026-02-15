@@ -73,7 +73,7 @@ export function EditForm({
   dispatch,
   canEditAttributesForUser,
 }: {
-  selectedUser: RouterOutputs["viewer"]["organizations"]["getUser"];
+  selectedUser: any; // Organization user type removed (EE feature)
   avatarUrl: string;
   domainUrl: string;
   dispatch: Dispatch<UserTableAction>;
@@ -146,23 +146,14 @@ export function EditForm({
     return options;
   }, [t, isOwner, teamRoles]);
 
-  const mutation = trpc.viewer.organizations.updateUser.useMutation({
-    onSuccess: () => {
-      dispatch({ type: "CLOSE_MODAL" });
-      utils.viewer.organizations.listMembers.invalidate();
-      showToast(t("profile_updated_successfully"), "success");
-    },
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-    onSettled: () => {
-      /**
-       * /We need to do this as the submit button lives out side
-       *  the form for some complicated reason so we can't relay on mutationState
-       */
+  // Organization user update removed (EE feature)
+  const mutation = {
+    mutate: () => {
+      showToast("Organization user management not available", "error");
       setMutationLoading(false);
     },
-  });
+    isPending: false,
+  };
 
   const watchTimezone = form.watch("timeZone");
 

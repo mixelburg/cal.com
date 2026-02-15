@@ -510,14 +510,8 @@ export default function Signup({
                           data-testid="signup-usernamefield"
                           setPremium={(value) => setPremiumUsername(value)}
                           addOnLeading={
-                            orgSlug
-                              ? truncateDomain(
-                                  `${getOrgFullOrigin(orgSlug, { protocol: true }).replace(
-                                    URL_PROTOCOL_REGEX,
-                                    ""
-                                  )}/`
-                                )
-                              : truncateDomain(
+                            // Organization signup removed (EE feature)
+                            truncateDomain(
                                   `${process.env.NEXT_PUBLIC_WEBSITE_URL.replace(URL_PROTOCOL_REGEX, "")}/`
                                 )
                           }
