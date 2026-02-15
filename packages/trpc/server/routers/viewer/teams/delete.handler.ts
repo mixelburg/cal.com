@@ -35,7 +35,7 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
   const hasPermission = await permissionCheckService.checkPermission({
     userId: ctx.user.id,
     teamId: input.teamId,
-    permission: team.isOrganization ? "organization.delete" : "team.delete",
+    permission: "team.delete", // Organizations removed - always team, never org
     fallbackRoles: [MembershipRole.OWNER],
   });
 
