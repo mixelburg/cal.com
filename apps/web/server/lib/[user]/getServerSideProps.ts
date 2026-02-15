@@ -198,7 +198,7 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
       // Dynamic group has no theme preference right now. It uses system theme.
       themeBasis: user.username,
       markdownStrippedBio,
-      isOrgSEOIndexable: org?.organizationSettings?.allowSEOIndexing ?? false,
+      isOrgSEOIndexable: false, // Organizations removed
     },
   };
 };
