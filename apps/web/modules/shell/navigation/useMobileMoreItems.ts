@@ -19,5 +19,5 @@ export function useMobileMoreItems() {
   const filteredBottomNavItems = bottomNavItems.filter(
     (item: NavigationItemType) => item.name !== "settings"
   );
-  return { isPending: false, isPlatformUser: false };
+  return filteredBottomNavItems;
 }
