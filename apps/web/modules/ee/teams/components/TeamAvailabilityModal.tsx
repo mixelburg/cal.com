@@ -13,7 +13,7 @@ import { Avatar } from "@calcom/ui/components/avatar";
 import { Select, DatePicker } from "@calcom/ui/components/form";
 import { Label } from "@calcom/ui/components/form";
 
-import TeamAvailabilityTimes from "./TeamAvailabilityTimes";
+// TeamAvailabilityTimes import removed (EE feature, file deleted)
 
 interface Props {
   team?: RouterOutputs["viewer"]["teams"]["get"];

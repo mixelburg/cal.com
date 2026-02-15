@@ -13,7 +13,7 @@ import { Icon } from "@calcom/ui/components/icon";
 import { showToast } from "@calcom/ui/components/toast";
 import { revalidateTeamsList } from "@calcom/web/app/(use-page-wrapper)/(main-nav)/teams/actions";
 
-import TeamListItem from "./TeamListItem";
+// TeamListItem import removed (EE feature, file deleted)
 
 interface Props {
   teams: RouterOutputs["viewer"]["teams"]["list"];

@@ -27,7 +27,7 @@ import { SettingsToggle, ColorPicker, Form } from "@calcom/ui/components/form";
 import { showToast } from "@calcom/ui/components/toast";
 import { useCalcomTheme } from "@calcom/ui/styles";
 
-import { UpgradeTeamsBadgeWebWrapper } from "~/billing/components/UpgradeTeamsBadgeWebWrapper";
+// UpgradeTeamsBadgeWebWrapper import removed (EE feature, file deleted)
 
 const useBrandColors = (
   currentTheme: string | null,
@@ -394,7 +394,7 @@ const AppearanceView = ({
             disabled={!hasPaidPlan || mutation?.isPending}
             description={t("removes_cal_branding", { appName: APP_NAME })}
             checked={hasPaidPlan ? hideBrandingValue : false}
-            Badge={<UpgradeTeamsBadgeWebWrapper />}
+            // Badge removed (EE feature)
             onCheckedChange={(checked) => {
               setHideBrandingValue(checked);
               mutation.mutate({ hideBranding: checked });

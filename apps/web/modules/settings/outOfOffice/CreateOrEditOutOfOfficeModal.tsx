@@ -19,7 +19,7 @@ import { Switch } from "@calcom/ui/components/form";
 import { showToast } from "@calcom/ui/components/toast";
 import { useHasTeamPlan } from "@calcom/web/modules/billing/hooks/useHasPaidPlan";
 
-import { UpgradeTeamsBadgeWebWrapper as UpgradeTeamsBadge } from "~/billing/components/UpgradeTeamsBadgeWebWrapper";
+// UpgradeTeamsBadge import removed (EE feature, file deleted)
 import { OutOfOfficeTab } from "~/settings/outOfOffice/OutOfOfficeToggleGroup";
 
 export type { BookingRedirectForm } from "~/settings/outOfOffice/types";
