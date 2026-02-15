@@ -141,11 +141,7 @@ export const getEventTypeById = async ({
     metadata: parsedMetaData,
     customInputs: parsedCustomInputs,
     users: rawEventType.users,
-    bookerUrl: restEventType.team
-      ? await getBookerBaseUrl(restEventType.team.parentId)
-      : restEventType.owner
-        ? await getBookerBaseUrl(currentOrganizationId)
-        : WEBSITE_URL,
+    bookerUrl: WEBSITE_URL, // Organizations removed - use default URL
     children: childrenWithUserProfile.flatMap((ch) =>
       ch.owner !== null
         ? {

@@ -203,7 +203,7 @@ export const getEventTypesByViewer = async (user: User, filters?: Filters, forRo
   );
 
   if (shouldListUserEvents) {
-    const bookerUrl = await getBookerBaseUrl(profile.organizationId ?? null);
+    const bookerUrl = ""; // Organizations removed
     eventTypeGroups.push({
       teamId: null,
       bookerUrl,
@@ -285,7 +285,7 @@ export const getEventTypesByViewer = async (user: User, filters?: Filters, forRo
           return {
             teamId: team.id,
             parentId: team.parentId,
-            bookerUrl: getBookerBaseUrlSync(team.parent?.slug ?? teamParentMetadata?.requestedSlug ?? null),
+            bookerUrl: "", // Organizations removed
             membershipRole:
               orgMembership && compareMembership(orgMembership, membership.role)
                 ? orgMembership
