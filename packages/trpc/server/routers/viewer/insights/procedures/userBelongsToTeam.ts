@@ -43,16 +43,8 @@ export const userBelongsToTeamProcedure = authedProcedure.use(async ({ ctx, next
 
   // Probably we couldn't find a membership because the user is not a direct member of the team
   // So that would mean ctx.user.organization is present
-  if ((parse.data.isAll && ctx.user.organizationId) || (!membership && ctx.user.organizationId)) {
-    // Organizations removed - no child teams of orgs for self-hosters
-    if (false) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-
-    const hasOrgAccess = await checkInsightsPermission(ctx.user.id, ctx.user.organizationId);
-    if (!hasOrgAccess) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
+  // Organizations removed - no org access checks for self-hosters
+  if (false) {
     isOwnerAdminOfParentTeam = true;
   }
 
