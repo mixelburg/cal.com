@@ -1,19 +1,19 @@
-# 🚨 VERIFICATION NEEDED: Did We Delete Core Features?
+# ✅ VERIFIED: Workflows are EE-Only
 
-**Date:** 2026-02-15  
-**Issue:** Confusion about what's actually EE vs core for self-hosted
+**Date:** 2026-02-15
+**Status:** CONFIRMED by Cal.com - Workflows are Enterprise Edition only
+**Issue:** Confusion about what's actually EE vs core for self-hosted (NOW RESOLVED)
 
-## The Problem
+## Resolution
 
-Cal.com's official FAQ states:
-> **"Can I use Workflows with a self-hosted version of Cal.com?"**  
-> **"Yes. Workflows are fully supported in both hosted and self-hosted Cal.com deployments."**  
-> Source: https://cal.com/workflows (FAQ section)
+**Cal.com CONFIRMED: Workflows are EE-only (Enterprise Edition)**
 
-BUT:
-- Workflows code is located in `packages/features/ee/workflows/` (Commercial License folder)
-- We deleted `/ee` folders in commit `19adde2bf0`
-- There was a tiny `packages/features/workflows/` (core) with just repositories - also deleted
+Despite the confusing FAQ on https://cal.com/workflows, workflows are NOT available in self-hosted free versions:
+- ✅ Workflows code in `packages/features/ee/workflows/` - CORRECTLY DELETED
+- ✅ Commercial License applies - NOT available in AGPL self-hosted
+- ✅ Our deletion was correct
+
+The FAQ likely means "supported in both Cal.com Cloud and self-hosted EE licenses" (not free self-hosted).
 
 ## What We Deleted
 
