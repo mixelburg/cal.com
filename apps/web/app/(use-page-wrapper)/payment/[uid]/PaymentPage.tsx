@@ -52,8 +52,7 @@ const BtcpayPaymentComponent = dynamic(
 );
 
 type PaymentPageProps = any; // Stub for removed EE type
-// Stub for removed EE StripePaymentComponent
-const StripePaymentComponent = (_props: any) => null;
+// StripePaymentComponent removed (EE feature)
 
 const PaymentPage: FC<PaymentPageProps> = (props) => {
   const { t, i18n } = useLocale();
@@ -151,16 +150,7 @@ const PaymentPage: FC<PaymentPageProps> = (props) => {
                   {props.payment.success && !props.payment.refunded && (
                     <div className="text-default mt-4 text-center dark:text-gray-300">{t("paid")}</div>
                   )}
-                  {props.payment.appId === "stripe" && !props.payment.success && (
-                    <StripePaymentComponent
-                      clientSecret={props.clientSecret}
-                      payment={props.payment}
-                      eventType={props.eventType}
-                      user={props.user}
-                      location={props.booking.location}
-                      booking={props.booking}
-                    />
-                  )}
+                  {/* Stripe payment UI removed (EE feature) */}
                   {props.payment.appId === "paypal" && !props.payment.success && (
                     <PaypalPaymentComponent payment={props.payment} />
                   )}

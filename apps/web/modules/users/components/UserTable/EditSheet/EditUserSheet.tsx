@@ -11,7 +11,7 @@ import { Loader } from "@calcom/ui/components/skeleton";
 import type { UserTableAction, UserTableState } from "../types";
 import { DisplayInfo } from "./DisplayInfo";
 import { EditForm } from "./EditUserForm";
-import { OrganizationBanner } from "./OrganizationBanner";
+// OrganizationBanner import removed (EE feature)
 import { SheetFooterControls } from "./SheetFooterControls";
 import { useEditMode } from "./store";
 
@@ -76,7 +76,7 @@ export function EditUserSheet({
               <>
                 <SheetHeader showCloseButton={false} className="w-full">
                   <div className="border-subtle bg-default w-full rounded-xl border p-4">
-                    <OrganizationBanner />
+                    {/* OrganizationBanner removed (EE feature) */}
                     <div className="bg-default ml-3 w-fit translate-y-[-50%] rounded-full p-1 ring-1 ring-[#0000000F]">
                       <Avatar asChild size="lg" alt={`${loadedUser?.name} avatar`} imageSrc={avatarURL} />
                     </div>
