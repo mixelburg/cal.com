@@ -352,13 +352,13 @@ export const getPublicEvent = async (
       subsetOfUsers: users.map((user) => ({
         ...user,
         metadata: undefined,
-        bookerUrl: getBookerBaseUrlSync(user.profile?.organization?.slug ?? null),
+        bookerUrl: "", // Organizations removed
       })),
       users: fetchAllUsers
         ? users.map((user) => ({
             ...user,
             metadata: undefined,
-            bookerUrl: getBookerBaseUrlSync(user.profile?.organization?.slug ?? null),
+            bookerUrl: "", // Organizations removed
           }))
         : undefined,
       locations: privacyFilteredLocations(locations),
