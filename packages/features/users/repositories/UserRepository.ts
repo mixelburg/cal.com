@@ -472,7 +472,8 @@ export class UserRepository {
     user: { profiles: { organizationId: number }[] };
     organizationId: number;
   }) {
-    return user.profiles.some((profile) => profile.organizationId === organizationId);
+    // Organizations removed - users never belong to orgs for self-hosters
+    return false;
   }
 
   async findIfAMemberOfSomeOrganization({ user }: { user: { id: number } }) {
