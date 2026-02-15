@@ -126,7 +126,7 @@ export const generateMetadata = async ({ params, searchParams }: PageProps) => {
     () => `${title} | ${profileName}`,
     () => title,
     hideBranding,
-    getOrgFullOrigin(enrichedEventType.entity.orgSlug ?? null),
+    getOrgFullOrigin(enrichedEventType.entity.orgSlug ?? ""),
     `/team/${teamSlug}/${meetingSlug}`
   );
 

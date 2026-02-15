@@ -31,7 +31,7 @@ export const generateMetadata = async ({ params, searchParams }: _PageProps) => 
     (t) => team.name || t("nameless_team"),
     (t) => team.name || t("nameless_team"),
     false,
-    getOrgFullOrigin(currentOrgDomain ?? null),
+    getOrgFullOrigin(currentOrgDomain ?? ""),
     `/team/${decodedParams.slug}`
   );
   return {
