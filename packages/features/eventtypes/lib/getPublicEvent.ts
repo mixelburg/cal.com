@@ -383,7 +383,7 @@ export const getPublicEvent = async (
         considerUnpublished: false, // Organizations removed
         fromRedirectOfNonOrgLink,
         orgSlug: org,
-        name: unPublishedOrgUser?.profile?.organization?.name ?? null,
+        name: null, // Organizations removed
         teamSlug: null,
         logoUrl: null,
         hideProfileLink: false,
