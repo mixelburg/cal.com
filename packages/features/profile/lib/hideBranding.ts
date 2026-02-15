@@ -61,7 +61,7 @@ export async function getHideBranding({
 
     return resolveHideBranding({
       entityHideBranding: team.hideBranding,
-      organizationHideBranding: team.parent?.hideBranding ?? null,
+      organizationHideBranding: null, // Organizations removed - no parent teams
     });
   } else if (userId) {
     // Get user data with profile and organization

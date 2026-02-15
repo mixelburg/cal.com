@@ -20,5 +20,5 @@ export function getPlaceholderAvatar(avatar: string | null | undefined, name: st
 export function getOrgOrTeamAvatar(
   team: Pick<Team, "logoUrl" | "name"> & { parent?: Pick<Team, "logoUrl"> | null }
 ) {
-  return getPlaceholderAvatar(team.logoUrl || team.parent?.logoUrl, team.name);
+  return getPlaceholderAvatar(team.logoUrl, team.name); // Organizations removed - no parent logo
 }
