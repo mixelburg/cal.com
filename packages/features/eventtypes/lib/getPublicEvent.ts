@@ -330,7 +330,8 @@ export const getPublicEvent = async (
       defaultLayout: BookerLayouts.MONTH_VIEW,
     } as BookerLayoutSettings;
     const disableBookingTitle = !defaultEvent.isDynamic;
-    const unPublishedOrgUser = users.find((user) => user.profile?.organization?.slug === null);
+    // Organizations removed - no org user checks needed
+    const unPublishedOrgUser = null;
 
     let orgDetails: Pick<Team, "logoUrl" | "name"> | undefined;
     if (org) {
