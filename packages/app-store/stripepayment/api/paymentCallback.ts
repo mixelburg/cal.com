@@ -135,7 +135,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
 
   // Pass email, username, and payment status in the redirect URL
   callbackUrl.searchParams.set("email", email || "");
-  callbackUrl.searchParams.set("username", username);
+  callbackUrl.searchParams.set("username", username || "");
   callbackUrl.searchParams.set("paymentStatus", checkoutSession.payment_status);
 
   return res.redirect(callbackUrl.toString()).end();
