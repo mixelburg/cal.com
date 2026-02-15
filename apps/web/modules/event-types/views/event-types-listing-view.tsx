@@ -124,7 +124,7 @@ const InfiniteTeamsTab: FC<InfiniteTeamsTabProps> = (props: InfiniteTeamsTabProp
       searchQuery: debouncedSearchTerm,
       group: {
         teamId: activeEventTypeGroup?.teamId,
-        parentId: activeEventTypeGroup?.parentId,
+        parentId: null, // Organizations removed
       },
     },
     {

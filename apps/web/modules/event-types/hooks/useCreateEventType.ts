@@ -24,7 +24,7 @@ export const useCreateEventType = (
       onSuccessMutation(eventType);
 
       await utils.viewer.eventTypes.getEventTypesFromGroup.fetchInfinite({
-        group: { teamId: eventType.teamId, parentId: eventType.parentId },
+        group: { teamId: eventType.teamId, parentId: null }, // Organizations removed
         searchQuery: debouncedSearchTerm,
         limit: 10,
       });

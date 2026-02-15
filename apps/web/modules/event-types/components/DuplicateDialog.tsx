@@ -31,7 +31,7 @@ const querySchema = z.object({
   length: z.coerce.number(),
   pageSlug: z.string(),
   teamId: z.coerce.number().optional().nullable(),
-  parentId: z.coerce.number().optional().nullable(),
+  parentId: z.coerce.number().optional().nullable(), // Organizations removed (always null)
 });
 
 const DuplicateDialog = () => {
