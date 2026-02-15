@@ -13,7 +13,7 @@ import { ImageUploader } from "@calcom/ui/components/image-uploader";
 
 import { OnboardingCard } from "../../components/OnboardingCard";
 import { OnboardingLayout } from "../../components/OnboardingLayout";
-import { OnboardingBrowserView } from "../../components/onboarding-browser-view";
+// OnboardingBrowserView import removed (EE feature)
 import { useCreateTeam } from "../../hooks/useCreateTeam";
 import { useOnboardingStore } from "../../store/onboarding-store";
 import { ValidatedTeamSlug } from "./validated-team-slug";
@@ -185,7 +185,7 @@ export const TeamDetailsView = ({ userEmail }: TeamDetailsViewProps) => {
         </div>
 
         {/* Right column - Browser view */}
-        <OnboardingBrowserView teamSlug={teamSlug} name={teamName} bio={teamBio} avatar={teamLogo || null} />
+        {/* OnboardingBrowserView removed (EE feature) */}
       </OnboardingLayout>
     </>
   );

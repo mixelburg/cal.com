@@ -16,7 +16,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { OnboardingCard } from "../../components/OnboardingCard";
 import { OnboardingLayout } from "../../components/OnboardingLayout";
-import { OnboardingBrowserView } from "../../components/onboarding-browser-view";
+// OnboardingBrowserView import removed (EE feature)
 import { OnboardingContinuationPrompt } from "../../components/onboarding-continuation-prompt";
 import { useOnboardingStore } from "../../store/onboarding-store";
 
@@ -209,13 +209,7 @@ export const PersonalSettingsView = ({
           </FormProvider>
         </OnboardingCard>
 
-        {/* Right column - Browser view */}
-        <OnboardingBrowserView
-          avatar={imageSrc || personalDetails.avatar || user.avatar}
-          name={form.watch("name") || personalDetails.name || user.name || undefined}
-          bio={form.watch("bio") || personalDetails.bio || undefined}
-          username={personalDetails.username || user.username || undefined}
-        />
+        {/* OnboardingBrowserView removed (EE feature) */}
       </OnboardingLayout>
     </>
   );
