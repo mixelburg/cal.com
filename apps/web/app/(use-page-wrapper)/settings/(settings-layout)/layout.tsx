@@ -51,10 +51,10 @@ export default async function SettingsLayoutAppDir(props: SettingsLayoutProps) {
   let canViewAttributes = false;
   const orgId = session?.user?.profile?.organizationId ?? session?.user.org?.id;
 
-  // For now we only grab organization features but it would be nice to fetch these on the server side for specific team feature flags
-  if (orgId) {
-    const isOrgAdminOrOwner = checkAdminOrOwner(session.user.org?.role);
-    const features = await getTeamFeatures(orgId);
+  // Organizations removed - no org permission checks for self-hosters
+  if (false) {
+    const isOrgAdminOrOwner = false;
+    const features = null;
 
     if (features) {
       teamFeatures = {
@@ -75,18 +75,15 @@ export default async function SettingsLayoutAppDir(props: SettingsLayoutProps) {
 
       // Check if user has permission to read roles
       const roleActions = PermissionMapper.toActionMap(rolePermissions, Resource.Role);
-      canViewRoles = roleActions[CrudAction.Read] ?? false;
-      const orgActions = PermissionMapper.toActionMap(organizationPermissions, Resource.Organization);
-      canViewOrganizationBilling = orgActions[CustomAction.ManageBilling] ?? isOrgAdminOrOwner;
-      canUpdateOrganization = orgActions[CrudAction.Update] ?? isOrgAdminOrOwner;
-      const attributesActions = PermissionMapper.toActionMap(attributesPermissions, Resource.Attributes);
-      canViewAttributes = attributesActions[CrudAction.Read] ?? isOrgAdminOrOwner;
+      canViewRoles = false;
+      canViewOrganizationBilling = false;
+      canUpdateOrganization = false;
+      canViewAttributes = false;
     } else {
-      // Fall back to legacy permissions when PBAC is not enabled or features not loaded
-      canViewRoles = features ? isOrgAdminOrOwner : false;
-      canViewOrganizationBilling = isOrgAdminOrOwner;
-      canUpdateOrganization = isOrgAdminOrOwner;
-      canViewAttributes = isOrgAdminOrOwner;
+      canViewRoles = false;
+      canViewOrganizationBilling = false;
+      canUpdateOrganization = false;
+      canViewAttributes = false;
     }
   }
 
