@@ -17,7 +17,9 @@ export const useVerifyCode = ({ onSuccess }: UseVerifyCodeProps) => {
   const [value, setValue] = useState("");
   const [hasVerified, setHasVerified] = useState(false);
 
-  const verifyCodeMutationUserSessionRequired = trpc.viewer.organizations.verifyCode.useMutation({
+  // Organization verify code removed (EE feature) - use regular auth verify code instead
+  // Self-hosters don't have organization-specific verification
+  const verifyCodeMutationUserSessionRequired = trpc.viewer.auth.verifyCodeUnAuthenticated.useMutation({
     onSuccess: (data) => {
       setIsPending(false);
       onSuccess(data);

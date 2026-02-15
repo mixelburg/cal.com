@@ -54,10 +54,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     } as const;
   }
 
+  // SAML removed (EE feature) - self-hosters only use standard signup
   const props = {
     redirectUrl,
     isGoogleLoginEnabled: IS_GOOGLE_LOGIN_ENABLED,
-    isSAMLLoginEnabled,
     prepopulateFormValues: undefined,
     emailVerificationEnabled,
     onboardingV3Enabled,
@@ -168,13 +168,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const isOrganizationOrATeamInOrganization = false;
   const orgSlug = null;
 
-  // Organizations removed - check premium username for all contexts
-  if (!IS_SELF_HOSTED && username) {
-    // Im not sure we actually hit this because of next redirects signup to website repo - but just in case this is pretty cool :)
-    const { available, suggestion } = await checkPremiumUsername(username);
-
-    username = available ? username : suggestion || username;
-  }
+  // Premium username check removed (EE feature) - self-hosters don't need premium username validation
 
   // Organizations removed - no org invites for self-hosters
   const isOrgInviteByLink = false;

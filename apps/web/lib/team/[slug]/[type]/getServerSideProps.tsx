@@ -30,21 +30,11 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const { slug: teamSlug, type: meetingSlug } = paramsSchema.parse(params);
   const { rescheduleUid, bookingUid, isInstantMeeting: queryIsInstantMeeting } = query;
   const allowRescheduleForCancelledBooking = query.allowRescheduleForCancelledBooking === "true";
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(req, params?.orgSlug);
+  
+  // Organizations removed - no org domain checks for self-hosters
+  // handleOrgRedirect always returns null for self-hosters (already stubbed)
 
-  const redirect = await handleOrgRedirect({
-    slugs: [teamSlug],
-    redirectType: RedirectType.Team,
-    eventTypeSlug: meetingSlug,
-    context,
-    currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
-  });
-
-  if (redirect) {
-    return redirect;
-  }
-
-  const team = await getTeamWithEventsData(teamSlug, meetingSlug, isValidOrgDomain, currentOrgDomain);
+  const team = await getTeamWithEventsData(teamSlug, meetingSlug);
 
   if (!team || !team.eventTypes?.[0]) {
     return { notFound: true } as const;
@@ -78,7 +68,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   }
 
   const eventTypeId = eventData.id;
-  const orgSlug = isValidOrgDomain ? currentOrgDomain : null;
+  // Organizations removed - no org slugs for self-hosters
+  const orgSlug = null;
   const name = team.parent?.name ?? team.name ?? null;
   const fromRedirectOfNonOrgLink = context.query.orgRedirection === "true";
   const isUnpublished = team.parent ? !team.parent.slug : !team.slug;
@@ -159,8 +150,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const crmAppSlug = crmResult?.crmAppSlug ?? crmAppSlugStr;
   const crmRecordId = crmResult?.recordId ?? crmRecordIdStr;
 
-  const organizationSettings = getOrganizationSEOSettings(team);
-  const allowSEOIndexing = organizationSettings?.allowSEOIndexing ?? false;
+  // Organizations removed - SEO indexing not controlled by org settings for self-hosters
+  const allowSEOIndexing = false;
 
   const useApiV2 = teamHasApiV2Route && hasApiV2RouteInEnv();
 
@@ -221,14 +212,21 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
 const getTeamWithEventsData = async (
   teamSlug: string,
-  meetingSlug: string,
-  isValidOrgDomain: boolean,
-  currentOrgDomain: string | null
+  meetingSlug: string
 ) => {
+  // Helper to match team by slug or requestedSlug (for unpublished teams)
+  const getSlugOrRequestedSlug = (slug: string) => ({
+    OR: [
+      { slug },
+      { metadata: { path: ["requestedSlug"], equals: slug } },
+    ],
+  });
+
   return await prisma.team.findFirst({
     where: {
       ...getSlugOrRequestedSlug(teamSlug),
-      parent: isValidOrgDomain && currentOrgDomain ? getSlugOrRequestedSlug(currentOrgDomain) : null,
+      // Organizations removed - teams don't have parent orgs for self-hosters
+      parent: null,
     },
     orderBy: {
       slug: { sort: "asc", nulls: "last" },

@@ -85,13 +85,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
+  // SAML removed (EE feature) - self-hosters only use standard login
   return {
     props: {
       csrfToken: await getCsrfToken(context),
       isGoogleLoginEnabled: IS_GOOGLE_LOGIN_ENABLED,
-      isSAMLLoginEnabled,
-      samlTenantID,
-      samlProductID,
       totpEmail,
     },
   };

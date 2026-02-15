@@ -447,43 +447,15 @@ export const getOptions = ({
           throw new Error("Profile not found");
         }
 
-        const profileOrg = profile?.organization;
-        let orgRole: MembershipRole | undefined;
-        // Get users role of org
-        if (profileOrg) {
-          const membership = await prisma.membership.findUnique({
-            where: {
-              userId_teamId: {
-                teamId: profileOrg.id,
-                userId: existingUser.id,
-              },
-            },
-          });
-          orgRole = membership?.role;
-        }
-
+        // Organizations removed - profile.organization is always null for self-hosters
         return {
           ...existingUserWithoutTeamsField,
           ...token,
           profileId: profile.id,
           upId,
           belongsToActiveTeam,
-          orgAwareUsername: profileOrg ? profile.username : existingUser.username,
-          // All organizations in the token would be too big to store. It breaks the sessions request.
-          // So, we just set the currently switched organization only here.
-          // platform org user don't need profiles nor domains
-          org:
-            profileOrg && !profileOrg.isPlatform
-              ? {
-                  id: profileOrg.id,
-                  name: profileOrg.name,
-                  slug: profileOrg.slug ?? profileOrg.requestedSlug ?? "",
-                  logoUrl: profileOrg.logoUrl,
-                  fullDomain: getOrgFullOrigin(profileOrg.slug ?? profileOrg.requestedSlug ?? ""),
-                  domainSuffix: subdomainSuffix(),
-                  role: orgRole as MembershipRole, // It can't be undefined if we have a profileOrg
-                }
-              : null,
+          orgAwareUsername: existingUser.username,
+          org: null,
         } as JWT;
       };
       if (!user) {
@@ -494,17 +466,7 @@ export const getOptions = ({
       }
       if (account.type === "credentials") {
         log.debug("callbacks:jwt:accountType:credentials", safeStringify({ account }));
-        // return token if credentials,saml-idp
-        if (account.provider === "saml-idp") {
-          const samlIdpUser = user as SamlIdpUser;
-          const updatedToken = {
-            ...token,
-            // Server Session explicitly requires sub to be userId. So, override what is set by BoxyHQ
-            sub: samlIdpUser.userId.toString(),
-            upId: samlIdpUser.profile?.upId ?? token.upId ?? null,
-          } as JWT;
-          return updatedToken;
-        }
+        // SAML removed (EE feature) - self-hosters only use standard credentials auth
         // any other credentials, add user info
         return {
           ...token,
@@ -853,25 +815,12 @@ export const getOptions = ({
         });
 
         if (existingUserWithEmail) {
-          // if self-hosted then we can allow auto-merge of identity providers if email is verified
+          // Self-hosted (cal.diy) - allow auto-merge of identity providers if email is verified
+          // SAML verification removed (EE feature)
           if (
-            !hostedCal &&
             existingUserWithEmail.emailVerified &&
             existingUserWithEmail.identityProvider !== IdentityProvider.CAL
           ) {
-            // Verify SAML IdP is authoritative before auto-merge
-            if (idP === IdentityProvider.SAML) {
-              const samlTenant = getSamlTenant();
-              const validation = await validateSamlAccountConversion(
-                samlTenant,
-                user.email,
-                "SelfHosted→SAML"
-              );
-              if (!validation.allowed) {
-                return validation.errorUrl;
-              }
-            }
-
             if (existingUserWithEmail.twoFactorEnabled) {
               return loginWithTotp(existingUserWithEmail.email);
             } else {
@@ -880,20 +829,12 @@ export const getOptions = ({
           }
 
           // check if user was invited
+          // SAML verification removed (EE feature)
           if (
             !existingUserWithEmail.password?.hash &&
             !existingUserWithEmail.emailVerified &&
             !existingUserWithEmail.username
           ) {
-            // Verify SAML IdP is authoritative before claiming invited user
-            if (idP === IdentityProvider.SAML) {
-              const samlTenant = getSamlTenant();
-              const validation = await validateSamlAccountConversion(samlTenant, user.email, "Invite→SAML");
-              if (!validation.allowed) {
-                return validation.errorUrl;
-              }
-            }
-
             await prisma.user.update({
               where: {
                 email: existingUserWithEmail.email,
@@ -1025,40 +966,8 @@ export const getOptions = ({
           );
           await calcomAdapter.linkAccount(linkAccountNewUserData);
 
-          waitUntil(
-            (async () => {
-              try {
-                const tracking = getTrackingData();
-                const billingService = getBillingProviderService();
-                const customer = await billingService.createCustomer({
-                  email: newUser.email,
-                  metadata: {
-                    email: newUser.email,
-                    username: newUser.username ?? newUsername,
-                    ...(tracking.googleAds?.gclid && {
-                      gclid: tracking.googleAds.gclid,
-                      campaignId: tracking.googleAds.campaignId,
-                    }),
-                    ...(tracking.linkedInAds?.liFatId && {
-                      liFatId: tracking.linkedInAds.liFatId,
-                      linkedInCampaignId: tracking.linkedInAds.campaignId,
-                    }),
-                    ...(tracking.utmData && tracking.utmData),
-                  },
-                });
-                await prisma.user.update({
-                  where: { id: newUser.id },
-                  data: {
-                    metadata: {
-                      stripeCustomerId: customer.stripeCustomerId,
-                    },
-                  },
-                });
-              } catch (err) {
-                log.error("Failed to create Stripe customer with tracking", err);
-              }
-            })()
-          );
+          // Billing customer creation removed (EE feature) - self-hosters don't use Stripe
+          // waitUntil removed since there's no billing service to call
 
           if (account.twoFactorEnabled) {
             return loginWithTotp(newUser.email);

@@ -52,15 +52,8 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
   const [inviteLinkSettingsModal, setInviteLinkSettingsModal] = useState(false);
 
   const { data: team, isPending } = trpc.viewer.teams.get.useQuery({ teamId, isOrg }, { enabled: !!teamId });
-  const { data: orgMembersNotInThisTeam } = trpc.viewer.organizations.getMembers.useQuery(
-    {
-      teamIdToExclude: teamId,
-      distinctUser: true,
-    },
-    {
-      enabled: orgBranding !== null,
-    }
-  );
+  // Organizations removed - org members list not available for self-hosters
+  const orgMembersNotInThisTeam = undefined;
 
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
     trpc.viewer.teams.listMembers.useInfiniteQuery(

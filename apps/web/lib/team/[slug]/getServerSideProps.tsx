@@ -8,7 +8,7 @@ import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import slugify from "@calcom/lib/slugify";
 import { stripMarkdown } from "@calcom/lib/stripMarkdown";
 import prisma from "@calcom/prisma";
-import type { Team, OrganizationSettings } from "@calcom/prisma/client";
+import type { Team } from "@calcom/prisma/client";
 import { RedirectType } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 
@@ -16,34 +16,7 @@ import { handleOrgRedirect } from "@lib/handleOrgRedirect";
 
 const log = logger.getSubLogger({ prefix: ["team/[slug]"] });
 
-function getOrgProfileRedirectToVerifiedDomain(
-  team: {
-    isOrganization: boolean;
-  },
-  settings: Pick<OrganizationSettings, "orgAutoAcceptEmail" | "orgProfileRedirectsToVerifiedDomain">
-) {
-  if (!team.isOrganization) {
-    return null;
-  }
-  // when this is not on a Cal.com page we don't auto redirect -
-  // good for diagnosis purposes.
-  if (!IS_CALCOM) {
-    return null;
-  }
-
-  const verifiedDomain = getVerifiedDomain(settings);
-
-  if (!settings.orgProfileRedirectsToVerifiedDomain || !verifiedDomain) {
-    return null;
-  }
-
-  return {
-    redirect: {
-      permanent: false,
-      destination: `https://${verifiedDomain}`,
-    },
-  };
-}
+// Organizations removed - no verified domain redirects for self-hosters
 
 const getTheLastArrayElement = (value: ReadonlyArray<string> | string | undefined): string | undefined => {
   if (value === undefined || typeof value === "string") {
@@ -56,45 +29,39 @@ const getTheLastArrayElement = (value: ReadonlyArray<string> | string | undefine
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const slug = getTheLastArrayElement(context.query.slug) ?? getTheLastArrayElement(context.query.orgSlug);
 
-  const { isValidOrgDomain, currentOrgDomain } = orgDomainConfig(
-    context.req,
-    context.params?.orgSlug ?? context.query?.orgSlug
-  );
-
-  // Provided by Rewrite from next.config.js
-  const isOrgProfile = context.query?.isOrgProfile === "1";
+  // Organizations removed - no org domain config or redirects for self-hosters
+  // handleOrgRedirect always returns null (already stubbed)
+  
   const featuresRepository = new FeaturesRepository(prisma);
-  // Organizations removed - always disabled for self-hosters
   const organizationsEnabled = false;
 
   log.debug("getServerSideProps", {
-    isOrgProfile,
-    isOrganizationFeatureEnabled: organizationsEnabled,
-    isValidOrgDomain,
-    currentOrgDomain,
+    slug,
+    organizationsEnabled: false,
   });
 
-  const team = await getTeamWithMembers({
-    // It only finds those teams that have slug set. So, if only requestedSlug is set, it won't get that team
-    slug: slugify(slug ?? ""),
-    orgSlug: currentOrgDomain,
-    isTeamView: true,
-    isOrgView: isValidOrgDomain && isOrgProfile,
+  // Fetch team with members and event types (org logic removed)
+  // Using full include for now - this loads all team data with related entities
+  const team = await prisma.team.findFirst({
+    where: {
+      OR: [
+        { slug: slugify(slug ?? "") },
+        { metadata: { path: ["requestedSlug"], equals: slug } },
+      ],
+      // Organizations removed - teams don't have parent orgs
+      parent: null,
+    },
+    include: {
+      parent: true,
+      eventTypes: {
+        include: {
+          users: true,
+        },
+      },
+      members: true,
+      children: true,
+    },
   });
-
-  if (slug) {
-    const redirect = await handleOrgRedirect({
-      slugs: [slug],
-      redirectType: RedirectType.Team,
-      eventTypeSlug: null,
-      context,
-      currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
-    });
-
-    if (redirect) {
-      return redirect;
-    }
-  }
 
   const metadata = teamMetadataSchema.parse(team?.metadata ?? {});
 
@@ -139,16 +106,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     } as const;
   }
 
-  const organizationSettings = getOrganizationSettings(team);
-  const allowSEOIndexing = organizationSettings?.allowSEOIndexing ?? false;
-
-  const redirectToVerifiedDomain = organizationSettings
-    ? getOrgProfileRedirectToVerifiedDomain(team, organizationSettings)
-    : null;
-
-  if (redirectToVerifiedDomain) {
-    return redirectToVerifiedDomain;
-  }
+  // Organizations removed - no org settings or verified domain redirects for self-hosters
+  const allowSEOIndexing = false;
 
   const isTeamOrParentOrgPrivate = team.isPrivate || (team.parent?.isOrganization && team.parent?.isPrivate);
 
@@ -290,8 +249,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       },
       themeBasis: team.slug,
       markdownStrippedBio,
-      isValidOrgDomain,
-      currentOrgDomain,
+      isValidOrgDomain: false, // Organizations removed
+      currentOrgDomain: null, // Organizations removed
       isSEOIndexable: allowSEOIndexing,
     },
   } as const;
