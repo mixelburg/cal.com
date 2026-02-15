@@ -254,13 +254,8 @@ const ProfileView = ({ user }: Props) => {
     ],
   };
 
-  // Check if user should see company email alert
-  const shouldShowCompanyEmailAlert =
-    !isCompanyEmailAlertDismissed &&
-    !session.data?.user?.org?.id &&
-    !user.organization?.id &&
-    userEmail &&
-    isCompanyEmail(userEmail);
+  // Company email alert removed (EE organization feature)
+  const shouldShowCompanyEmailAlert = false;
 
   return (
     <SettingsHeader

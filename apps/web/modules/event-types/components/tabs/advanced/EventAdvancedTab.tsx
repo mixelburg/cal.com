@@ -1493,7 +1493,7 @@ export const EventAdvancedTab = ({
           )}
         />
       )}
-      {allowDisablingAttendeeConfirmationEmails(workflows) && (
+      {/* Workflow-based email disabling hidden (workflows on hold) */ false && (
         <Controller
           name="metadata.disableStandardEmails.confirmation.attendee"
           render={({ field: { value, onChange } }) => (
@@ -1515,7 +1515,7 @@ export const EventAdvancedTab = ({
           )}
         />
       )}
-      {allowDisablingHostConfirmationEmails(workflows) && (
+      {/* Workflow-based email disabling hidden (workflows on hold) */ false && (
         <Controller
           name="metadata.disableStandardEmails.confirmation.host"
           defaultValue={!!formMethods.getValues("seatsPerTimeSlot")}

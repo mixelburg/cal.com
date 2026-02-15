@@ -103,7 +103,8 @@ export function CreateEventTypeDialog({ profileOptions }: { profileOptions: Prof
 
   const { form, createMutation, isManagedEventType } = useCreateEventType(onSuccessMutation, onErrorMutation);
 
-  const urlPrefix = orgBranding?.fullDomain ?? process.env.NEXT_PUBLIC_WEBSITE_URL;
+  // Organization domain removed (EE feature)
+  const urlPrefix = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
   const { data: team } = trpc.viewer.teams.get.useQuery(
     { teamId: teamId ?? -1, isOrg: false },

@@ -83,9 +83,8 @@ export function ValidatedTeamSlug({ value, onChange, onValidationChange }: Valid
     }
   };
 
-  const urlPrefix = orgBranding
-    ? `${orgBranding.fullDomain.replace("https://", "").replace("http://", "")}/`
-    : `${subdomainSuffix()}/team/`;
+  // Organization domain removed (EE feature)
+  const urlPrefix = `${process.env.NEXT_PUBLIC_WEBSITE_URL?.replace("https://", "").replace("http://", "") || "cal.com"}/team/`;
 
   return (
     <div className="flex w-full flex-col gap-1.5">

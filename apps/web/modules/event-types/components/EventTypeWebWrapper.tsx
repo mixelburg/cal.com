@@ -219,9 +219,8 @@ const EventTypeWeb = ({
     },
   });
 
-  const orgBranding = null; // Organizations removed (EE feature)
-
-  const bookerUrl = orgBranding ? orgBranding?.fullDomain : WEBSITE_URL;
+  // Organizations removed (EE feature)
+  const bookerUrl = WEBSITE_URL;
   const permalink = `${bookerUrl}/${team ? `team/${team.slug}` : eventType.users[0].username}/${
     eventType.slug
   }`;

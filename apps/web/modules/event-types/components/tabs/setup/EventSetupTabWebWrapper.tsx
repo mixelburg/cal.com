@@ -7,15 +7,13 @@ import type { EventSetupTabProps } from "./EventSetupTab";
 import { EventSetupTab } from "./EventSetupTab";
 
 const EventSetupTabWebWrapper = (props: EventSetupTabProps) => {
-  const orgBranding = null; // Organizations removed (EE feature)
+  // Organizations removed (EE feature)
   const session = useSession();
-  const urlPrefix = orgBranding
-    ? orgBranding?.fullDomain.replace(/^(https?:|)\/\//, "")
-    : `${WEBSITE_URL?.replace(/^(https?:|)\/\//, "")}`;
+  const urlPrefix = `${WEBSITE_URL?.replace(/^(https?:|)\/\//, "")}`;
   return (
     <EventSetupTab
       urlPrefix={urlPrefix}
-      hasOrgBranding={!!orgBranding}
+      hasOrgBranding={false}
       localeOptions={localeOptions}
       {...props}
     />

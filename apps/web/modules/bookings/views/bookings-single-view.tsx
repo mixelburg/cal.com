@@ -223,19 +223,9 @@ export default function Success(props: PageProps) {
     },
   });
 
-  const hostNoShowMutation = trpc.viewer.public.markHostAsNoShow.useMutation({
-    onSuccess: async () => {
-      showToast("Thank you, feedback submitted", "success");
-    },
-    onError: (err) => {
-      showToast(err.message, "error");
-    },
-  });
-
+  // Host no-show tracking removed (EE feature)
   useEffect(() => {
-    if (noShow) {
-      hostNoShowMutation.mutate({ bookingUid: bookingInfo.uid, noShowHost: true });
-    }
+    // No-show tracking disabled
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

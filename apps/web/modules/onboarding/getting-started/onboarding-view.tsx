@@ -120,13 +120,8 @@ export const OnboardingView = ({ userEmail }: OnboardingViewProps) => {
     },
   ];
 
-  // Only show organization plan for company emails
-  const plans = allPlans.filter((plan) => {
-    if (plan.id === "organization") {
-      return isCompanyEmail(userEmail);
-    }
-    return true;
-  });
+  // Organization plan removed (EE feature)
+  const plans = allPlans.filter((plan) => plan.id !== "organization");
 
   const selectedPlanData = plans.find((plan) => plan.id === selectedPlan);
 
