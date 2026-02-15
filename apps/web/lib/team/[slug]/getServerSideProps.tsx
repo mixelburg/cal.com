@@ -163,7 +163,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
               profile: primaryProfile
                 ? {
                     id: primaryProfile.id,
-                    upId: primaryProfile.upId,
+                    uid: primaryProfile.uid,
                     username: primaryProfile.username,
                     organizationId: primaryProfile.organizationId,
                     organization: primaryProfile.organization
@@ -171,7 +171,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
                           id: primaryProfile.organization.id,
                           slug: primaryProfile.organization.slug,
                           name: primaryProfile.organization.name,
-                          requestedSlug: primaryProfile.organization.requestedSlug,
+                          // requestedSlug is in metadata, not a direct field on Team
                           calVideoLogo: primaryProfile.organization.calVideoLogo,
                           bannerUrl: primaryProfile.organization.bannerUrl,
                         }
@@ -208,7 +208,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
                       id: primaryProfile.organization.id,
                       slug: primaryProfile.organization.slug,
                       name: primaryProfile.organization.name,
-                      requestedSlug: primaryProfile.organization.requestedSlug,
+                      // requestedSlug is in metadata, not a direct field on Team
                       calVideoLogo: primaryProfile.organization.calVideoLogo,
                       bannerUrl: primaryProfile.organization.bannerUrl,
                     }

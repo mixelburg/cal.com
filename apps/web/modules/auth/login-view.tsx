@@ -166,15 +166,6 @@ export default function Login({
   // SSO connections query removed (EE feature) - not needed for self-hosters
   // const { data, isPending, error } = trpc.viewer.public.ssoConnections.useQuery();
 
-  useEffect(
-    function refactorMeWithoutEffect() {
-      if (error) {
-        setErrorMessage(error.message);
-      }
-    },
-    [error]
-  );
-
   // SAML SSO removed (EE feature) - never display for self-hosters
   const displaySSOLogin = false;
 
@@ -214,14 +205,7 @@ export default function Login({
                     {lastUsed === "google" && <LastUsed />}
                   </Button>
                 )}
-                {displaySSOLogin && (
-                  <SAMLLogin
-                    disabled={formState.isSubmitting}
-                    samlTenantID={samlTenantID}
-                    samlProductID={samlProductID}
-                    setErrorMessage={setErrorMessage}
-                  />
-                )}
+                {/* SAML SSO removed - displaySSOLogin is always false for self-hosters */}
               </div>
               {(isGoogleLoginEnabled || displaySSOLogin) && (
                 <div className="my-8">
