@@ -107,7 +107,7 @@ export async function createTeamEventGroup(
   return {
     teamId: team.id,
     parentId: team.parentId,
-    bookerUrl: getBookerBaseUrlSync(team.parent?.slug ?? teamParentMetadata?.requestedSlug ?? null),
+    bookerUrl: "", // Organizations removed
     membershipRole: effectiveRole,
     profile: {
       image: team.parent

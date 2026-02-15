@@ -47,8 +47,8 @@ export type EventTypesByViewer = Awaited<ReturnType<typeof getEventTypesByViewer
 export const getEventTypesByViewer = async (user: User, filters?: Filters, forRoutingForms?: boolean) => {
   const userProfile = user.profile;
   const profile = await ProfileRepository.findByUpIdWithAuth(userProfile.upId, user.id);
-  const parentOrgHasLockedEventTypes =
-    profile?.organization?.organizationSettings?.lockEventTypeCreationForUsers;
+  // Organizations removed - event type creation never locked for self-hosters
+  const parentOrgHasLockedEventTypes = false;
   const isFilterSet = filters && hasFilter(filters);
   const isUpIdInFilter = filters?.upIds?.includes(userProfile.upId);
 
