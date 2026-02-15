@@ -4,7 +4,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import dayjs from "@calcom/dayjs";
-import { CreditService } from "@calcom/features/ee/billing/CreditService";
+// CreditService removed (EE billing feature)
 import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
 import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
 import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";

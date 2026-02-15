@@ -4,7 +4,7 @@ import isAuthorized from "@calcom/features/auth/lib/oAuthAuthorization";
 import { HttpError } from "@calcom/lib/http-error";
 
 // API keys removed (EE feature) - stub function
-async function findValidApiKey(_apiKey: string, _appId?: string) {
+async function findValidApiKey(_apiKey: string, _appId?: string): Promise<{ userId: number; teamId: number | null } | null> {
   return null;
 }
 

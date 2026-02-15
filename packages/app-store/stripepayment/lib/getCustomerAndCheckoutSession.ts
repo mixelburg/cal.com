@@ -1,5 +1,12 @@
-import { getBillingProviderService } from "@calcom/features/ee/billing/lib/getBillingProviderService";
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
+// EE billing removed - stub functions
+function getBillingProviderService() {
+  return {
+    getCheckoutSession: async (_id: string) => ({ customer: null }),
+  };
+}
+async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
+  return "";
+}
 
 export async function getCustomerAndCheckoutSession(checkoutSessionId: string) {
   const billingService = getBillingProviderService();
