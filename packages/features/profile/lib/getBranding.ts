@@ -58,18 +58,17 @@ export function getBrandingForEventType(params: { eventType: EventTypeWithBrandi
   const { eventType } = params;
 
   if (eventType.team) {
-    const brandColorData =
-      eventType.team.parent?.brandColor || eventType.team.parent?.darkBrandColor
-        ? eventType.team.parent
-        : eventType.team;
+    // Organizations removed - no parent team branding
+    const brandColorData = eventType.team;
     return {
-      theme: eventType.team.parent?.theme ?? eventType.team.theme ?? null,
+      theme: eventType.team.theme ?? null,
       brandColor: brandColorData.brandColor ?? null,
       darkBrandColor: brandColorData.darkBrandColor ?? null,
     };
   }
 
-  const branding = eventType.profile?.organization ?? eventType.users[0];
+  // Organizations removed - use user branding, not org
+  const branding = eventType.users[0];
   return {
     theme: branding?.theme ?? null,
     brandColor: branding?.brandColor ?? null,
@@ -79,7 +78,8 @@ export function getBrandingForEventType(params: { eventType: EventTypeWithBrandi
 
 export function getBrandingForUser(params: { user: UserWithBranding }): BrandingResult {
   const { user } = params;
-  const branding = user.profile.organization ?? user;
+  // Organizations removed - use user branding, not org
+  const branding = user;
   return {
     theme: branding.theme ?? null,
     brandColor: branding.brandColor ?? null,
@@ -89,9 +89,10 @@ export function getBrandingForUser(params: { user: UserWithBranding }): Branding
 
 export function getBrandingForTeam(params: { team: TeamWithBranding }): BrandingResult {
   const { team } = params;
-  const brandColorData = team.parent?.brandColor || team.parent?.darkBrandColor ? team.parent : team;
+  // Organizations removed - no parent team branding
+  const brandColorData = team;
   return {
-    theme: team.parent?.theme ?? team.theme ?? null,
+    theme: team.theme ?? null,
     brandColor: brandColorData.brandColor ?? null,
     darkBrandColor: brandColorData.darkBrandColor ?? null,
   };
