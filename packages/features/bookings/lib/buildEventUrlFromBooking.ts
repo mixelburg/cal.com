@@ -16,15 +16,7 @@ type ProfileEnrichedBookingUser = {
   profile: { organizationId: number | null; username: string | null };
 } | null;
 
-export function getOrganizationIdOfBooking(booking: {
-  eventType: BookingEventType;
-  profileEnrichedBookingUser: ProfileEnrichedBookingUser;
-}) {
-  const { eventType, profileEnrichedBookingUser } = booking;
-  return eventType.team
-    ? eventType.team.parentId
-    : (profileEnrichedBookingUser?.profile.organizationId ?? null);
-}
+// Organizations removed - getOrganizationIdOfBooking no longer needed
 
 export async function buildEventUrlFromBooking(booking: {
   eventType: BookingEventType;

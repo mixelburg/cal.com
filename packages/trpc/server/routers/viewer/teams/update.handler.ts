@@ -43,7 +43,7 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     },
     select: {
       id: true,
-      parentId: true,
+          // parentId removed (organizations feature)
       slug: true,
       metadata: true,
       rrTimestampBasis: true,
