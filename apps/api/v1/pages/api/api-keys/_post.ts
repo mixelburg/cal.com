@@ -1,7 +1,10 @@
 import type { NextApiRequest } from "next";
 import { v4 } from "uuid";
 
-import { generateUniqueAPIKey } from "@calcom/features/ee/api-keys/lib/generateUniqueAPIKey";
+// API keys removed (EE feature)
+async function generateUniqueAPIKey(): Promise<[string, string]> { 
+  return ["", ""]; 
+}
 import { HttpError } from "@calcom/lib/http-error";
 import { defaultResponder } from "@calcom/lib/server/defaultResponder";
 import prisma from "@calcom/prisma";

@@ -1,6 +1,9 @@
 import type { NextApiRequest } from "next";
 
-import { purchaseTeamOrOrgSubscription } from "@calcom/features/ee/billing/lib/purchaseTeamOrOrgSubscription";
+// Billing removed (EE feature)
+async function purchaseTeamOrOrgSubscription(..._args: any[]) { 
+  return { url: null }; 
+}
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";

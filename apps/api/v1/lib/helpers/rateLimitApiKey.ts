@@ -1,6 +1,13 @@
 import type { NextMiddleware } from "next-api-middleware";
 
-import { handleAutoLock } from "@calcom/features/ee/rate-limiting/lib/handleAutoLock";
+// Rate limiting removed (EE feature)
+async function handleAutoLock(_params: {
+  identifier: string;
+  identifierType: string;
+  rateLimitResponse: any;
+}): Promise<boolean> {
+  return false;
+}
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
 import { HttpError } from "@calcom/lib/http-error";
 
