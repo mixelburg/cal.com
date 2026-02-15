@@ -3,8 +3,19 @@ import type { NextApiRequest } from "next";
 import isAuthorized from "@calcom/features/auth/lib/oAuthAuthorization";
 import { HttpError } from "@calcom/lib/http-error";
 
-// API keys removed (EE feature) - stub function
-async function findValidApiKey(_apiKey: string, _appId?: string): Promise<{ userId: number; teamId: number | null } | null> {
+// API keys removed (EE feature) - stub function with full ApiKey type
+type ApiKey = {
+  id: string;
+  userId: number;
+  teamId: number | null;
+  createdAt: Date;
+  appId: string | null;
+  lastUsedAt: Date | null;
+  note: string | null;
+  expiresAt: Date | null;
+  hashedKey: string;
+};
+async function findValidApiKey(_apiKey: string, _appId?: string): Promise<ApiKey | null> {
   return null;
 }
 

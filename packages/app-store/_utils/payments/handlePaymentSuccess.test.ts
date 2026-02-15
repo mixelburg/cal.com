@@ -4,7 +4,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import dayjs from "@calcom/dayjs";
-// CreditService removed (EE billing feature)
+// CreditService removed (EE billing feature) - stub class
+class CreditService {
+  hasAvailableCredits = async () => true;
+}
 import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
 import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
 import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";

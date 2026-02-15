@@ -2,6 +2,7 @@
 function getBillingProviderService() {
   return {
     getCheckoutSession: async (_id: string) => ({ customer: null }),
+    getCustomer: async (_id: string) => null,
   };
 }
 async function getBookerBaseUrl(_orgId: number | null): Promise<string> {

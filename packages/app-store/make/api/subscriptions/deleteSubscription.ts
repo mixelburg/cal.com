@@ -1,8 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import z from "zod";
 
-// API keys removed (EE feature) - stub function
-async function findValidApiKey(_apiKey: string, _appId?: string) {
+// API keys removed (EE feature) - stub function with full ApiKey type
+type ApiKey = {
+  id: string;
+  userId: number;
+  teamId: number | null;
+  createdAt: Date;
+  appId: string | null;
+  lastUsedAt: Date | null;
+  note: string | null;
+  expiresAt: Date | null;
+  hashedKey: string;
+};
+async function findValidApiKey(_apiKey: string, _appId?: string): Promise<ApiKey | null> {
   return null;
 }
 import { deleteSubscription } from "@calcom/features/webhooks/lib/scheduleTrigger";
