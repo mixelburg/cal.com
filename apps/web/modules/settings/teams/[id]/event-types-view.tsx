@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
+import TeamEventTypeForm from "@calcom/web/modules/event-types/components/TeamEventTypeForm";
 import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useLocale } from "@calcom/lib/hooks/useLocale";

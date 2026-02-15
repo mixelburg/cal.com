@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { Dialog } from "@calcom/features/components/controlled-dialog";
 import CreateEventTypeForm from "@calcom/features/eventtypes/components/CreateEventTypeForm";
+import TeamEventTypeForm from "@calcom/web/modules/event-types/components/TeamEventTypeForm";
 import { useCreateEventType } from "~/event-types/hooks/useCreateEventType";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { useTypedQuery } from "@calcom/lib/hooks/useTypedQuery";
