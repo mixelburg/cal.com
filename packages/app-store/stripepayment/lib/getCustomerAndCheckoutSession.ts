@@ -25,8 +25,8 @@ async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
 export async function getCustomerAndCheckoutSession(checkoutSessionId: string) {
   const billingService = getBillingProviderService();
   const checkoutSession = await billingService.getCheckoutSession(checkoutSessionId);
-  const customerOrCustomerId = checkoutSession.customer;
-  let customerId = null;
+  const customerOrCustomerId: string | StripeCustomer | null = checkoutSession.customer;
+  let customerId: string | null = null;
 
   if (!customerOrCustomerId) {
     return { checkoutSession, stripeCustomer: null };
@@ -34,13 +34,13 @@ export async function getCustomerAndCheckoutSession(checkoutSessionId: string) {
 
   if (typeof customerOrCustomerId === "string") {
     customerId = customerOrCustomerId;
-  } else if (customerOrCustomerId.deleted) {
+  } else if ((customerOrCustomerId as StripeCustomer).deleted) {
     return { checkoutSession, stripeCustomer: null };
   } else {
-    customerId = customerOrCustomerId.id;
+    customerId = (customerOrCustomerId as StripeCustomer).id;
   }
   const stripeCustomer = await billingService.getCustomer(customerId);
-  if (stripeCustomer.deleted) {
+  if (stripeCustomer?.deleted) {
     return { checkoutSession, stripeCustomer: null };
   }
   return { stripeCustomer, checkoutSession };
