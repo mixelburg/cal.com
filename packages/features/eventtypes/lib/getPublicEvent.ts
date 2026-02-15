@@ -493,19 +493,8 @@ export const getPublicEvent = async (
     eventWithUserProfiles.schedule = eventOwnerDefaultSchedule;
   }
 
-  let orgDetails: Pick<Team, "logoUrl" | "name"> | undefined | null;
-  if (org) {
-    orgDetails = await prisma.team.findFirst({
-      where: {
-        slug: org,
-        parentId: null,
-      },
-      select: {
-        logoUrl: true,
-        name: true,
-      },
-    });
-  }
+  // Organizations removed - no org details for self-hosters
+  const orgDetails = null;
 
   let showInstantEventConnectNowModal = eventWithUserProfiles.isInstantEvent;
 
