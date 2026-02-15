@@ -79,7 +79,7 @@ const DuplicateDialog = () => {
       await utils.viewer.eventTypes.getEventTypesFromGroup.invalidate({
         limit: 10,
         searchQuery: debouncedSearchTerm,
-        group: { teamId: eventType?.teamId, parentId: eventType?.parentId },
+        group: { teamId: eventType?.teamId, parentId: null }, // Organizations removed
       });
 
       showToast(
