@@ -54,7 +54,7 @@ export async function createUserEventGroup(
   },
   parentOrgHasLockedEventTypes: boolean
 ): Promise<EventTypeGroup> {
-  const bookerUrl = await getBookerBaseUrl(profile.organizationId);
+  const bookerUrl = ""; // Organizations removed
 
   return {
     teamId: null,

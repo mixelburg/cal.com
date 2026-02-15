@@ -162,11 +162,8 @@ export async function getBooking(bookingId: number) {
     },
   });
 
-  const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
-
-  const bookerUrl = await getBookerBaseUrl(
-    booking.eventType?.team?.parentId ?? organizerOrganizationId ?? null
-  );
+  // Organizations removed - use empty bookerUrl
+  const bookerUrl = "";
 
   const attendeesList = await Promise.all(attendeesListPromises);
   const selectedDestinationCalendar = booking.destinationCalendar || user.destinationCalendar;
