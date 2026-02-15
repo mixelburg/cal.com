@@ -34,16 +34,12 @@ export function EditUserSheet({
 }) {
   const { t } = useLocale();
   const { user: selectedUser } = state.editSheet;
-  const orgBranding = null; // Organizations removed (EE feature)
+  // Organizations removed (EE feature)
   const [editMode, setEditMode] = useEditMode((state) => [state.editMode, state.setEditMode], shallow);
-  const { data: loadedUser, isPending } = trpc.viewer.organizations.getUser.useQuery(
-    {
-      userId: selectedUser?.id,
-    },
-    {
-      enabled: !!selectedUser?.id,
-    }
-  );
+  const { data: loadedUser, isPending } = {
+    data: selectedUser,
+    isPending: false,
+  };
 
   const { data: usersAttributes, isPending: usersAttributesPending } =
     trpc.viewer.attributes.getByUserId.useQuery(
@@ -56,7 +52,7 @@ export function EditUserSheet({
       }
     );
 
-  const avatarURL = `${orgBranding?.fullDomain ?? WEBAPP_URL}/${loadedUser?.username}/avatar.png`;
+  const avatarURL = `${WEBAPP_URL}/${loadedUser?.username}/avatar.png`;
 
   const schedulesNames = loadedUser?.schedules && loadedUser?.schedules.map((s) => s.name);
   const teamNames =
@@ -93,9 +89,7 @@ export function EditUserSheet({
                     <h3 className="text-emphasis mb-1 text-base font-semibold">{t("profile")}</h3>
                     <DisplayInfo
                       label="Cal"
-                      value={removeProtocol(
-                        `${orgBranding?.fullDomain ?? WEBAPP_URL}/${loadedUser?.username}`
-                      )}
+                      value={removeProtocol(`${WEBAPP_URL}/${loadedUser?.username}`)}
                       icon="external-link"
                     />
                     <DisplayInfo label={t("email")} value={loadedUser?.email ?? ""} icon="at-sign" />
@@ -146,7 +140,7 @@ export function EditUserSheet({
                 <EditForm
                   selectedUser={loadedUser}
                   avatarUrl={loadedUser.avatarUrl ?? avatarURL}
-                  domainUrl={orgBranding?.fullDomain ?? WEBAPP_URL}
+                  domainUrl={WEBAPP_URL}
                   dispatch={dispatch}
                   canEditAttributesForUser={canEditAttributesForUser}
                 />
