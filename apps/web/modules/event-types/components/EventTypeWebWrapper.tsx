@@ -36,7 +36,12 @@ type EventPermissions = {
     canUpdate: boolean;
     canDelete: boolean;
   };
-  // Workflows removed (EE feature)
+  workflows: {
+    canRead: boolean;
+    canCreate: boolean;
+    canUpdate: boolean;
+    canDelete: boolean;
+  };
 };
 
 const ManagedEventTypeDialog = dynamic(
