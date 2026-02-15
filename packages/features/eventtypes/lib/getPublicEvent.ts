@@ -361,13 +361,8 @@ export const getPublicEvent = async (
         bookerLayouts: bookerLayoutsSchema.parse(
           firstUsersMetadata?.defaultBookerLayouts || defaultEventBookerLayouts
         ),
-        ...(orgDetails
-          ? {
-              image: getPlaceholderAvatar(orgDetails?.logoUrl, orgDetails?.name),
-              name: orgDetails?.name,
-              username: org,
-            }
-          : {}),
+        // Organizations removed - no org profile for self-hosters
+        ...({}),
       },
       entity: {
         considerUnpublished: false, // Organizations removed
@@ -557,12 +552,7 @@ export const getPublicEvent = async (
       // Organizations removed - simple team or user name
       name: eventWithUserProfiles.team?.name ?? null,
       hideProfileLink: eventWithUserProfiles.team?.hideTeamProfileLink ?? false,
-      ...(orgDetails
-        ? {
-            logoUrl: getPlaceholderAvatar(orgDetails?.logoUrl, orgDetails?.name),
-            name: orgDetails?.name,
-          }
-        : {}),
+      // Organizations removed - no org branding for self-hosters
     },
     isDynamic: false,
     isInstantEvent: eventWithUserProfiles.isInstantEvent,
