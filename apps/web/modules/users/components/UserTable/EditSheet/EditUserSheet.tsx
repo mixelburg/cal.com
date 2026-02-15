@@ -53,9 +53,9 @@ export function EditUserSheet({
 
   const avatarURL = `${WEBAPP_URL}/${loadedUser?.username}/avatar.png`;
 
-  const schedulesNames = loadedUser?.schedules && loadedUser?.schedules.map((s) => s.name);
+  const schedulesNames = loadedUser?.schedules && loadedUser?.schedules.map((s: any) => s.name);
   const teamNames =
-    loadedUser?.teams && loadedUser?.teams.map((t) => `${t.name} ${!t.accepted ? "(pending)" : ""}`);
+    loadedUser?.teams && loadedUser?.teams.map((t: any) => `${t.name} ${!t.accepted ? "(pending)" : ""}`);
 
   return (
     <Sheet

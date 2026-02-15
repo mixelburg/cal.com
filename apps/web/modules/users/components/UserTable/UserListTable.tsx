@@ -225,7 +225,7 @@ function UserListTableContent({
             },
             size: 120,
             accessorFn: (data: UserTableUser) =>
-              data.attributes?.find((attr) => attr.attributeId === attribute.id)?.value,
+              data.attributes?.find((attr: any) => attr.attributeId === attribute.id)?.value,
             cell: ({ row }: CellContext<UserTableUser, unknown>) => {
               const attributeValues = row.original.attributes?.filter(
                 (attr) => attr.attributeId === attribute.id

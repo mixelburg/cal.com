@@ -186,7 +186,7 @@ function UserListTableContent({ oAuthClientId }: PlatformManagedUsersTableProps)
       },
       {
         id: "teams",
-        accessorFn: (data) => data.teams.map((team) => team.name),
+        accessorFn: (data) => data.teams.map((team: any) => team.name),
         header: t("teams"),
         size: 140,
         cell: ({ row, table }) => {
@@ -210,7 +210,7 @@ function UserListTableContent({ oAuthClientId }: PlatformManagedUsersTableProps)
                 </Badge>
               )}
 
-              {teams.map((team) => (
+              {teams.map((team: any) => (
                 <Badge
                   key={team.id}
                   variant="gray"
