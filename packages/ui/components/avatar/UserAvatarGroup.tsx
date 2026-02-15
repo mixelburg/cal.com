@@ -36,9 +36,8 @@ export function UserAvatarGroup(props: UserAvatarProps) {
     setItems(
       users.map((user) => {
         return {
-          href: `${getBookerBaseUrlSync(user.profile?.organization?.slug ?? null)}/${
-            user.profile?.username
-          }?redirect=false`,
+          // Organizations removed - simple user URL
+          href: `/${user.profile?.username}?redirect=false`,
           alt: user.name || "",
           title: user.name || "",
           image: getUserAvatarUrl(user),
