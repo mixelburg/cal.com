@@ -1087,10 +1087,9 @@ const EventTypesPage = ({ userEventGroupsData, user }: Props) => {
   }, [router]);
 
   useEffect(() => {
-    setShowProfileBanner(
-      !!orgBranding && !document.cookie.includes("calcom-profile-banner=1") && !user?.completedOnboarding
-    );
-  }, [orgBranding, user]);
+    // Organizations removed - no profile banner
+    setShowProfileBanner(false);
+  }, [user]);
 
   return (
     <InfiniteScrollMain
