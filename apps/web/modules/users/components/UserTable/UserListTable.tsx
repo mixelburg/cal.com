@@ -117,12 +117,12 @@ function reducer(state: UserTableState, action: UserTableAction): UserTableState
 }
 
 type UserListTableProps = {
-  org: RouterOutputs["viewer"]["organizations"]["listCurrent"];
-  teams: RouterOutputs["viewer"]["organizations"]["getTeams"];
+  org: any; // Organizations removed (EE feature)
+  teams: any[]; // Organizations removed (EE feature)
   attributes?: RouterOutputs["viewer"]["attributes"]["list"];
   facetedTeamValues?: {
     roles: { id: string; name: string }[];
-    teams: RouterOutputs["viewer"]["organizations"]["getTeams"];
+    teams: any[]; // Organizations removed (EE feature)
     attributes: {
       id: string;
       name: string;
@@ -166,18 +166,9 @@ function UserListTableContent({
 
   const { limit, offset, searchTerm, ctaContainerRef } = useDataTable();
 
-  const { data, isPending } = trpc.viewer.organizations.listMembers.useQuery(
-    {
-      limit,
-      offset,
-      searchTerm,
-      expand: ["attributes"],
-      filters: columnFilters,
-    },
-    {
-      placeholderData: keepPreviousData,
-    }
-  );
+  // Organizations removed (EE feature)
+  const data = { rows: [], meta: { totalRowCount: 0 } };
+  const isPending = false;
 
   const adminOrOwner = checkAdminOrOwner(org?.user?.role);
 
@@ -595,13 +586,8 @@ function UserListTableContent({
       const limit = 100;
 
       while (offset !== undefined) {
-        const result = await utils.viewer.organizations.listMembers.fetch({
-          limit,
-          offset,
-          searchTerm,
-          expand: ["attributes"],
-          filters: columnFilters,
-        });
+        // Organizations removed (EE feature)
+        const result = { rows: [], nextCursor: undefined };
 
         if (!result.rows?.length) {
           offset = undefined;

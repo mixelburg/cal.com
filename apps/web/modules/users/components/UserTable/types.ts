@@ -1,6 +1,17 @@
 import type { RouterOutputs } from "@calcom/trpc/react";
 
-export type UserTableUser = RouterOutputs["viewer"]["organizations"]["listMembers"]["rows"][number];
+// Organizations removed (EE feature) - stub type
+export type UserTableUser = {
+  id: number;
+  username: string | null;
+  email: string;
+  timeZone: string;
+  role: string;
+  teams: any[];
+  attributes: any[];
+  schedules: any[];
+  [key: string]: any;
+};
 
 export type PlatformManagedUserTableUser = Omit<
   UserTableUser,

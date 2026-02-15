@@ -80,19 +80,9 @@ function UserListTableContent({ oAuthClientId }: PlatformManagedUsersTableProps)
   const limit = pageSize;
   const offset = pageIndex * pageSize;
 
-  const { data, isPending } = trpc.viewer.organizations.listMembers.useQuery(
-    {
-      limit,
-      offset,
-      searchTerm,
-      filters: columnFilters,
-      oAuthClientId,
-    },
-    {
-      placeholderData: keepPreviousData,
-      enabled: !!oAuthClientId,
-    }
-  );
+  // Organizations removed (EE feature)
+  const data = { rows: [], meta: { totalRowCount: 0 } };
+  const isPending = false;
 
   const totalRowCount = data?.meta?.totalRowCount ?? 0;
 

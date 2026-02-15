@@ -44,14 +44,13 @@ export function TableActions({
       showToast(error.message, "error");
     },
   });
-  const sendPasswordResetMutation = trpc.viewer.organizations.sendPasswordReset.useMutation({
-    onSuccess: () => {
-      showToast(t("password_reset_email_sent"), "success");
+  // Organizations removed (EE feature)
+  const sendPasswordResetMutation = {
+    mutate: (..._args: any[]) => {
+      showToast("Organization password reset not available", "error");
     },
-    onError: (error) => {
-      showToast(error.message, "error");
-    },
-  });
+    isPending: false,
+  };
 
   const usersProfileUrl = `${domain}/${user.username}`;
 
