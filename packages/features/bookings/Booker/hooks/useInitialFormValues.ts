@@ -79,11 +79,8 @@ export function useInitialFormValues({
   const bookingData = useBookerStore((state) => state.bookingData);
   const formValues = useBookerStore((state) => state.formValues);
 
-  // Check if organization has disabled autofill from URL parameters
-  const isAutofillDisabledByOrg =
-    eventType?.team?.parent?.organizationSettings?.disableAutofillOnBookingPage ??
-    eventType?.owner?.profile?.organization?.organizationSettings?.disableAutofillOnBookingPage ??
-    false;
+  // Organizations removed - autofill never disabled by org for self-hosters
+  const isAutofillDisabledByOrg = false;
   useEffect(() => {
     (async () => {
       if (Object.keys(formValues).length) {
