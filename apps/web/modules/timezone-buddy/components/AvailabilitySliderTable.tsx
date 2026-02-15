@@ -42,31 +42,9 @@ export interface SliderUser {
   profile: UserProfile;
 }
 
+// UpgradeTeamTip removed (EE feature)
 function UpgradeTeamTip() {
-  const { t } = useLocale();
-
-  return (
-    <UpgradeTip
-      plan="team"
-      title={t("calcom_is_better_with_team", { appName: APP_NAME }) as string}
-      description={t("add_your_team_members")}
-      background="/tips/teams"
-      features={[]}
-      buttons={
-        <div className="stack-y-2 rtl:space-x-reverse sm:space-x-2">
-          <ButtonGroup>
-            <Button color="primary" href={`${WEBAPP_URL}/settings/teams/new`}>
-              {t("create_team")}
-            </Button>
-            <Button color="minimal" href="https://go.cal.com/teams-video" target="_blank">
-              {t("learn_more")}
-            </Button>
-          </ButtonGroup>
-        </div>
-      }>
-      <></>
-    </UpgradeTip>
-  );
+  return null;
 }
 
 export function AvailabilitySliderTable(props: { isOrg: boolean }) {
