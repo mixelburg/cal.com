@@ -55,13 +55,13 @@ export function getNewSearchParams(args: {
   return newSearchParams;
 }
 
+// EE PaymentPageProps stub type
+type PaymentPageProps = { booking: any };
+
 type SuccessRedirectBookingType = Pick<
   BookingResponse | PaymentPageProps["booking"],
   "uid" | "title" | "description" | "startTime" | "endTime" | "location" | "attendees" | "user" | "responses"
-> & {
-  // PaymentPageProps stub for EE removed feature
-  booking?: any;
-};
+>;
 
 type BookingResponseKey = keyof SuccessRedirectBookingType;
 

@@ -103,7 +103,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
       <ul className="divide-subtle border-subtle bg-default static! w-full divide-y rounded-md border">
         {team.children.map((ch, i) => {
           const memberCount = team.members.filter(
-            (mem) => mem.subteams?.includes(ch.slug) && mem.accepted
+            (mem) => ch.slug && mem.subteams?.includes(ch.slug) && mem.accepted
           ).length;
           return (
             <li key={i} className="hover:bg-cal-muted w-full rounded-md transition">
@@ -122,7 +122,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
                   className="mr-6"
                   size="sm"
                   truncateAfter={4}
-                  users={team.members.filter((mem) => mem.subteams?.includes(ch.slug) && mem.accepted)}
+                  users={team.members.filter((mem) => ch.slug && mem.subteams?.includes(ch.slug) && mem.accepted)}
                 />
               </Link>
             </li>
