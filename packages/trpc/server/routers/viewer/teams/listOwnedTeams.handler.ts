@@ -8,3 +8,8 @@ type ListOptions = {
     user: NonNullable<TrpcSessionUser>;
   };
 };
+
+export const listOwnedTeamsHandler = async ({ ctx }: ListOptions) => {
+  const teamRepository = new TeamRepository(prisma);
+  return await teamRepository.findOwnedTeamsByUserId({ userId: ctx.user.id });
+};

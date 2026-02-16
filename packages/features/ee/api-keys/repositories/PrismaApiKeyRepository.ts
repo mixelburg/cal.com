@@ -48,7 +48,6 @@ export class PrismaApiKeyRepository {
       },
       orderBy: { createdAt: "desc" },
     });
-    // Filter out Cal.ai Phone API Keys (EE AI feature)
     return apiKeys.filter((apiKey) => {
       if (apiKey.note?.startsWith("Cal.ai Phone API Key")) {
         return false;

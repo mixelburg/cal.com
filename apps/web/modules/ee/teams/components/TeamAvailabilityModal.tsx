@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import dayjs from "@calcom/dayjs";
 import { TimezoneSelect } from "@calcom/web/modules/timezone/components/TimezoneSelect";
 import type { ITimezone } from "@calcom/features/timezone/components/TimezoneSelectComponent";
-// EE feature removed: LicenseRequired (license checking EE-only)
+import LicenseRequired from "~/ee/common/components/LicenseRequired";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { CURRENT_TIMEZONE } from "@calcom/lib/timezoneConstants";
@@ -13,7 +13,7 @@ import { Avatar } from "@calcom/ui/components/avatar";
 import { Select, DatePicker } from "@calcom/ui/components/form";
 import { Label } from "@calcom/ui/components/form";
 
-// TeamAvailabilityTimes import removed (EE feature, file deleted)
+import TeamAvailabilityTimes from "./TeamAvailabilityTimes";
 
 interface Props {
   team?: RouterOutputs["viewer"]["teams"]["get"];
@@ -36,9 +36,9 @@ export default function TeamAvailabilityModal(props: Props) {
   }, [utils, selectedTimeZone, selectedDate]);
 
   return (
-    // EE feature removed: LicenseRequired wrapper
-    <>
-      <div className="grid h-[400px] grid-cols-2 space-x-11 rtl:space-x-reverse">
+    <LicenseRequired>
+      <>
+        <div className="grid h-[400px] grid-cols-2 space-x-11 rtl:space-x-reverse">
           <div className="col-span-1">
             <div className="flex">
               <Avatar
@@ -89,8 +89,19 @@ export default function TeamAvailabilityModal(props: Props) {
             </div>
           </div>
 
-          {/* TeamAvailabilityTimes removed (EE feature) */}
-      </div>
-    </>
+          <div className="col-span-1 max-h-[500px]">
+            {props.team?.id && props.member && (
+              <TeamAvailabilityTimes
+                teamId={props.team.id}
+                memberId={props.member.id}
+                frequency={frequency}
+                selectedDate={selectedDate}
+                selectedTimeZone={selectedTimeZone}
+              />
+            )}
+          </div>
+        </div>
+      </>
+    </LicenseRequired>
   );
 }

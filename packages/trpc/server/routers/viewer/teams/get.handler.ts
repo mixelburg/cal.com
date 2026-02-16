@@ -1,6 +1,5 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { getTeamWithoutMembers } from "@calcom/features/ee/teams/lib/queries";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
-import { prisma } from "@calcom/prisma";
 
 import { TRPCError } from "@trpc/server";
 
@@ -28,8 +27,11 @@ export const get = async ({ ctx, input }: GetDataOptions) => {
     });
   }
 
-  const teamRepository = new TeamRepository(prisma);
-  const team = await teamRepository.findById({ id: input.teamId });
+  const team = await getTeamWithoutMembers({
+    id: input.teamId,
+    userId: ctx.user.organization?.isOrgAdmin ? undefined : ctx.user.id,
+    isOrgView: input?.isOrg,
+  });
 
   if (!team) {
     throw new TRPCError({

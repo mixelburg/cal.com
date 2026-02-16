@@ -1,9 +1,10 @@
+import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import {
   Resource,
   CustomAction,
   PermissionString,
 } from "@calcom/features/pbac/domain/types/permission-registry";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { getSpecificPermissions } from "@calcom/features/pbac/lib/resource-permissions";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { RoleManagementFactory } from "@calcom/features/pbac/services/role-management.factory";
@@ -16,11 +17,6 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 import { TRPCError } from "@trpc/server";
 
 import type { TListMembersInputSchema } from "./listMembers.schema";
-
-// Organizations removed - booker base URL not needed
-function getBookerBaseUrlSync(_orgSlug: string | null): string {
-  return "";
-}
 
 type ListMembersHandlerOptions = {
   ctx: {

@@ -1,15 +1,15 @@
 import { randomBytes } from "node:crypto";
-// EE feature removed: import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-// EE feature removed: import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-// EE feature removed: import { deleteWorkfowRemindersOfRemovedMember } from "@calcom/features/ee/teams/lib/deleteWorkflowRemindersOfRemovedMember";
+import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
+import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
+import { deleteWorkfowRemindersOfRemovedMember } from "@calcom/features/ee/teams/lib/deleteWorkflowRemindersOfRemovedMember";
 import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
-// EE feature removed: import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
-// EE feature removed: import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
-// EE feature removed: import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
-// EE feature removed: import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
+import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
+import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
+import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
+import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { WEBAPP_URL } from "@calcom/lib/constants";
-// EE feature removed: import { deleteDomain } from "@calcom/lib/domainManager/organization";
+import { deleteDomain } from "@calcom/lib/domainManager/organization";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { ErrorWithCode } from "@calcom/lib/errors";
 import logger from "@calcom/lib/logger";
@@ -102,20 +102,46 @@ export class TeamService {
   }
 
   private static async buildInviteLink(token: string, isOrgContext: boolean): Promise<string> {
-    // Organizations removed - always return simple team invite link
-    return `${WEBAPP_URL}/teams?token=${token}`;
+    const teamInviteLink = `${WEBAPP_URL}/teams?token=${token}`;
+    if (!isOrgContext) {
+      return teamInviteLink;
+    }
+    const gettingStartedPath = await OnboardingPathService.getGettingStartedPathWhenInvited();
+    const orgInviteLink = `${WEBAPP_URL}/signup?token=${token}&callbackUrl=${gettingStartedPath}`;
+    return orgInviteLink;
   }
   /**
-   * Deletes a team and all its associated data.
-   * EE features removed: billing subscription cancellation, workflow cleanup, org domain deletion.
+   * Deletes a team and all its associated data in a safe, transactional order.
+   * External, critical services like billing are handled first to prevent data inconsistencies.
    */
   static async delete({ id }: { id: number }) {
-    // Team billing removed - no subscription cancellation needed
-    // Workflow reminders removed - no cleanup needed
-    // Delete the team from the database
+    // Step 1: Cancel the external billing subscription first.
+    // If this fails, the entire operation aborts, leaving the team and its data intact.
+    // This prevents a state where the user is billed for a deleted team.
+    // const teamBilling = await TeamBillingService.findAndInit(id);
+    const teamBillingServiceFactory = getTeamBillingServiceFactory();
+    const teamBillingService = await teamBillingServiceFactory.findAndInit(id);
+    await teamBillingService.cancel();
+
+    // Step 2: Clean up internal, related data like workflow reminders.
+    try {
+      await WorkflowService.deleteWorkflowRemindersOfRemovedTeam(id);
+    } catch (e) {
+      // Log the error, but don't abort the deletion.
+      // It's better to have a deleted team with orphaned reminders than to halt the process
+      // after the subscription has already been canceled.
+      logger.error(`Failed to delete workflow reminders for team ${id}`, e);
+    }
+
+    // Step 3: Delete the team from the database. This is the core "commit" point.
     const teamRepo = new TeamRepository(prisma);
     const deletedTeam = await teamRepo.deleteById({ id });
-    // Organization domain management removed - no domain deletion needed
+
+    // Step 4: Clean up any final, non-critical external state.
+    if (deletedTeam && deletedTeam.isOrganization && deletedTeam.slug) {
+      deleteDomain(deletedTeam.slug);
+    }
+
     return deletedTeam;
   }
 
@@ -143,7 +169,12 @@ export class TeamService {
     }
 
     await Promise.all(deleteMembershipPromises);
-    // Team billing removed - no subscription quantity update needed
+    const teamBillingServiceFactory = getTeamBillingServiceFactory();
+    const teamBillingServices = await teamBillingServiceFactory.findAndInitMany(teamIds);
+    const teamBillingPromises = teamBillingServices.map((teamBillingService) =>
+      teamBillingService.updateQuantity("removal")
+    );
+    await Promise.allSettled(teamBillingPromises);
   }
 
   static async inviteMemberByToken(token: string, userId: number) {
@@ -188,8 +219,18 @@ export class TeamService {
       } else throw e;
     }
 
-    // Billing seat tracking removed - no seat addition logging needed
-    // Team billing removed - no subscription quantity update needed
+    if (!verificationToken.team.parentId) {
+      const seatTracker = new SeatChangeTrackingService();
+      await seatTracker.logSeatAddition({
+        teamId: verificationToken.teamId,
+        userId,
+        triggeredBy: userId,
+      });
+    }
+
+    const teamBillingServiceFactory = getTeamBillingServiceFactory();
+    const teamBillingService = await teamBillingServiceFactory.findAndInit(verificationToken.teamId);
+    await teamBillingService.updateQuantity("addition");
 
     return verificationToken.team.name;
   }
@@ -219,19 +260,30 @@ export class TeamService {
 
     const team = teamMembership.team;
 
-    // Organizations removed - no parent org membership handling needed
     if (team.parentId) {
-      log.debug("Organizations removed - ignoring parent org membership acceptance", {
-        teamId,
-        parentId: team.parentId,
+      await prisma.membership.update({
+        where: {
+          userId_teamId: { userId, teamId: team.parentId },
+        },
+        data: {
+          accepted: true,
+        },
       });
     }
 
-    // Organizations removed - no org profile creation needed
     const isASubteam = team.parentId !== null;
     const idOfOrganizationInContext = team.isOrganization ? team.id : isASubteam ? team.parentId : null;
-    if (idOfOrganizationInContext) {
-      log.debug("Organizations removed - skipping org profile creation", { userId, organizationId: idOfOrganizationInContext });
+    const needProfileUpdate = !!idOfOrganizationInContext;
+
+    if (needProfileUpdate) {
+      await createAProfileForAnExistingUser({
+        user: {
+          id: userId,
+          email: userEmail,
+          currentUsername: username,
+        },
+        organizationId: idOfOrganizationInContext,
+      });
     }
 
     await updateNewTeamMemberEventTypes(userId, teamId);
@@ -247,22 +299,24 @@ export class TeamService {
         },
       });
 
-      // Organizations removed - no parent org membership deletion needed
       if (membership.team.parentId) {
-        log.debug("Organizations removed - ignoring parent org membership on leave", {
-          teamId,
-          parentId: membership.team.parentId,
+        await prisma.membership.delete({
+          where: {
+            userId_teamId: { userId, teamId: membership.team.parentId },
+          },
         });
       }
 
-      // Billing seat tracking removed - no seat removal logging needed
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === "P2025") {
-          throw new ErrorWithCode(ErrorCode.NotFound, "Membership not found");
-        }
+      if (!membership.team.parentId) {
+        const seatTracker = new SeatChangeTrackingService();
+        await seatTracker.logSeatRemoval({
+          teamId,
+          userId,
+          triggeredBy: userId,
+        });
       }
-      throw e;
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -311,7 +365,11 @@ export class TeamService {
     });
   }
 
-  // EE feature removed: publish() method (team billing only)
+  static async publish(teamId: number) {
+    const teamBillingServiceFactory = getTeamBillingServiceFactory();
+    const teamBillingService = await teamBillingServiceFactory.findAndInit(teamId);
+    return teamBillingService.publish();
+  }
 
   private static async removeMember({
     userId,
@@ -327,16 +385,22 @@ export class TeamService {
     const user = await TeamService.fetchUserOrThrow(userId);
 
     if (isOrg) {
-      // Organizations removed - treat as regular team removal
-      log.debug("Organizations removed - removing member from team (isOrg flag ignored)", { userId, teamId });
-      await TeamService.removeFromTeam(membership, teamId);
+      log.debug("Removing a member from the organization");
+      await TeamService.removeFromOrganization(membership, team, user);
     } else {
       log.debug("Removing a member from a team");
       await TeamService.removeFromTeam(membership, teamId);
     }
 
-    // Workflow reminders removed - no cleanup needed
-    // Billing seat tracking removed - no seat removal logging needed
+    await deleteWorkfowRemindersOfRemovedMember(team, userId, isOrg);
+
+    if (!team.parentId) {
+      const seatTracker = new SeatChangeTrackingService();
+      await seatTracker.logSeatRemoval({
+        teamId,
+        userId,
+      });
+    }
 
     return { membership };
   }
@@ -418,7 +482,105 @@ export class TeamService {
     return user;
   }
 
-  // EE feature removed: cleanupTempOrgRedirect() and removeFromOrganization() methods (org-specific)
+  // TODO: Needs to be moved to repository
+  private static async cleanupTempOrgRedirect(user: UserWithTeams, team: TeamWithSettings) {
+    const profileToDelete = await ProfileRepository.findByUserIdAndOrgId({
+      userId: user.id,
+      organizationId: team.id,
+    });
+
+    if (user.username && user.movedToProfileId === profileToDelete?.id) {
+      log.debug("Cleaning up tempOrgRedirect for user", user.username);
+      await prisma.tempOrgRedirect.deleteMany({
+        where: {
+          from: user.username,
+        },
+      });
+    }
+  }
+
+  private static async removeFromOrganization(
+    membership: MembershipWithRelations,
+    team: TeamWithSettings,
+    user: UserWithTeams
+  ) {
+    await TeamService.cleanupTempOrgRedirect(user, team);
+    const newUsername = generateNewUsername(user);
+
+    const subTeamIds = await prisma.team.findMany({
+      where: {
+        parentId: team.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    const subTeamIdArray = subTeamIds.map((t) => t.id);
+
+    await prisma.$transaction(async (tx) => {
+      if (subTeamIdArray.length > 0) {
+        // Remove user from all sub-teams event type hosts
+        await tx.host.deleteMany({
+          where: {
+            userId: membership.userId,
+            eventType: {
+              teamId: {
+                in: subTeamIdArray,
+              },
+            },
+          },
+        });
+        // Delete managed child events in sub-teams
+        await tx.eventType.deleteMany({
+          where: {
+            userId: membership.userId,
+            parent: {
+              teamId: {
+                in: subTeamIdArray,
+              },
+            },
+          },
+        });
+        // Delete all sub-team memberships where this team is the organization
+        await tx.membership.deleteMany({
+          where: {
+            teamId: {
+              in: subTeamIdArray,
+            },
+            userId: membership.userId,
+          },
+        });
+      }
+
+      // Remove organizationId from the user
+      await tx.user.update({
+        where: { id: membership.userId },
+        data: {
+          organizationId: null,
+          username: newUsername,
+        },
+      });
+      // Delete the profile of the user from the organization
+      await tx.profile.deleteMany({
+        where: {
+          userId: membership.userId,
+          organizationId: team.id,
+        },
+      });
+      // Delete the membership of the user from the organization
+      await tx.membership.delete({
+        where: {
+          userId_teamId: { userId: membership.userId, teamId: team.id },
+        },
+      });
+    });
+
+    // Generate new username for user leaving organization
+    function generateNewUsername(user: UserWithTeams): string | null {
+      // We ensure that new username would be unique across all users in the global namespace outside any organization
+      return user.username != null ? `${user.username}-${user.id}` : null;
+    }
+  }
 
   // Remove member from regular team
   private static async removeFromTeam(membership: MembershipWithRelations, teamId: number) {

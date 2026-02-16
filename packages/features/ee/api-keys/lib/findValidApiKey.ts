@@ -1,4 +1,3 @@
-import process from "node:process";
 import { hashAPIKey } from "@calcom/features/ee/api-keys/lib/apiKeys";
 import prisma from "@calcom/prisma";
 

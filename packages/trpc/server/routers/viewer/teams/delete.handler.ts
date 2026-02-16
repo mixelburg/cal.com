@@ -1,4 +1,4 @@
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { TeamService } from "@calcom/features/ee/teams/services/teamService";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
@@ -31,14 +31,13 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
   const hasPermission = await permissionCheckService.checkPermission({
     userId: ctx.user.id,
     teamId: input.teamId,
-    permission: "team.delete", // Organizations removed - always team, never org
+    permission: team.isOrganization ? "organization.delete" : "team.delete",
     fallbackRoles: [MembershipRole.OWNER],
   });
 
   if (!hasPermission) throw new TRPCError({ code: "FORBIDDEN" });
 
-  const teamRepository = new TeamRepository(prisma);
-  return await teamRepository.deleteById({ id: input.teamId });
+  return await TeamService.delete({ id: input.teamId });
 };
 
 export default deleteHandler;

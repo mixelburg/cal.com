@@ -59,8 +59,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       eventTypeId: eventType.id,
       team: eventType.team,
       owner: eventType.users[0] ?? null,
-      // Organizations removed - no org context
-      organizationId: null,
+      organizationId: session?.user?.profile?.organizationId ?? session?.user?.org?.id ?? null,
     }),
   };
 

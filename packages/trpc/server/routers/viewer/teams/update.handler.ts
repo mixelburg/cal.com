@@ -1,3 +1,4 @@
+import { getOrgFullOrigin } from "@calcom/ee/organizations/lib/orgDomains";
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
@@ -14,11 +15,6 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TUpdateInputSchema } from "./update.schema";
 
-// Organizations removed - org origin not needed
-function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
-  return "";
-}
-
 type UpdateOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
@@ -33,7 +29,7 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     },
     select: {
       id: true,
-          // parentId removed (organizations feature)
+      parentId: true,
       slug: true,
       metadata: true,
       rrTimestampBasis: true,
