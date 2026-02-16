@@ -42,6 +42,8 @@ export type { EventBusyDate } from "@calcom/types/Calendar";
 export { handleMarkNoShow };
 export { handleCreatePhoneCall };
 
+export { TeamService } from "@calcom/features/ee/teams/services/teamService";
+
 export type {
   BookingCreateBody,
   BookingResponse,
