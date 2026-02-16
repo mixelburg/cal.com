@@ -23,9 +23,22 @@
 
 **Root cause**: EE managed event types feature. Stub exists at `@calcom/features/eventtypes/lib/useLockedFieldsManager` but imports not added to all consuming files.
 
-**Solution options**:
-1. Add imports to all 13 files (attempted but complex due to varied import structures)
-2. **Recommended**: Surgically remove the EE UI logic that depends on this hook (aligns with project principle: "surgical removal > stubbing")
+**Solution (Surgical Removal Approach)**:
+Remove the `useLockedFieldsManager` call and its usage in each file. For each file:
+
+```typescript
+// BEFORE (causes error):
+const { isManagedEventType, shouldLockDisableProps } = useLockedFieldsManager({...});
+const isLocked = shouldLockDisableProps("fieldName");
+
+// AFTER (EE feature removed):
+// EE feature removed - managed event types not available
+const isManagedEventType = false;
+const shouldLockDisableProps = () => false;
+const isLocked = false;
+```
+
+This aligns with project principle: **"surgical removal > stubbing"**
 
 ---
 
