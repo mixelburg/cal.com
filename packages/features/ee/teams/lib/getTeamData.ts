@@ -9,7 +9,7 @@ export type TeamData = Awaited<ReturnType<typeof getTeamData>>;
  */
 export async function getTeamData(teamSlug: string, orgSlug: string | null) {
   // For self-hosted, orgSlug is always null - fetch team directly by slug
-  return await prisma.team.findFirst({
+  const team = await prisma.team.findFirst({
     where: {
       ...getSlugOrRequestedSlug(teamSlug),
       // Organizations removed - no parent org filtering
@@ -22,7 +22,6 @@ export async function getTeamData(teamSlug: string, orgSlug: string | null) {
       id: true,
       isPrivate: true,
       hideBranding: true,
-      // Organizations removed - no parent org data selected
       logoUrl: true,
       name: true,
       slug: true,
@@ -31,4 +30,12 @@ export async function getTeamData(teamSlug: string, orgSlug: string | null) {
       theme: true,
     },
   });
+
+  if (!team) return null;
+
+  // Organizations removed - return null parent for type compatibility
+  return {
+    ...team,
+    parent: null as null,
+  };
 }
