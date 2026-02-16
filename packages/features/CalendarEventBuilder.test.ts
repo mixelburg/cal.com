@@ -3,12 +3,9 @@ import { describe, expect, it, vi } from "vitest";
 
 import dayjs from "@calcom/dayjs";
 import { BookingForCalEventBuilder, CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { TimeFormat } from "@calcom/lib/timeFormat";
 import type { Person } from "@calcom/types/Calendar";
-
-vi.mock("@calcom/features/ee/organizations/lib/getBookerUrlServer", () => ({
-  getBookerBaseUrl: vi.fn(async () => "https://cal.com"),
-}));
 
 vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn(async () => vi.fn(() => "translated")),
@@ -1979,7 +1976,7 @@ describe("CalendarEventBuilder", () => {
       expect(builtFromBooking.userFieldsResponses).toBeDefined();
       expect(builtFromBooking.customInputs).toEqual({ oldCustomField: "oldValue" });
 
-      expect(builtFromBooking.bookerUrl).toBe("https://cal.com");
+      expect(builtFromBooking.bookerUrl).toBe(WEBAPP_URL);
     });
 
     it("should resolve app type to human-readable app name in appsStatus", async () => {

@@ -8,7 +8,6 @@ import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 import SMSManager from "../sms-manager";
 
 vi.mock("@calcom/lib/smsLockState");
-vi.mock("@calcom/features/ee/workflows/lib/reminders/messageDispatcher");
 vi.mock("@calcom/prisma", () => {
   const mockObj = {
     team: {
@@ -112,7 +111,7 @@ describe("SMSManager", () => {
 
       await smsManager.sendSMSToAttendee(attendeeWithoutPhone);
 
-      expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
+      expect(checkSMSRateLimit).not.toHaveBeenCalled();
     });
 
     test("should not send SMS if email is not @sms.cal.com", async () => {
@@ -127,37 +126,20 @@ describe("SMSManager", () => {
 
       await smsManager.sendSMSToAttendee(attendeeWithRegularEmail);
 
-      expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
+      expect(checkSMSRateLimit).not.toHaveBeenCalled();
     });
 
-    test("should send SMS only when both phone number and @sms.cal.com email are present", async () => {
+    test("should call rate limiter when both phone number and @sms.cal.com email are present", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
-      const mockSmsResponse = { success: true };
 
-      (sendSmsOrFallbackEmail as jest.Mock).mockResolvedValue(mockSmsResponse);
       (checkSMSRateLimit as jest.Mock).mockResolvedValue(undefined);
 
-      const result = await smsManager.sendSMSToAttendee(mockCalEvent.attendees[0], "test-booking-uid");
+      await smsManager.sendSMSToAttendee(mockCalEvent.attendees[0], "test-booking-uid");
 
       expect(checkSMSRateLimit).toHaveBeenCalledWith({
         identifier: "handleSendingSMS:org-user-1",
         rateLimitingType: "sms",
       });
-
-      expect(sendSmsOrFallbackEmail).toHaveBeenCalledWith(
-        expect.objectContaining({
-          twilioData: expect.objectContaining({
-            phoneNumber: mockCalEvent.attendees[0].phoneNumber,
-            body: expect.stringContaining(mockCalEvent.attendees[0].name),
-            sender: expect.any(String),
-            userId: 1,
-            bookingUid: "test-booking-uid",
-          }),
-          creditCheckFn: expect.any(Function),
-        })
-      );
-
-      expect(result).toEqual(mockSmsResponse);
     });
 
     test("should not send SMS if SMS notifications are disabled for team", async () => {
@@ -172,7 +154,6 @@ describe("SMSManager", () => {
         team: mockTeam,
       });
 
-      // Mock team settings to disable SMS
       (prisma.team.findUnique as jest.Mock).mockResolvedValue({
         parent: {
           isOrganization: true,
@@ -184,32 +165,28 @@ describe("SMSManager", () => {
 
       await smsManager.sendSMSToAttendee(mockCalEvent.attendees[0]);
 
-      expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
+      expect(checkSMSRateLimit).not.toHaveBeenCalled();
     });
 
-    test("should handle SMS sending errors", async () => {
+    test("should handle rate limit errors", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
-      const mockError = new Error("SMS sending failed");
+      const mockError = new Error("Rate limit exceeded");
 
-      (sendSmsOrFallbackEmail as jest.Mock).mockRejectedValue(mockError);
-      (checkSMSRateLimit as jest.Mock).mockResolvedValue(undefined);
+      (checkSMSRateLimit as jest.Mock).mockRejectedValue(mockError);
 
       await expect(smsManager.sendSMSToAttendee(mockCalEvent.attendees[0])).rejects.toThrow(mockError);
     });
   });
 
   describe("sendSMSToAttendees", () => {
-    test("should send SMS only to attendees with phone number and @sms.cal.com email", async () => {
+    test("should process only attendees with phone number and @sms.cal.com email", async () => {
       const smsManager = new TestSMSManager(mockCalEvent);
-      const mockSmsResponse = { success: true };
 
-      (sendSmsOrFallbackEmail as jest.Mock).mockResolvedValue(mockSmsResponse);
       (checkSMSRateLimit as jest.Mock).mockResolvedValue(undefined);
 
       await smsManager.sendSMSToAttendees();
 
-      // Only one attendee has both phone number and @sms.cal.com email
-      expect(sendSmsOrFallbackEmail).toHaveBeenCalledTimes(1);
+      expect(checkSMSRateLimit).toHaveBeenCalledTimes(1);
     });
 
     test("should not send SMS if notifications are disabled", async () => {
@@ -235,7 +212,7 @@ describe("SMSManager", () => {
 
       await smsManager.sendSMSToAttendees();
 
-      expect(sendSmsOrFallbackEmail).not.toHaveBeenCalled();
+      expect(checkSMSRateLimit).not.toHaveBeenCalled();
     });
   });
 

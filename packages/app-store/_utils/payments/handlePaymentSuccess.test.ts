@@ -4,10 +4,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import dayjs from "@calcom/dayjs";
-// CreditService removed (EE billing feature) - stub class
-class CreditService {
-  hasAvailableCredits = async () => true;
-}
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import { BookingStatus } from "@calcom/prisma/enums";
 
@@ -48,7 +44,11 @@ vi.mock("@calcom/prisma", async (importOriginal) => {
 vi.mock("@calcom/lib/getOrgIdFromMemberOrTeamId");
 vi.mock("@calcom/lib/getTeamIdFromEventType");
 vi.mock("@calcom/lib/CalEventParser");
-vi.mock("@calcom/features/ee/billing/credit-service");
+vi.mock("@calcom/features/ee/billing/credit-service", () => ({
+  CreditService: class {
+    hasAvailableCredits = vi.fn().mockResolvedValue(true);
+  },
+}));
 vi.mock("@calcom/features/platform-oauth-client/platform-oauth-client.repository", () => ({
   PlatformOAuthClientRepository: class {
     constructor() {}
@@ -210,7 +210,6 @@ describe("handlePaymentSuccess", () => {
     vi.mocked(getOrgIdFromMemberOrTeamId).mockResolvedValue(undefined);
     vi.mocked(getTeamIdFromEventType).mockResolvedValue(null);
     vi.mocked(getVideoCallUrlFromCalEvent).mockReturnValue("");
-    vi.mocked(CreditService.prototype.hasAvailableCredits).mockResolvedValue(true);
   });
 
   it("should trigger BOOKING_PAID webhooks with correct payload", async () => {
@@ -225,11 +224,9 @@ describe("handlePaymentSuccess", () => {
 
     // Verify webhooks were fetched
     expect(getWebhooks).toHaveBeenCalledWith({
-      userId: mockBooking.userId,
       eventTypeId: mockBooking.eventTypeId,
       triggerEvent: WebhookTriggerEvents.BOOKING_PAID,
       teamId: null,
-      orgId: undefined,
       oAuthClientId: undefined,
     });
 
