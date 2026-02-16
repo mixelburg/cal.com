@@ -193,9 +193,10 @@ const CachedTeamBooker = async ({ params, searchParams }: PageProps) => {
     isInstantMeeting: legacyCtx.query.isInstantMeeting === "true",
     eventSlug: meetingSlug,
     username: teamSlug,
+    // Organizations removed - type assertion for eventData
     eventData: {
       ...enrichedEventType,
-    },
+    } as any,
     entity: { ...enrichedEventType.entity },
     bookingData: bookingForReschedule,
     isTeamEvent: true,

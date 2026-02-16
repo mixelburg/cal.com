@@ -29,7 +29,8 @@ export function UserPage(props: PageProps) {
 
   const isBioEmpty = !user.bio || !user.bio.replace("<p><br></p>", "").length;
 
-  const isEmbed = useIsEmbed(props.isEmbed);
+  // Organizations removed - isEmbed may not be in props
+  const isEmbed = useIsEmbed((props as any).isEmbed);
   const eventTypeListItemEmbedStyles = useEmbedStyles("eventTypeListItem");
   const shouldAlignCentrallyInEmbed = useEmbedNonStylesConfig("align") !== "left";
   const shouldAlignCentrally = !isEmbed || shouldAlignCentrallyInEmbed;
@@ -41,7 +42,8 @@ export function UserPage(props: PageProps) {
     ...query
   } = useRouterQuery();
 
-  if (entity.considerUnpublished) {
+  // Organizations removed - considerUnpublished may not exist
+  if ((entity as any).considerUnpublished) {
     return (
       <div className="flex h-full min-h-[calc(100dvh)] items-center justify-center">
         <UnpublishedEntity {...entity} />

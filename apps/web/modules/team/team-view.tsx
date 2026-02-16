@@ -89,7 +89,8 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
                 <EventTypeDescription className="text-sm" eventType={type} />
               </div>
               <div className="mt-1 self-center">
-                <UserAvatarGroup truncateAfter={4} className="flex shrink-0" size="sm" users={type.users} />
+                {/* Organizations removed - type assertion for user array */}
+                <UserAvatarGroup truncateAfter={4} className="flex shrink-0" size="sm" users={type.users as any} />
               </div>
             </Link>
           </div>
@@ -103,7 +104,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
       <ul className="divide-subtle border-subtle bg-default static! w-full divide-y rounded-md border">
         {team.children.map((ch, i) => {
           const memberCount = team.members.filter(
-            (mem) => ch.slug && mem.subteams?.includes(ch.slug) && mem.accepted
+            (mem) => ch.slug && (mem.subteams as string[])?.includes(ch.slug) && mem.accepted
           ).length;
           return (
             <li key={i} className="hover:bg-cal-muted w-full rounded-md transition">
@@ -118,11 +119,12 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
                     </span>
                   </div>
                 </div>
+                {/* Organizations removed - type assertion for member array */}
                 <UserAvatarGroup
                   className="mr-6"
                   size="sm"
                   truncateAfter={4}
-                  users={team.members.filter((mem) => ch.slug && mem.subteams?.includes(ch.slug) && mem.accepted)}
+                  users={team.members.filter((mem) => ch.slug && (mem.subteams as string[])?.includes(ch.slug) && mem.accepted) as any}
                 />
               </Link>
             </li>
@@ -150,7 +152,7 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
             <Avatar alt={teamName} imageSrc={profileImageSrc} size="lg" />
           </div>
           <p className="font-cal  text-emphasis mb-2 text-2xl tracking-wider" data-testid="team-name">
-            {team.parent && `${team.parent.name} `}
+              {team.parent && `${(team.parent as any).name} `}
             {teamName}
           </p>
           {!isBioEmpty && (
@@ -173,7 +175,8 @@ function TeamPage({ team, considerUnpublished, isValidOrgDomain }: PageProps) {
                 </h2>
               </div>
             ) : (
-              <Team members={team.members} teamName={team.name} />
+              /* Organizations removed - type assertion for members array */
+              <Team members={team.members as any} teamName={team.name as string} />
             ))}
             {!showMembers.isOn && team.eventTypes && team.eventTypes.length > 0 && (
               <div className="mx-auto max-w-3xl ">

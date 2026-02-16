@@ -41,11 +41,12 @@ export function EditUserSheet({
     isPending: false,
   };
 
+  // Organizations removed - attributes may not be available
   const { data: usersAttributes, isPending: usersAttributesPending } =
     trpc.viewer.attributes.getByUserId.useQuery(
       {
-        userId: selectedUser?.id,
-      },
+        userId: selectedUser?.id as number,
+      } as any,
       {
         enabled: !!selectedUser?.id && !!canViewAttributes,
       }
