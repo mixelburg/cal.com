@@ -10,13 +10,8 @@ import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/crede
 import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
-// Stub for removed EE workflow
+// Workflows removed - empty select to maintain query shape
 const workflowSelect = {};
-
-// Stub for removed EE org function
-async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
-  return "";
-}
 
 async function getEventType(id: number) {
   return prisma.eventType.findUnique({

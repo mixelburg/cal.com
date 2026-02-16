@@ -13,11 +13,6 @@ import { bookingResponses as bookingResponsesSchema } from "@calcom/prisma/zod-u
 import type { CalendarEvent, Person, CalEventResponses, AppsStatus } from "@calcom/types/Calendar";
 import type { VideoCallData } from "@calcom/types/VideoApiAdapter";
 
-// Stub for removed EE org function
-async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
-  return "";
-}
-
 const APP_TYPE_TO_NAME_MAP = new Map<string, string>(ALL_APPS.map((app) => [app.type, app.name]));
 
 export type BookingForCalEventBuilder = NonNullable<
