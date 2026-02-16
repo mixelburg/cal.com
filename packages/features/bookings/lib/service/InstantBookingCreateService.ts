@@ -176,9 +176,8 @@ export async function handler(
   const isOrgTeamEvent = !!eventType?.team && !!eventType?.team?.parentId;
   eventType = {
     ...eventType,
-    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent }),
-    // Workflows removed (EE feature)
-    workflows: [],
+    // Workflows removed (EE feature) - pass empty array to getBookingFieldsWithSystemFields
+    bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent, workflows: [] as never[] }),
   };
 
   if (!eventType.team?.id) {
