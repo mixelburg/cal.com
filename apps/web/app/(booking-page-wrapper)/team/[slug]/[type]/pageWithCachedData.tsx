@@ -43,7 +43,8 @@ const _getTeamMetadataForBooking = (teamData: NonNullable<TeamData>, eventTypeId
   const allowSEOIndexing = organizationSettings?.allowSEOIndexing ?? false;
 
   return {
-    orgBannerUrl: teamData.parent?.bannerUrl ?? "",
+    // Organizations removed - no parent org banner
+    orgBannerUrl: "",
     hideBranding: shouldHideBrandingForTeamEvent({
       eventTypeId,
       team: teamData,

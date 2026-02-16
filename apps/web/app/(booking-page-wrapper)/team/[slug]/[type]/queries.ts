@@ -9,6 +9,8 @@ import {
   processEventDataShared,
 } from "@calcom/features/eventtypes/lib/getPublicEvent";
 import { getTeamEventType } from "@calcom/features/eventtypes/lib/getTeamEventType";
+import { getTeamData } from "@calcom/features/ee/teams/lib/getTeamData";
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { NEXTJS_CACHE_TTL } from "@calcom/lib/constants";
@@ -16,28 +18,6 @@ import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 import type { SchedulingType } from "@calcom/prisma/enums";
-
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findFirstBySlugAndParentSlug(_params: any): Promise<{ id: number } | null> {
-    return null;
-  }
-}
-
-// Stub for removed EE getTeamData
-async function getTeamData(_teamSlug: string, _orgSlug: string | null) {
-  // Return minimal team data shape for stubbing
-  return {
-    parent: null as any,
-    isPrivate: false,
-    slug: _teamSlug,
-    id: 0,
-    name: "",
-    hideBranding: false,
-    logoUrl: null,
-  };
-}
 
 export async function getCachedTeamData(teamSlug: string, orgSlug: string | null) {
   return unstable_cache(async () => getTeamData(teamSlug, orgSlug), ["team-data", teamSlug, orgSlug ?? ""], {
@@ -89,8 +69,9 @@ export async function getEnrichedEventType({
     : null;
   const users =
     (await getUsersFromEvent({ ...eventType, owner: enrichedOwner, subsetOfHosts, hosts }, prisma)) ?? [];
-  const name = teamData.parent?.name ?? teamData.name ?? null;
-  const isUnpublished = teamData.parent ? !teamData.parent.slug : !teamData.slug;
+  // Organizations removed - no parent org, use team name directly
+  const name = teamData.name ?? null;
+  const isUnpublished = !teamData.slug;
 
   const eventMetaData = eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata);
 
@@ -115,9 +96,8 @@ export async function getEnrichedEventType({
       teamSlug: teamData.slug ?? null,
       name,
       hideProfileLink: false,
-      logoUrl: teamData.parent
-        ? getPlaceholderAvatar(teamData.parent.logoUrl, teamData.parent.name)
-        : getPlaceholderAvatar(teamData.logoUrl, teamData.name),
+      // Organizations removed - use team logo directly, no parent org logo
+      logoUrl: getPlaceholderAvatar(teamData.logoUrl, teamData.name),
     },
   };
 }
@@ -186,12 +166,7 @@ export async function getCRMData(
 }
 
 export async function getTeamId(teamSlug: string, orgSlug: string | null): Promise<number | null> {
-  const teamRepo = new TeamRepository(prisma);
-  const team = await teamRepo.findFirstBySlugAndParentSlug({
-    slug: teamSlug,
-    parentSlug: orgSlug,
-    select: { id: true },
-  });
-
-  return team?.id ?? null;
+  // Organizations removed - fetch team directly without parent org filtering
+  const teamData = await getTeamData(teamSlug, orgSlug);
+  return teamData?.id ?? null;
 }
