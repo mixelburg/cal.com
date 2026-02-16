@@ -18,6 +18,10 @@ const badgeColors = ["warning", "success", "green", "gray", "blue", "red", "erro
 
 const valueDefaultClassname = "text-emphasis inline-flex items-center gap-1 font-medium leading-5";
 
+/**
+ * DisplayInfo component - displays label/value pairs with optional icons and badges
+ * Moved from UserTable (org-only) to shared location for use in profile settings
+ */
 export function DisplayInfo({
   label,
   icon,
