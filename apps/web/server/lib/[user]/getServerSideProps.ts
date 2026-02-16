@@ -172,23 +172,14 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
   };
 };
 
+// Organizations removed - simplified to basic username lookup
 export async function getUsersInOrgContext(usernameList: string[], orgSlug: string | null) {
   const userRepo = new UserRepository(prisma);
 
-  const usersInOrgContext = await userRepo.findUsersByUsername({
+  // For self-hosted without orgs, orgSlug is always null
+  // No "platform members" concept, so no fallback needed
+  return await userRepo.findUsersByUsername({
     usernameList,
     orgSlug,
-  });
-
-  if (usersInOrgContext.length) {
-    return usersInOrgContext;
-  }
-
-  // note(Lauris): platform members (people who run platform) are part of platform organization while
-  // the platform organization does not have a domain. In this case there is no org domain but also platform member
-  // "User.organization" is not null so "UserRepository.findUsersByUsername" returns empty array and we do this as a last resort
-  // call to find platform member.
-  return await userRepo.findPlatformMembersByUsernames({
-    usernameList,
   });
 }
