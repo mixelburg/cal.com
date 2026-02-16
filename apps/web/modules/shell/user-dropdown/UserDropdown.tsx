@@ -17,7 +17,6 @@ import {
   UserIcon,
 } from "@coss/ui/icons";
 import { useGetUserAttributes } from "@calcom/web/components/settings/platform/hooks/useGetUserAttributes";
-import FreshChatProvider from "@calcom/web/modules/ee/support/lib/freshchat/FreshChatProvider";
 import {
   Menu,
   MenuItem,
@@ -192,7 +191,6 @@ export function UserDropdown({ small }: UserDropdownProps) {
         )}
       </MenuTrigger>
 
-      <FreshChatProvider>
         <MenuPopup align="start">
           {!isPlatformPages && (
             <>
@@ -310,7 +308,6 @@ export function UserDropdown({ small }: UserDropdownProps) {
             {t("sign_out")}
           </MenuItem>
         </MenuPopup>
-      </FreshChatProvider>
     </Menu>
   );
 }

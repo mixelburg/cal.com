@@ -14,7 +14,7 @@ export const TeamsListSkeleton = () => {
       heading={t("teams")}
       subtitle={t("create_manage_teams_collaborative")}
       CTA={<TeamsCTA />}>
-      {/* EE feature removed: SkeletonLoaderTeamList - no skeleton needed */}
+      {null}
     </ShellMainAppDir>
   );
 };

@@ -5,19 +5,21 @@ import { z } from "zod";
 
 import checkForMultiplePaymentApps from "@calcom/app-store/_utils/payments/checkForMultiplePaymentApps";
 import { locationsResolver } from "@calcom/app-store/locations";
-import { DEFAULT_PROMPT_VALUE, DEFAULT_BEGIN_MESSAGE } from "@calcom/features/calAIPhone/promptTemplates";
 import type { TemplateType } from "@calcom/features/calAIPhone/zod-utils";
 import { validateCustomEventName } from "@calcom/features/eventtypes/lib/eventNaming";
-import { sortHosts } from "@calcom/lib/bookings/hostGroupUtils";
 import type {
   FormValues,
   EventTypeSetupProps,
   EventTypeUpdateInput,
 } from "@calcom/features/eventtypes/lib/types";
+import { sortHosts } from "@calcom/lib/bookings/hostGroupUtils";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { validateIntervalLimitOrder } from "@calcom/lib/intervalLimits/validateIntervalLimitOrder";
 import { validateBookerLayouts } from "@calcom/lib/validateBookerLayouts";
 import { eventTypeBookingFields as eventTypeBookingFieldsSchema } from "@calcom/prisma/zod-utils";
+
+const DEFAULT_PROMPT_VALUE = "";
+const DEFAULT_BEGIN_MESSAGE = "Hi. How are you doing?";
 
 type Fields = z.infer<typeof eventTypeBookingFieldsSchema>;
 

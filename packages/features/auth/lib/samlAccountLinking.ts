@@ -5,7 +5,7 @@ import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
 import type { PrismaClient } from "@calcom/prisma";
 
-import { tenantPrefix } from "../../ee/sso/lib/saml";
+const tenantPrefix = "team-";
 
 const log: ReturnType<typeof logger.getSubLogger> = logger.getSubLogger({ prefix: ["samlAccountLinking"] });
 const SAML_NOT_AUTHORITATIVE_ERROR_URL = "/auth/error?error=saml-idp-not-authoritative";
