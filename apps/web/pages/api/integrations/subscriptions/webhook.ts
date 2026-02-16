@@ -11,7 +11,7 @@ import { prisma } from "@calcom/prisma";
 const getStripeCustomerIdFromUserId = async (..._args: any[]) => null;
 const stripe = {
   webhooks: {
-    constructEvent: (..._args: any[]) => ({ type: "unknown", data: { object: {} } }),
+    constructEvent: (..._args: any[]) => ({ type: "unknown", data: { object: {} } }) as any,
   },
 };
 

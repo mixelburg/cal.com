@@ -143,16 +143,7 @@ const CachedTeamBooker = async ({ params, searchParams }: PageProps) => {
   const { currentOrgDomain, isValidOrgDomain, teamSlug, meetingSlug } = await getOrgContext(await params);
   const legacyCtx = buildLegacyCtx(await headers(), await cookies(), await params, await searchParams);
 
-  // Handle org redirects
-  const redirectResult = await handleOrgRedirect({
-    slugs: [teamSlug],
-    redirectType: RedirectType.Team,
-    eventTypeSlug: meetingSlug,
-    context: legacyCtx,
-    currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
-  });
-  // Organizations removed - no org domain redirect needed
-  // if (redirectResult) return redirect(redirectResult.redirect.destination);
+  // Organizations removed - no org redirects needed
 
   const teamData = await getCachedTeamData(teamSlug, currentOrgDomain);
 

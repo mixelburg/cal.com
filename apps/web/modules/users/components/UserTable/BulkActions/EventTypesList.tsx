@@ -25,7 +25,7 @@ import type { UserTableUser } from "../types";
 
 interface Props {
   table: Table<UserTableUser>;
-  orgTeams: never[] | undefined; // Organization teams removed (EE feature)
+  orgTeams: any[] | undefined; // Organization teams removed (EE feature)
 }
 
 export function EventTypesList({ table, orgTeams }: Props) {

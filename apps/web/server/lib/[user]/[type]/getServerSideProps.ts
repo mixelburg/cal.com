@@ -124,17 +124,7 @@ async function getDynamicGroupPageProps(context: GetServerSidePropsContext) {
   const isValidOrgDomain = false;
   const org = null;
 
-  const redirect = await handleOrgRedirect({
-    slugs: usernames,
-    redirectType: RedirectType.User,
-    eventTypeSlug: slug,
-    context,
-    currentOrgDomain: org,
-  });
-
-  if (redirect) {
-    return redirect;
-  }
+  // Organizations removed - no org redirects needed
 
   const userRepo = new UserRepository(prisma);
   const usersInOrgContext = await userRepo.findUsersByUsername({
@@ -242,17 +232,7 @@ async function getUserPageProps(context: GetServerSidePropsContext) {
   const currentOrgDomain = null;
   const isValidOrgDomain = false;
 
-  const redirect = await handleOrgRedirect({
-    slugs: usernames,
-    redirectType: RedirectType.User,
-    eventTypeSlug: slug,
-    context,
-    currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
-  });
-
-  if (redirect) {
-    return redirect;
-  }
+  // Organizations removed - no org redirects needed
 
   const [user] = await getUsersInOrgContext([username], isValidOrgDomain ? currentOrgDomain : null);
 

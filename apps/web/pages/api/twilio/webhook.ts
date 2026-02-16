@@ -169,14 +169,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     creditFor: CreditUsageType.SMS,
   });
 
+  // EE feature removed - chargeCredits returns null stub
   if (chargedUserOrTeamId) {
     return res.status(200).send(
-      `Expense log with ${credits ? credits : "no"} credits created for
-             ${
-               chargedUserOrTeamId.teamId
-                 ? `teamId ${chargedUserOrTeamId.teamId}`
-                 : `userId ${chargedUserOrTeamId.userId}`
-             }`
+      `Expense log with ${credits ? credits : "no"} credits created`
     );
   }
   // this should never happen - even when out of credits we still charge a team

@@ -85,17 +85,7 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
   const isARedirectFromNonOrgLink = context.query.orgRedirection === "true";
   const dataFetchStart = Date.now();
 
-  const redirect = await handleOrgRedirect({
-    slugs: usernameList,
-    redirectType: RedirectType.User,
-    eventTypeSlug: null,
-    context,
-    currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
-  });
-
-  if (redirect) {
-    return redirect;
-  }
+  // Organizations removed - no org redirects needed
 
   const usersInOrgContext = await getUsersInOrgContext(
     usernameList,
@@ -177,7 +167,7 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
 
   const markdownStrippedBio = stripMarkdown(user?.bio || "");
   // Organizations removed - no org context
-  const org = null;
+  const org: { logoUrl?: string; slug?: string | null; name?: string } | null = null;
 
   return {
     props: {
