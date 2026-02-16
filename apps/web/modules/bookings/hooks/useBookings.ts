@@ -386,7 +386,8 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
       bookingSuccessRedirect({
         successRedirectUrl: event?.data?.successRedirectUrl || "",
         query,
-        booking: booking,
+        // Type assertion - booking object has required fields for redirect
+        booking: booking as any,
         forwardParamsSuccessRedirect:
           event?.data?.forwardParamsSuccessRedirect === undefined
             ? true
@@ -515,7 +516,8 @@ export const useBookings = ({ event, hashedLink, bookingForm, metadata, isBookin
       bookingSuccessRedirect({
         successRedirectUrl: event?.data?.successRedirectUrl || "",
         query,
-        booking,
+        // Type assertion - booking object has required fields for redirect
+        booking: booking as any,
         forwardParamsSuccessRedirect:
           event?.data?.forwardParamsSuccessRedirect === undefined
             ? true
