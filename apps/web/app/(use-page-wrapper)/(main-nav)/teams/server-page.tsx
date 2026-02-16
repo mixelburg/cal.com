@@ -2,6 +2,7 @@ import type { SearchParams } from "app/_types";
 import type { Session } from "next-auth";
 import { unstable_cache } from "next/cache";
 
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { ErrorWithCode } from "@calcom/lib/errors";
 import prisma from "@calcom/prisma";
@@ -11,19 +12,46 @@ import { TeamsListing } from "~/ee/teams/components/TeamsListing";
 
 import { TeamsCTA } from "./CTA";
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findTeamsByUserId(_params: any): Promise<any[]> {
-    return [];
+// Team invitation helpers - simplified for self-hosted (organizations removed)
+class TeamInvitationService {
+  static async acceptInvitationByToken(token: string, userId: number): Promise<void> {
+    // Find the membership by token
+    const membership = await prisma.membership.findFirst({
+      where: { team: { inviteToken: token }, userId: userId, accepted: false },
+    });
+    
+    if (!membership) {
+      throw new ErrorWithCode("INVALID_INVITE", "Invalid invitation token or already accepted");
+    }
+    
+    // Accept the membership
+    await prisma.membership.update({
+      where: { id: membership.id },
+      data: { accepted: true },
+    });
   }
-}
-
-// Stub for removed EE TeamService
-class TeamService {
-  static async acceptInvitationByToken(_token: string, _userId: number): Promise<void> {}
-  static async inviteMemberByToken(_token: string, _userId: number): Promise<string> {
-    return "";
+  
+  static async inviteMemberByToken(token: string, userId: number): Promise<string> {
+    // Find the team by token
+    const team = await prisma.team.findFirst({
+      where: { inviteToken: token },
+      select: { id: true, name: true },
+    });
+    
+    if (!team) {
+      throw new ErrorWithCode("INVALID_INVITE", "Invalid invitation token");
+    }
+    
+    // Check if membership already exists
+    const existingMembership = await prisma.membership.findFirst({
+      where: { teamId: team.id, userId: userId },
+    });
+    
+    if (existingMembership) {
+      throw new ErrorWithCode("ALREADY_MEMBER", "You are already a member of this team");
+    }
+    
+    return team.name;
   }
 }
 
@@ -59,10 +87,10 @@ export const ServerTeamsListing = async ({
   if (token) {
     try {
       if (autoAccept === "true") {
-        await TeamService.acceptInvitationByToken(token, userId);
+        await TeamInvitationService.acceptInvitationByToken(token, userId);
         invitationAccepted = true;
       } else {
-        teamNameFromInvite = await TeamService.inviteMemberByToken(token, userId);
+        teamNameFromInvite = await TeamInvitationService.inviteMemberByToken(token, userId);
       }
     } catch (e) {
       errorMsgFromInvite = "Error while fetching teams";

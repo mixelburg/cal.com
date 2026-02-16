@@ -1,7 +1,3 @@
-import {
-  DueInvoiceBanner,
-  type DueInvoiceBannerProps,
-} from "@calcom/web/modules/ee/billing/components/DueInvoiceBanner";
 import ImpersonatingBanner, {
   type ImpersonatingBannerProps,
 } from "@calcom/web/modules/ee/impersonation/components/ImpersonatingBanner";
@@ -35,7 +31,6 @@ type BannerTypeProps = {
   impersonationBanner: ImpersonatingBannerProps;
   calendarCredentialBanner: CalendarCredentialBannerProps;
   invalidAppCredentialBanners: InvalidAppCredentialBannersProps;
-  dueInvoiceBanner: DueInvoiceBannerProps;
 };
 
 type BannerType = keyof BannerTypeProps;
@@ -56,7 +51,6 @@ export const BannerComponent: BannerComponent = {
   invalidAppCredentialBanners: (props: InvalidAppCredentialBannersProps) => (
     <InvalidAppCredentialBanners {...props} />
   ),
-  dueInvoiceBanner: (props: DueInvoiceBannerProps) => <DueInvoiceBanner {...props} />,
 };
 
 interface BannerContainerProps {
@@ -86,9 +80,6 @@ export const BannerContainer: React.FC<BannerContainerProps> = ({ banners }) => 
           const Banner = BannerComponent[key];
           return <Banner data={banners[key]} key={key} />;
         } else if (key === "invalidAppCredentialBanners") {
-          const Banner = BannerComponent[key];
-          return <Banner data={banners[key]} key={key} />;
-        } else if (key === "dueInvoiceBanner") {
           const Banner = BannerComponent[key];
           return <Banner data={banners[key]} key={key} />;
         }

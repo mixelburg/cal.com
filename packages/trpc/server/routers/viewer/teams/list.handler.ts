@@ -1,15 +1,8 @@
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import prisma from "@calcom/prisma";
 
 import type { TrpcSessionUser } from "../../../types";
 import type { TGetListSchema } from "./list.schema";
-
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findTeamsByUserId(_params: { userId: number; includeOrgs?: boolean }): Promise<any[]> {
-    return [];
-  }
-}
 
 type ListOptions = {
   ctx: {
