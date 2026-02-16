@@ -17,6 +17,7 @@ export const generateMetadata = async ({ params, searchParams }: _PageProps) => 
   const { booking, eventData, isBrandingHidden } = pageProps;
   const rescheduleUid = booking?.uid;
 
+  // Organizations removed - profile may not have name on all branches  
   const profileName = eventData?.profile?.name ?? "";
   const title = eventData?.title ?? "";
   return await _generateMetadata(
