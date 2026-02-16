@@ -12,7 +12,7 @@ import { createEmailsFixture } from "../fixtures/emails";
 import { createEmbedsFixture } from "../fixtures/embeds";
 import { createEventTypeFixture } from "../fixtures/eventTypes";
 import { createFeatureFixture } from "../fixtures/features";
-import { createOrgsFixture } from "../fixtures/orgs";
+// Organization fixtures removed - organizations feature not available in cal.diy
 import { createPaymentsFixture } from "../fixtures/payments";
 import { createBookingPageFixture } from "../fixtures/regularBookings";
 import { createRoutingFormsFixture } from "../fixtures/routingForms";
@@ -23,7 +23,7 @@ import { createWorkflowPageFixture } from "../fixtures/workflows";
 
 export interface Fixtures {
   page: Page;
-  orgs: ReturnType<typeof createOrgsFixture>;
+  // Organization fixtures removed - organizations feature not available in cal.diy
   users: ReturnType<typeof createUsersFixture>;
   bookings: ReturnType<typeof createBookingsFixture>;
   payments: ReturnType<typeof createPaymentsFixture>;
@@ -60,10 +60,7 @@ declare global {
  *  @see https://playwright.dev/docs/test-fixtures
  */
 export const test = base.extend<Fixtures>({
-  orgs: async ({ page }, use) => {
-    const orgsFixture = createOrgsFixture(page);
-    await use(orgsFixture);
-  },
+  // Organization fixtures removed - organizations feature not available in cal.diy
   users: async ({ page, context, emails }, use, workerInfo) => {
     const usersFixture = createUsersFixture(page, emails, workerInfo);
     await use(usersFixture);
