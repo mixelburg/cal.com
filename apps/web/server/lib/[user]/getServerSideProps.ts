@@ -95,7 +95,8 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
 
   log.debug(safeStringify({ usersInOrgContext, isValidOrgDomain, currentOrgDomain }));
 
-  if (!usersInOrgContext.length || (!isValidOrgDomain && !isThereAnyNonOrgUser)) {
+  // Organizations removed - simplified user existence check
+  if (!usersInOrgContext.length) {
     return {
       notFound: true,
     } as const;
