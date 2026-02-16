@@ -151,7 +151,8 @@ const CachedTeamBooker = async ({ params, searchParams }: PageProps) => {
     context: legacyCtx,
     currentOrgDomain: isValidOrgDomain ? currentOrgDomain : null,
   });
-  if (redirectResult) return redirect(redirectResult.redirect.destination);
+  // Organizations removed - no org domain redirect needed
+  // if (redirectResult) return redirect(redirectResult.redirect.destination);
 
   const teamData = await getCachedTeamData(teamSlug, currentOrgDomain);
 

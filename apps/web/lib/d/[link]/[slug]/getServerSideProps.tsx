@@ -77,17 +77,17 @@ async function getUserPageProps(context: GetServerSidePropsContext) {
       currentOrgDomain: null,
     });
 
-    if (redirectWithOriginAndSearchString) {
-      return {
-        redirect: {
-          permanent: false,
-          // App Router doesn't have access to the current path directly, so we build it manually
-          destination: `${redirectWithOriginAndSearchString.origin ?? ""}/d/${link}/${slug}${
-            redirectWithOriginAndSearchString.searchString
-          }`,
-        },
-      };
-    }
+    // Organizations removed - no org domain redirect needed
+    // if (redirectWithOriginAndSearchString) {
+    //   return {
+    //     redirect: {
+    //       permanent: false,
+    //       destination: `${redirectWithOriginAndSearchString.origin ?? ""}/d/${link}/${slug}${
+    //         redirectWithOriginAndSearchString.searchString
+    //       }`,
+    //     },
+    //   };
+    // }
 
     name = profileUsername || username;
 
