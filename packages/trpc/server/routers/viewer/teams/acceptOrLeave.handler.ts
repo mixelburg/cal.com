@@ -1,12 +1,7 @@
+import { prisma } from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import type { TAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
-
-// Stub for removed EE TeamService
-class TeamService {
-  static async acceptTeamMembership(_params: any): Promise<void> {}
-  static async leaveTeamMembership(_params: any): Promise<void> {}
-}
 
 type AcceptOrLeaveOptions = {
   ctx: {
@@ -17,16 +12,27 @@ type AcceptOrLeaveOptions = {
 
 export const acceptOrLeaveHandler = async ({ ctx, input }: AcceptOrLeaveOptions) => {
   if (input.accept) {
-    await TeamService.acceptTeamMembership({
-      userId: ctx.user.id,
-      teamId: input.teamId,
-      userEmail: ctx.user.email,
-      username: ctx.user.username,
+    // Accept team membership
+    await prisma.membership.update({
+      where: {
+        userId_teamId: {
+          userId: ctx.user.id,
+          teamId: input.teamId,
+        },
+      },
+      data: {
+        accepted: true,
+      },
     });
   } else {
-    await TeamService.leaveTeamMembership({
-      userId: ctx.user.id,
-      teamId: input.teamId,
+    // Leave team - delete membership
+    await prisma.membership.delete({
+      where: {
+        userId_teamId: {
+          userId: ctx.user.id,
+          teamId: input.teamId,
+        },
+      },
     });
   }
 };

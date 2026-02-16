@@ -15,13 +15,23 @@ import { TeamsCTA } from "./CTA";
 // Team invitation helpers - simplified for self-hosted (organizations removed)
 class TeamInvitationService {
   static async acceptInvitationByToken(token: string, userId: number): Promise<void> {
-    // Find the membership by token
+    // Find the membership by token (check if team has this token)
     const membership = await prisma.membership.findFirst({
-      where: { team: { inviteToken: token }, userId: userId, accepted: false },
+      where: { 
+        team: { 
+          inviteTokens: { 
+            some: { 
+              token: token 
+            } 
+          } 
+        }, 
+        userId: userId, 
+        accepted: false 
+      },
     });
     
     if (!membership) {
-      throw new ErrorWithCode("INVALID_INVITE", "Invalid invitation token or already accepted");
+      throw new Error("Invalid invitation token or already accepted");
     }
     
     // Accept the membership
@@ -34,12 +44,18 @@ class TeamInvitationService {
   static async inviteMemberByToken(token: string, userId: number): Promise<string> {
     // Find the team by token
     const team = await prisma.team.findFirst({
-      where: { inviteToken: token },
+      where: { 
+        inviteTokens: { 
+          some: { 
+            token: token 
+          } 
+        } 
+      },
       select: { id: true, name: true },
     });
     
     if (!team) {
-      throw new ErrorWithCode("INVALID_INVITE", "Invalid invitation token");
+      throw new Error("Invalid invitation token");
     }
     
     // Check if membership already exists
@@ -48,7 +64,7 @@ class TeamInvitationService {
     });
     
     if (existingMembership) {
-      throw new ErrorWithCode("ALREADY_MEMBER", "You are already a member of this team");
+      throw new Error("You are already a member of this team");
     }
     
     return team.name;
