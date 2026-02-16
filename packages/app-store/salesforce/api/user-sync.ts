@@ -13,9 +13,6 @@ const getIntegrationAttributeSyncService = () => ({
   getIntegrationAttributeSyncsByUserId: async (_userId: number) => [],
   getAllByCredentialId: async (_credentialId: number): Promise<any[]> => [],
 });
-import { getAllWorkflowsFromEventType } from "@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/WorkflowService";
-import { WorkflowTriggerEvents } from "@calcom/features/ee/workflows/lib/WorkflowTriggerEvents";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import logger from "@calcom/lib/logger";
