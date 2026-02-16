@@ -2,10 +2,7 @@ import { type Container, createModule, type ModuleLoader } from "@calcom/feature
 import { DI_TOKENS } from "@calcom/features/di/tokens";
 import { moduleLoader as prismaModuleLoader } from "@calcom/features/di/modules/Prisma";
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-}
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 
 const thisModule = createModule();
 const token = DI_TOKENS.TEAM_REPOSITORY;

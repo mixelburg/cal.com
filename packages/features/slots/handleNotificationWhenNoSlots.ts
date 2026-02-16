@@ -22,16 +22,10 @@ const NO_SLOTS_NOTIFICATION_FREQUENCY = IS_PRODUCTION ? 7 * 24 * 3600 : 60;
 
 const NO_SLOTS_COUNT_FOR_NOTIFICATION = 2;
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findOrganizationSettingsBySlug(_params: { slug: string }): Promise<any | null> {
-    return null;
-  }
-  async findTeamSlugById(_params: { id: number }): Promise<string | null> {
-    return null;
-  }
-}
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { prisma } from "@calcom/prisma";
+
+// Organizations removed - org settings not available
 
 const constructRedisKey = (eventDetails: EventDetails, orgSlug?: string, teamId?: number) => {
   return `${REDIS_KEY_VERSION}.${eventDetails.username}:${eventDetails.eventSlug}${

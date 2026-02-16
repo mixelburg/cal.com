@@ -32,17 +32,10 @@ import { shouldIgnoreContactOwner } from "@calcom/lib/bookings/routing/utils";
 import { RESERVED_SUBDOMAINS } from "@calcom/lib/constants";
 import { getUTCOffsetByTimezone } from "@calcom/lib/dayjs";
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  async findFirstBySlugAndParentSlug(_params: { slug: string; parentSlug: string | null; select?: any }): Promise<any | null> {
-    return null;
-  }
-  async findOrganizationIdBySlug(_params: { slug: string }): Promise<number | null> {
-    return null;
-  }
-}
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { prisma } from "@calcom/prisma";
 
-// Stub for removed EE org function
+// Organizations removed - org domain not needed
 function orgDomainConfig(_req: any): any {
   return { currentOrgDomain: null, isValidOrgDomain: false };
 }

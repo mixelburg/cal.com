@@ -22,22 +22,7 @@ import { MembershipRole } from "@calcom/prisma/enums";
 
 import { transformBookingsForCsv, type BookingTimeStatusData } from "./csvDataTransformer";
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findOwnedTeamsByUserId(_params: { userId: number }): Promise<any[]> {
-    return [];
-  }
-  async findAllByParentId(_params: any): Promise<any[]> {
-    return [];
-  }
-  async findByIdAndParentId(_params: { id: number; parentId: number; select?: any }): Promise<any | null> {
-    return null;
-  }
-  async findById(_params: any, _additionalSelect?: any): Promise<any | null> {
-    return null;
-  }
-}
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 
 // Utility function to build user hash map with avatar URL fallback
 export const buildHashMapForUsers = <
