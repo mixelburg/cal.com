@@ -454,10 +454,12 @@ export const EventLimitsTab = ({ eventType, customClassNames }: EventLimitsTabPr
     return null;
   };
 
-  const { shouldLockIndicator, shouldLockDisableProps } = useLockedFieldsManager({
-    eventType,
-    translate: t,
-    formMethods,
+  // EE feature removed - managed event types field locking not available
+  const shouldLockIndicator = (_f: string) => null;
+  const shouldLockDisableProps = (_f: string) => ({
+    disabled: false,
+    LockedIcon: false as const,
+    isLocked: false,
   });
 
   const bookingLimitsLocked = shouldLockDisableProps("bookingLimits");

@@ -61,7 +61,8 @@ export default function RequiresConfirmationController({
     }
   }, [requiresConfirmation]);
 
-  const { shouldLockDisableProps } = useLockedFieldsManager({ eventType, translate: t, formMethods });
+  // EE feature removed - managed event types field locking not available
+  const shouldLockDisableProps = (_f: string) => ({ disabled: false, LockedIcon: false as const });
   const requiresConfirmationLockedProps = shouldLockDisableProps("requiresConfirmation");
 
   const options = [

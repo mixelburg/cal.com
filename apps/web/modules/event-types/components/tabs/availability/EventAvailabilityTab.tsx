@@ -446,8 +446,11 @@ const EventTypeSchedule = ({
 }: EventTypeScheduleProps) => {
   const { t } = useLocale();
   const formMethods = useFormContext<FormValues>();
-  const { shouldLockIndicator, shouldLockDisableProps, isManagedEventType, isChildrenManagedEventType } =
-    useLockedFieldsManager({ eventType, translate: t, formMethods });
+  // EE feature removed - managed event types field locking not available
+  const shouldLockIndicator = (_f: string) => null;
+  const shouldLockDisableProps = (_f: string) => ({ disabled: false, LockedIcon: false as const });
+  const isManagedEventType = false;
+  const isChildrenManagedEventType = false;
   const { watch, setValue } = formMethods;
 
   // Map the fieldName to the actual form field name

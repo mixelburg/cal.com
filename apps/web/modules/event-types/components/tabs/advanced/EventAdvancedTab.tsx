@@ -501,12 +501,15 @@ export const EventAdvancedTab = ({
     );
   };
 
-  const { isChildrenManagedEventType, isManagedEventType, shouldLockDisableProps, shouldLockIndicator } =
-    useLockedFieldsManager({
-      eventType,
-      translate: t,
-      formMethods,
-    });
+  // EE feature removed - managed event types field locking not available
+  const isChildrenManagedEventType = false;
+  const isManagedEventType = false;
+  const shouldLockDisableProps = (_f: string, _o?: unknown) => ({
+    disabled: false,
+    LockedIcon: false as const,
+    isLocked: false,
+  });
+  const shouldLockIndicator = (_f: string) => ({} as { disabled?: boolean; LockedIcon?: false | JSX.Element });
   const eventNamePlaceholder = getEventName({
     ...eventNameObject,
     eventName: formMethods.watch("eventName"),

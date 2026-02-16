@@ -38,11 +38,14 @@ export const EventAppsTab = ({
 
   const { getAppDataGetter, getAppDataSetter, eventTypeFormMetadata } = useAppsData();
 
-  const { shouldLockDisableProps, isManagedEventType, isChildrenManagedEventType } = useLockedFieldsManager({
-    eventType,
-    translate: t,
-    formMethods,
+  // EE feature removed - managed event types field locking not available
+  const shouldLockDisableProps = (_f: string, _o?: unknown) => ({
+    disabled: false,
+    LockedIcon: false as const,
+    isLocked: false,
   });
+  const isManagedEventType = false;
+  const isChildrenManagedEventType = false;
   const appsDisableProps = shouldLockDisableProps("apps", { simple: true });
   const lockedText = appsDisableProps.isLocked ? "locked" : "unlocked";
 

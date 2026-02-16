@@ -105,11 +105,14 @@ export const EventWebhooksTab = ({ eventType }: Pick<EventTypeSetupProps, "event
     );
   };
 
-  const { shouldLockDisableProps, isChildrenManagedEventType, isManagedEventType } = useLockedFieldsManager({
-    eventType,
-    translate: t,
-    formMethods,
+  // EE feature removed - managed event types field locking not available
+  const shouldLockDisableProps = (_f: string, _o?: unknown) => ({
+    disabled: false,
+    LockedIcon: false as const,
+    isLocked: false,
   });
+  const isManagedEventType = false;
+  const isChildrenManagedEventType = false;
   const webhooksDisableProps = shouldLockDisableProps("webhooks", { simple: true });
   const lockedText = webhooksDisableProps.isLocked ? "locked" : "unlocked";
   const cannotEditWebhooks = isChildrenManagedEventType ? webhooksDisableProps.isLocked : false;

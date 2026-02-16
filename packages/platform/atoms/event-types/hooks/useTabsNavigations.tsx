@@ -42,11 +42,9 @@ export const useTabsNavigations = ({
   const availability = formMethods.watch("availability");
   const appsMetadata = formMethods.getValues("metadata")?.apps;
 
-  const { isManagedEventType, isChildrenManagedEventType } = useLockedFieldsManager({
-    eventType,
-    translate: t,
-    formMethods,
-  });
+  // EE feature removed - managed event types field locking not available
+  const isManagedEventType = false;
+  const isChildrenManagedEventType = false;
 
   let enabledAppsNumber = 0;
 

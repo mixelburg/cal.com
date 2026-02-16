@@ -77,12 +77,8 @@ export default function InstantEventController({
     formMethods.getValues("instantMeetingParameters") || []
   );
 
-  const { shouldLockDisableProps } = useLockedFieldsManager({
-    eventType,
-    translate: t,
-    formMethods,
-  });
-
+  // EE feature removed - managed event types field locking not available
+  const shouldLockDisableProps = (_f: string) => ({ disabled: false, LockedIcon: false as const });
   const instantLocked = shouldLockDisableProps("isInstantEvent");
 
   const isOrg = !!session.data?.user?.org?.id;
@@ -353,11 +349,10 @@ const InstantMeetingWebhooks = ({ eventType }: { eventType: EventTypeSetup }) =>
     );
   };
 
-  const { shouldLockDisableProps, isChildrenManagedEventType, isManagedEventType } = useLockedFieldsManager({
-    eventType,
-    formMethods,
-    translate: t,
-  });
+  // EE feature removed - managed event types field locking not available
+  const shouldLockDisableProps = (_f: string) => ({ disabled: false, LockedIcon: false as const });
+  const isChildrenManagedEventType = false;
+  const isManagedEventType = false;
   const webhookLockedStatus = shouldLockDisableProps("webhooks");
 
   return (

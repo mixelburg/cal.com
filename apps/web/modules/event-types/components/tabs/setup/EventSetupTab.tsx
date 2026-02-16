@@ -102,8 +102,11 @@ export const EventSetupTab = (
     selectedMultipleDuration.find((opt) => opt.value === formMethods.getValues("length")) ?? null
   );
 
-  const { isChildrenManagedEventType, isManagedEventType, shouldLockIndicator, shouldLockDisableProps } =
-    useLockedFieldsManager({ eventType, translate: t, formMethods });
+  // EE feature removed - managed event types field locking not available
+  const isChildrenManagedEventType = false;
+  const isManagedEventType = false;
+  const shouldLockIndicator = (_f: string) => null;
+  const shouldLockDisableProps = (_f: string) => ({ disabled: false, LockedIcon: false as const });
 
   const lengthLockedProps = shouldLockDisableProps("length");
   const descriptionLockedProps = shouldLockDisableProps("description");

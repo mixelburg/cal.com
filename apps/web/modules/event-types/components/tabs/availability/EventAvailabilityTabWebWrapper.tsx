@@ -24,11 +24,9 @@ const EventAvailabilityTabWebWrapper = (props: EventAvailabilityTabWebWrapperPro
   const scheduleId = formMethods.watch("schedule");
   const restrictionScheduleId = formMethods.watch("restrictionScheduleId");
 
-  const { isManagedEventType, isChildrenManagedEventType } = useLockedFieldsManager({
-    eventType: props.eventType,
-    translate: t,
-    formMethods,
-  });
+  // EE feature removed - managed event types field locking not available
+  const isManagedEventType = false;
+  const isChildrenManagedEventType = false;
 
   // Check if team has restriction schedule feature enabled
   const { data: isRestrictionScheduleEnabled = false } = trpc.viewer.features.checkTeamFeature.useQuery(
