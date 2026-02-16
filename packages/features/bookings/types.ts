@@ -26,7 +26,10 @@ type BookerEventUser = Pick<
   bookerUrl: string;
 };
 
-type BookerEventProfile = Pick<PublicEvent["profile"], "name" | "image" | "bookerLayouts">;
+type BookerEventProfile = Pick<PublicEvent["profile"], "weekStart" | "theme" | "brandColor" | "darkBrandColor" | "bookerLayouts"> & {
+  name?: string | null;
+  image?: string | null;
+};
 
 // Re-export Slots from the server-safe location
 export type { Slots };

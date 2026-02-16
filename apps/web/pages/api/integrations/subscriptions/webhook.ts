@@ -5,9 +5,15 @@ import type Stripe from "stripe";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
 import { getServerErrorFromUnknown } from "@calcom/lib/server/getServerErrorFromUnknown";
-import { getStripeCustomerIdFromUserId } from "@calcom/lib/stripe/customer";
-import { stripe } from "@calcom/lib/stripe/server";
 import { prisma } from "@calcom/prisma";
+
+// EE stripe feature stubs
+const getStripeCustomerIdFromUserId = async (..._args: any[]) => null;
+const stripe = {
+  webhooks: {
+    constructEvent: (..._args: any[]) => ({ type: "unknown", data: { object: {} } }),
+  },
+};
 
 export const config = {
   api: {

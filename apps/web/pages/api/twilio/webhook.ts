@@ -11,13 +11,14 @@ import { CreditUsageType } from "@calcom/prisma/enums";
 const twilio = {
   validateWebhookRequest: async (..._args: any[]) => true,
   getCountryCodeForNumber: async (..._args: any[]) => "US",
-  getMessageInfo: async (..._args: any[]) => ({ segments: 1, units: 1 }),
+  getMessageInfo: async (..._args: any[]) => ({ segments: 1, units: 1, price: 0, numSegments: 1 }),
 };
 
 class CreditService {
   recordUsage = async (..._args: any[]) => {};
   hasEnoughCredits = async (..._args: any[]) => true;
-  chargeCredits = async (..._args: any[]) => {};
+  chargeCredits = async (..._args: any[]) => null;
+  calculateCreditsFromPrice = (..._args: any[]) => 0;
 }
 
 const InputSchema = z.object({
