@@ -10,8 +10,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 // PostHog imports removed (EE feature)
 import { FeatureProvider } from "@calcom/features/flags/context/provider";
 import { useFlags } from "@calcom/web/modules/feature-flags/hooks/useFlags";
-import DynamicHelpscoutProvider from "@calcom/web/modules/ee/support/lib/helpscout/providerDynamic";
-import DynamicIntercomProvider from "@calcom/web/modules/ee/support/lib/intercom/providerDynamic";
+// EE features removed: DynamicHelpscoutProvider, DynamicIntercomProvider (support chat)
 
 import useIsBookingPage from "@lib/hooks/useIsBookingPage";
 import useIsThemeSupported from "@lib/hooks/useIsThemeSupported";
@@ -123,9 +122,8 @@ const AppProviders = (props: PageWrapperProps) => {
               {props.isBookingPage || isBookingPage ? (
                 <OrgBrandProvider>{props.children}</OrgBrandProvider>
               ) : (
-                <DynamicIntercomProvider>
-                  <OrgBrandProvider>{props.children}</OrgBrandProvider>
-                </DynamicIntercomProvider>
+                // EE feature removed: DynamicIntercomProvider (Intercom support chat)
+                <OrgBrandProvider>{props.children}</OrgBrandProvider>
               )}
             </FeatureFlagsProvider>
           </NuqsAdapter>
@@ -140,10 +138,8 @@ const AppProviders = (props: PageWrapperProps) => {
 
   return (
     <>
-      <DynamicHelpscoutProvider>
-        {/* PostHog removed (EE feature) */}
-        {RemainingProviders}
-      </DynamicHelpscoutProvider>
+      {/* EE features removed: DynamicHelpscoutProvider (Helpscout support chat), PostHog */}
+      {RemainingProviders}
     </>
   );
 };

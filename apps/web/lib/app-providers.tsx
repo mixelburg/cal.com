@@ -21,8 +21,7 @@ import { useEffect } from "react";
 
 import { FeatureProvider } from "@calcom/features/flags/context/provider";
 import { useFlags } from "@calcom/web/modules/feature-flags/hooks/useFlags";
-import DynamicHelpscoutProvider from "@calcom/web/modules/ee/support/lib/helpscout/providerDynamic";
-import DynamicIntercomProvider from "@calcom/web/modules/ee/support/lib/intercom/providerDynamic";
+// EE features removed: DynamicHelpscoutProvider, DynamicIntercomProvider (support chat)
 
 import useIsBookingPage from "@lib/hooks/useIsBookingPage";
 import { useNuqsParams } from "@lib/hooks/useNuqsParams";
@@ -288,9 +287,8 @@ const AppProviders = (props: AppPropsWithChildren) => {
               {_isBookingPage ? (
                 <OrgBrandProvider>{props.children}</OrgBrandProvider>
               ) : (
-                <DynamicIntercomProvider>
-                  <OrgBrandProvider>{props.children}</OrgBrandProvider>
-                </DynamicIntercomProvider>
+                // EE feature removed: DynamicIntercomProvider (Intercom support chat)
+                <OrgBrandProvider>{props.children}</OrgBrandProvider>
               )}
             </FeatureFlagsProvider>
           </NuqsAdapter>
@@ -305,7 +303,8 @@ const AppProviders = (props: AppPropsWithChildren) => {
 
   return (
     <>
-      <DynamicHelpscoutProvider>{RemainingProviders}</DynamicHelpscoutProvider>
+      {/* EE feature removed: DynamicHelpscoutProvider (Helpscout support chat) */}
+      {RemainingProviders}
     </>
   );
 };

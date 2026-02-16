@@ -1,7 +1,7 @@
 "use client";
 
 import "@calcom/embed-core/src/embed-iframe";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
+// EE feature removed: LicenseRequired (license checking EE-only)
 
 import AppProviders from "@lib/app-providers-app-dir";
 
@@ -27,11 +27,8 @@ function PageWrapper(props: PageWrapperProps) {
     <>
       <AppProviders {...providerProps}>
         <>
-          {props.requiresLicense ? (
-            <LicenseRequired>{props.children}</LicenseRequired>
-          ) : (
-            <>{props.children}</>
-          )}
+          {/* EE feature removed: LicenseRequired - always render children */}
+          {props.children}
         </>
       </AppProviders>
     </>

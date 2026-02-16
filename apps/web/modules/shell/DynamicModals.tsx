@@ -1,6 +1,6 @@
 "use client";
 
-import { WelcomeToOrganizationsModal } from "@calcom/web/modules/ee/organizations/components/WelcomeToOrganizationsModal";
+// EE feature removed: WelcomeToOrganizationsModal (org onboarding)
 
 import { WelcomeToCalcomModal } from "./components/WelcomeToCalcomModal";
 import { GatedFeaturesModal } from "./components/GatedFeaturesModal";
@@ -18,7 +18,7 @@ import { GatedFeaturesModal } from "./components/GatedFeaturesModal";
 export function DynamicModals() {
   return (
     <>
-      <WelcomeToOrganizationsModal />
+      {/* EE feature removed: WelcomeToOrganizationsModal */}
       <WelcomeToCalcomModal />
       {/* Add more query-param driven modals here */}
       <GatedFeaturesModal />

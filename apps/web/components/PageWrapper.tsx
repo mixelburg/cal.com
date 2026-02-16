@@ -16,7 +16,7 @@ import Head from "next/head";
 import Script from "next/script";
 
 import "@calcom/embed-core/src/embed-iframe";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
+// EE feature removed: LicenseRequired (license checking EE-only)
 import { IS_CALCOM, WEBAPP_URL } from "@calcom/lib/constants";
 import { getCalcomUrl } from "@calcom/lib/getCalcomUrl";
 import { buildCanonical } from "@calcom/lib/next-seo.config";
@@ -97,13 +97,8 @@ function PageWrapper(props: AppProps) {
       <IconSprites />
 
       {getLayout(
-        Component.requiresLicense ? (
-          <LicenseRequired>
-            <Component {...pageProps} err={err} />
-          </LicenseRequired>
-        ) : (
-          <Component {...pageProps} err={err} />
-        )
+        // EE feature removed: LicenseRequired - always render Component
+        <Component {...pageProps} err={err} />
       )}
       <GoogleTagManagerComponent />
     </AppProviders>

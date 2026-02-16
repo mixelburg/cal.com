@@ -1,4 +1,4 @@
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
+// EE feature removed: LicenseRequired (license checking EE-only)
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 
 import Shell from "~/shell/Shell";
@@ -14,13 +14,8 @@ const ShellHeading = () => {
 export default function WrappedApp(props: AppPageProps) {
   return (
     <Shell smallHeading isPublic heading={<ShellHeading />} backPath="/apps">
-      {props.licenseRequired ? (
-        <LicenseRequired>
-          <AppPage {...props} />
-        </LicenseRequired>
-      ) : (
-        <AppPage {...props} />
-      )}
+      {/* EE feature removed: LicenseRequired - always render AppPage */}
+      <AppPage {...props} />
     </Shell>
   );
 }

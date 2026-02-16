@@ -5,7 +5,7 @@ import { TeamsCTA } from "app/(use-page-wrapper)/(main-nav)/teams/CTA";
 
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 
-import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
+// EE feature removed: SkeletonLoaderTeamList (EE teams skeleton)
 
 export const TeamsListSkeleton = () => {
   const { t } = useLocale();
@@ -14,7 +14,7 @@ export const TeamsListSkeleton = () => {
       heading={t("teams")}
       subtitle={t("create_manage_teams_collaborative")}
       CTA={<TeamsCTA />}>
-      <SkeletonLoaderTeamList />
+      {/* EE feature removed: SkeletonLoaderTeamList - no skeleton needed */}
     </ShellMainAppDir>
   );
 };

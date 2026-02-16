@@ -5,8 +5,8 @@ import { components } from "react-select";
 import type { OptionProps, SingleValueProps } from "react-select";
 
 import { Dialog } from "@calcom/features/components/controlled-dialog";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
-import type { EventTypeSetup, FormValues, AvailabilityOption } from "@calcom/features/eventtypes/lib/types";
+// EE feature removed: LicenseRequired (license checking EE-only)
+import type { EventTypeSetup, FormValues, AvailabilityOption} from "@calcom/features/eventtypes/lib/types";
 import { subscriberUrlReserved } from "@calcom/features/webhooks/lib/subscriberUrlReserved";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { WebhookTriggerEvents } from "@calcom/prisma/enums";
@@ -97,8 +97,8 @@ export default function InstantEventController({
   }));
 
   return (
-    <LicenseRequired>
-      <div className="block items-start sm:flex">
+    // EE feature removed: LicenseRequired wrapper
+    <div className="block items-start sm:flex">
         {!isOrg || !isTeamEvent ? (
           <EmptyScreen
             headline={t("instant_tab_title")}
@@ -265,7 +265,6 @@ export default function InstantEventController({
           </div>
         )}
       </div>
-    </LicenseRequired>
   );
 }
 

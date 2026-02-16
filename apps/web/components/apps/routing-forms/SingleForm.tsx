@@ -7,7 +7,7 @@ import type { UseFormReturn } from "react-hook-form";
 
 import { InfoLostWarningDialog } from "@calcom/app-store/routing-forms/components/InfoLostWarningDialog";
 import type { RoutingFormWithResponseCount } from "@calcom/app-store/routing-forms/types/types";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
+// EE feature removed: LicenseRequired (license checking EE-only)
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { trpc } from "@calcom/trpc/react";
 import type { inferSSRProps } from "@calcom/types/inferSSRProps";
@@ -265,8 +265,7 @@ export default function SingleFormWrapper({ form: _form, ...props }: SingleFormC
     throw new Error(t("something_went_wrong"));
   }
   return (
-    <LicenseRequired>
-      <SingleForm form={form} {...props} />
-    </LicenseRequired>
+    // EE feature removed: LicenseRequired wrapper
+    <SingleForm form={form} {...props} />
   );
 }

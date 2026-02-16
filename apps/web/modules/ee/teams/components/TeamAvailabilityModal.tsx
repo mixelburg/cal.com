@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import dayjs from "@calcom/dayjs";
 import { TimezoneSelect } from "@calcom/web/modules/timezone/components/TimezoneSelect";
 import type { ITimezone } from "@calcom/features/timezone/components/TimezoneSelectComponent";
-import LicenseRequired from "~/ee/common/components/LicenseRequired";
+// EE feature removed: LicenseRequired (license checking EE-only)
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { CURRENT_TIMEZONE } from "@calcom/lib/timezoneConstants";
@@ -36,9 +36,9 @@ export default function TeamAvailabilityModal(props: Props) {
   }, [utils, selectedTimeZone, selectedDate]);
 
   return (
-    <LicenseRequired>
-      <>
-        <div className="grid h-[400px] grid-cols-2 space-x-11 rtl:space-x-reverse">
+    // EE feature removed: LicenseRequired wrapper
+    <>
+      <div className="grid h-[400px] grid-cols-2 space-x-11 rtl:space-x-reverse">
           <div className="col-span-1">
             <div className="flex">
               <Avatar
@@ -90,8 +90,7 @@ export default function TeamAvailabilityModal(props: Props) {
           </div>
 
           {/* TeamAvailabilityTimes removed (EE feature) */}
-        </div>
-      </>
-    </LicenseRequired>
+      </div>
+    </>
   );
 }

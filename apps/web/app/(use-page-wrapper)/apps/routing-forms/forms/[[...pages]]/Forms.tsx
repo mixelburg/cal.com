@@ -41,7 +41,7 @@ import { useFormContext } from "react-hook-form";
 import { useHasPaidPlan } from "~/billing/hooks/useHasPaidPlan";
 import LicenseRequired from "~/ee/common/components/LicenseRequired";
 import { CreateButtonWithTeamsList } from "~/ee/teams/components/createButton/CreateButtonWithTeamsList";
-import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
+// EE feature removed: SkeletonLoaderTeamList (EE teams skeleton)
 import { ShellMain } from "~/shell/Shell";
 // UpgradeTip removed (EE billing feature)
 
@@ -152,8 +152,8 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
   }
 
   return (
-    <LicenseRequired>
-      <ShellMain
+    // EE feature removed: LicenseRequired wrapper
+    <ShellMain
         disableSticky={true}
         heading={t("routing")}
         CTA={
@@ -188,7 +188,8 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
                     description={t("change_filter_common")}
                   />
                 }
-                SkeletonLoader={SkeletonLoaderTeamList}>
+                SkeletonLoader={() => null}>
+                {/* EE feature removed: SkeletonLoaderTeamList */}
                 <div className="bg-default mb-16 overflow-hidden">
                   <List data-testid="routing-forms-list" ref={parent}>
                     {forms?.map(({ form, readOnly, hasError }, index) => {
@@ -324,6 +325,5 @@ export default function RoutingForms({ appUrl }: { appUrl: string }) {
           </FormActionsProvider>
         {/* UpgradeTip removed (EE billing feature) */}
       </ShellMain>
-    </LicenseRequired>
   );
 }

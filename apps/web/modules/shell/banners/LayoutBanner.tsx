@@ -1,14 +1,4 @@
-import ImpersonatingBanner, {
-  type ImpersonatingBannerProps,
-} from "@calcom/web/modules/ee/impersonation/components/ImpersonatingBanner";
-import {
-  OrgUpgradeBanner,
-  type OrgUpgradeBannerProps,
-} from "@calcom/web/modules/ee/organizations/components/OrgUpgradeBanner";
-import {
-  TeamsUpgradeBanner,
-  type TeamsUpgradeBannerProps,
-} from "@calcom/web/modules/ee/teams/components/TeamsUpgradeBanner";
+// EE features removed: ImpersonatingBanner, OrgUpgradeBanner, TeamsUpgradeBanner
 import AdminPasswordBanner, {
   type AdminPasswordBannerProps,
 } from "@calcom/web/modules/users/components/AdminPasswordBanner";
@@ -24,11 +14,9 @@ import VerifyEmailBanner, {
 } from "@calcom/web/modules/users/components/VerifyEmailBanner";
 
 type BannerTypeProps = {
-  teamUpgradeBanner: TeamsUpgradeBannerProps;
-  orgUpgradeBanner: OrgUpgradeBannerProps;
+  // EE features removed: teamUpgradeBanner, orgUpgradeBanner, impersonationBanner
   verifyEmailBanner: VerifyEmailBannerProps;
   adminPasswordBanner: AdminPasswordBannerProps;
-  impersonationBanner: ImpersonatingBannerProps;
   calendarCredentialBanner: CalendarCredentialBannerProps;
   invalidAppCredentialBanners: InvalidAppCredentialBannersProps;
 };
@@ -42,11 +30,9 @@ type BannerComponent = {
 export type AllBannerProps = { [Key in BannerType]: BannerTypeProps[Key]["data"] };
 
 export const BannerComponent: BannerComponent = {
-  teamUpgradeBanner: (props: TeamsUpgradeBannerProps) => <TeamsUpgradeBanner {...props} />,
-  orgUpgradeBanner: (props: OrgUpgradeBannerProps) => <OrgUpgradeBanner {...props} />,
+  // EE features removed: teamUpgradeBanner, orgUpgradeBanner, impersonationBanner
   verifyEmailBanner: (props: VerifyEmailBannerProps) => <VerifyEmailBanner {...props} />,
   adminPasswordBanner: (props: AdminPasswordBannerProps) => <AdminPasswordBanner {...props} />,
-  impersonationBanner: (props: ImpersonatingBannerProps) => <ImpersonatingBanner {...props} />,
   calendarCredentialBanner: (props: CalendarCredentialBannerProps) => <CalendarCredentialBanner {...props} />,
   invalidAppCredentialBanners: (props: InvalidAppCredentialBannersProps) => (
     <InvalidAppCredentialBanners {...props} />
@@ -61,19 +47,11 @@ export const BannerContainer: React.FC<BannerContainerProps> = ({ banners }) => 
   return (
     <div className="sticky top-0 z-10 w-full divide-y divide-black">
       {Object.keys(banners).map((key) => {
-        if (key === "teamUpgradeBanner") {
-          const Banner = BannerComponent[key];
-          return <Banner data={banners[key]} key={key} />;
-        } else if (key === "orgUpgradeBanner") {
-          const Banner = BannerComponent[key];
-          return <Banner data={banners[key]} key={key} />;
-        } else if (key === "verifyEmailBanner") {
+        // EE features removed: teamUpgradeBanner, orgUpgradeBanner, impersonationBanner
+        if (key === "verifyEmailBanner") {
           const Banner = BannerComponent[key];
           return <Banner data={banners[key]} key={key} />;
         } else if (key === "adminPasswordBanner") {
-          const Banner = BannerComponent[key];
-          return <Banner data={banners[key]} key={key} />;
-        } else if (key === "impersonationBanner") {
           const Banner = BannerComponent[key];
           return <Banner data={banners[key]} key={key} />;
         } else if (key === "calendarCredentialBanner") {

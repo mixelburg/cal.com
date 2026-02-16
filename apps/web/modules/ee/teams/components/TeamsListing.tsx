@@ -13,7 +13,7 @@ import { Label } from "@calcom/ui/components/form";
 import { Icon } from "@calcom/ui/components/icon";
 import { showToast } from "@calcom/ui/components/toast";
 
-import SkeletonLoaderTeamList from "~/ee/teams/components/SkeletonloaderTeamList";
+// EE feature removed: SkeletonLoaderTeamList (EE teams skeleton)
 // UpgradeTip import removed (EE feature)
 
 import TeamList from "./TeamList";
