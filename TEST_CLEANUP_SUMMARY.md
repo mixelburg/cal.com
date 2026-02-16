@@ -154,6 +154,30 @@ Could be cleaned up in a future pass if desired.
 
 ---
 
+## Phase 3: Impersonation Feature (Additional Cleanup)
+
+### Commit: b99b864174
+
+**Files Deleted (3)**:
+1. `apps/web/app/(use-page-wrapper)/settings/(settings-layout)/security/impersonation/page.tsx` (783B)
+   - Settings page for user impersonation toggle
+2. `apps/web/modules/settings/security/impersonation-view.tsx` (2.5KB)
+   - React component for impersonation settings UI
+3. `apps/web/modules/ee/teams/components/DisableTeamImpersonation.tsx` (1.5KB)
+   - Team-level impersonation control component
+
+**Files Modified (2)**:
+1. `apps/web/app/(use-page-wrapper)/settings/(settings-layout)/SettingsLayoutAppDirClient.tsx`
+   - Removed 2 navigation items: `/settings/security/impersonation` and `/settings/admin/impersonation`
+2. `apps/web/modules/shell/Kbar.tsx`
+   - Removed "impersonation" command shortcut (`u` + `i`)
+
+**Why Removed**: Impersonation is an EE admin-only feature that allows administrators to log in as other users for troubleshooting/support. Not applicable for self-hosted cal.diy.
+
+**Note**: The `disableImpersonation` database field remains in schema.prisma for data integrity, but all UI to control it has been removed.
+
+---
+
 ## Next Steps
 
 1. ✅ **Setup database** (PostgreSQL + migrations)
@@ -164,7 +188,7 @@ Could be cleaned up in a future pass if desired.
 
 ---
 
-**Status**: ✅ Test suite cleaned and ready for validation
+**Status**: ✅ Test suite cleaned + impersonation UI removed
 **Test Files**: 74 remaining (24 removed, 24% reduction)
-**Code Removed**: ~97KB
+**Code Removed**: ~102KB (tests + impersonation UI)
 **Focus**: 100% on cal.diy core features
