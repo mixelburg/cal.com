@@ -22,9 +22,10 @@ export const generateMetadata = async ({ params, searchParams }: PageProps) => {
 
   const { booking, isSEOIndexable = true, eventData, isBrandingHidden } = props;
   const rescheduleUid = booking?.uid;
-  // Organizations removed - profile may not have name/image on all branches
-  const profileName = eventData?.profile?.name ?? "";
-  const profileImage = eventData?.profile?.image;
+  // Organizations removed - profile may not have name/image on all type branches, use type assertion
+  const profile = eventData?.profile as { name?: string | null; image?: string | null; weekStart?: string } | undefined;
+  const profileName = profile?.name ?? "";
+  const profileImage = profile?.image;
   const title = eventData?.title ?? "";
   const meeting = {
     title,
