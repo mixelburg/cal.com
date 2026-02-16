@@ -86,36 +86,14 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
   const dataFetchStart = Date.now();
 
   // Organizations removed - no org redirects needed
+  // Dynamic groups removed - org-only feature (e.g., "/benny+steve")
 
   const usersInOrgContext = await getUsersInOrgContext(
     usernameList,
     isValidOrgDomain ? currentOrgDomain : null
   );
 
-  const isDynamicGroup = usersInOrgContext.length > 1;
-  log.debug(safeStringify({ usersInOrgContext, isValidOrgDomain, currentOrgDomain, isDynamicGroup }));
-
-  if (isDynamicGroup) {
-    const destinationUrl = encodeURI(`/${usernameList.join("+")}/dynamic`);
-
-    // EXAMPLE - context.params: { orgSlug: 'acme', user: 'member0+owner1' }
-    // EXAMPLE - context.query: { redirect: 'undefined', orgRedirection: 'undefined', user: 'member0+owner1' }
-    const originalQueryString = new URLSearchParams(context.query as Record<string, string>).toString();
-    const destinationWithQuery = `${destinationUrl}?${originalQueryString}`;
-    log.debug(`Dynamic group detected, redirecting to ${destinationUrl}`);
-    return {
-      redirect: {
-        permanent: false,
-        destination: destinationWithQuery,
-      },
-    } as const;
-  }
-
-  const isNonOrgUser = (user: { profile: UserProfile }) => {
-    return !user.profile?.organization;
-  };
-
-  const isThereAnyNonOrgUser = usersInOrgContext.some(isNonOrgUser);
+  log.debug(safeStringify({ usersInOrgContext, isValidOrgDomain, currentOrgDomain }));
 
   if (!usersInOrgContext.length || (!isValidOrgDomain && !isThereAnyNonOrgUser)) {
     return {
