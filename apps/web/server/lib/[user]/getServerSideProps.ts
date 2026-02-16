@@ -1,5 +1,5 @@
 import type { EmbedProps } from "app/WithEmbedSSR";
-import type { GetServerSideProps } from "next";
+import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { encode } from "node:querystring";
 import type { z } from "zod";
 
@@ -75,7 +75,7 @@ type UserPageProps = {
   isOrgSEOIndexable: boolean | undefined;
 } & EmbedProps;
 
-export const getServerSideProps: GetServerSideProps<UserPageProps> = async (context) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   // Organization domain config removed (EE feature)
   const currentOrgDomain = null;
   const isValidOrgDomain = false;
