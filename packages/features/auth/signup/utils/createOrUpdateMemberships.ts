@@ -91,7 +91,8 @@ export const createOrUpdateMemberships = async ({
         },
       });
     }
-    await updateNewTeamMemberEventTypes(user.id, team.id);
+    // EE feature removed - updateNewTeamMemberEventTypes not available
+    // await updateNewTeamMemberEventTypes(user.id, team.id);
     return { membership, orgMembership };
   });
 };

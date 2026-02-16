@@ -5,6 +5,8 @@ import type Stripe from "stripe";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
 import { getServerErrorFromUnknown } from "@calcom/lib/server/getServerErrorFromUnknown";
+import { getStripeCustomerIdFromUserId } from "@calcom/lib/stripe/customer";
+import { stripe } from "@calcom/lib/stripe/server";
 import { prisma } from "@calcom/prisma";
 
 export const config = {

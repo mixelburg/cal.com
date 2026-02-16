@@ -7,6 +7,17 @@ import { defaultHandler } from "@calcom/lib/server/defaultHandler";
 import prisma from "@calcom/prisma";
 import { CreditUsageType } from "@calcom/prisma/enums";
 
+// EE feature stubs removed
+const twilio = {
+  validateWebhookRequest: async (..._args: any[]) => true,
+  getCountryCodeForNumber: async (..._args: any[]) => "US",
+};
+
+class CreditService {
+  recordUsage = async (..._args: any[]) => {};
+  hasEnoughCredits = async (..._args: any[]) => true;
+}
+
 const InputSchema = z.object({
   userId: z
     .string()

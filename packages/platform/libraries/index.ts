@@ -4,7 +4,9 @@ import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/
 import getBookingInfo from "@calcom/features/bookings/lib/getBookingInfo";
 import handleCancelBooking from "@calcom/features/bookings/lib/handleCancelBooking";
 import { handleCreatePhoneCall } from "@calcom/features/handleCreatePhoneCall";
-import { handleMarkNoShow } from "@calcom/features/handleMarkNoShow";
+// EE feature removed - handleMarkNoShow not available
+// import { handleMarkNoShow } from "@calcom/features/handleMarkNoShow";
+const handleMarkNoShow = async (..._args: any[]) => {};
 import { getRoutedUrl } from "@calcom/features/routing-forms/lib/getRoutedUrl";
 import { symmetricDecrypt, symmetricEncrypt } from "@calcom/lib/crypto";
 import { getTranslation } from "@calcom/lib/server/i18n";

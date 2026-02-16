@@ -17,6 +17,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     } as const;
   }
   // direct access is intentional.
+  // EE feature removed - deployment repository not available
+  class DeploymentRepository {
+    constructor(..._args: any[]) {}
+    getLicenseKeyWithId = async (..._args: any[]) => null;
+  }
   const deploymentRepo = new DeploymentRepository(prisma);
   const licenseKey = await deploymentRepo.getLicenseKeyWithId(1);
 
