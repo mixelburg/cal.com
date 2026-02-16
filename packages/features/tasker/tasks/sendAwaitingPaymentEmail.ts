@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { stripe } from "@calcom/app-store/_utils/stripe";
 import { createPaymentLink } from "@calcom/app-store/stripepayment/lib/client";
 import { sendAwaitingPaymentEmailAndSMS } from "@calcom/emails/email-manager";
 import { getBooking } from "@calcom/features/bookings/lib/payment/getBooking";
@@ -8,13 +9,6 @@ import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { PrismaBookingPaymentRepository } from "@calcom/features/bookings/repositories/PrismaBookingPaymentRepository";
 import prisma from "@calcom/prisma";
-
-// Stub for removed EE stripe integration
-const stripe: any = {
-  paymentIntents: {
-    retrieve: async (_id: string) => ({ status: "unknown" })
-  }
-};
 
 const log = logger.getSubLogger({ prefix: ["sendAwaitingPaymentEmail"] });
 

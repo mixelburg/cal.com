@@ -1,3 +1,4 @@
+import { getOrgDomainConfig } from "@calcom/features/ee/organizations/lib/orgDomains";
 import {
   getRoutedUsersWithContactOwnerAndFixedUsers,
   findMatchingHostsWithEventSegment,
@@ -12,11 +13,6 @@ import { Prisma } from "@calcom/prisma/client";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 
 import type { NewBookingEventType } from "./getEventTypesFromDB";
-
-// Stub for removed EE org function
-function getOrgDomainConfig(_req: any): any {
-  return { currentOrgDomain: null, isValidOrgDomain: false };
-}
 
 const log = logger.getSubLogger({ prefix: ["[loadUsers]:handleNewBooking "] });
 

@@ -1,5 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { HttpError } from "@calcom/lib/http-error";
 import { defaultResponder } from "@calcom/lib/server/defaultResponder";
 import prisma from "@calcom/prisma";
@@ -10,9 +8,9 @@ import type { TInviteMemberInputSchema } from "@calcom/trpc/server/routers/viewe
 import { ZInviteMemberInputSchema } from "@calcom/trpc/server/routers/viewer/teams/inviteMember/inviteMember.schema";
 import { createCallerFactory } from "@calcom/trpc/server/trpc";
 import type { UserProfile } from "@calcom/types/UserProfile";
-
 import { TRPCError } from "@trpc/server";
 import { getHTTPStatusCodeFromError } from "@trpc/server/http";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse) {
   const data = ZInviteMemberInputSchema.parse(req.body);
@@ -38,11 +36,27 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
     };
   }
 
-  // Team invitations not supported in self-hosted version (EE feature removed)
-  throw new HttpError({
-    statusCode: 501,
-    message: "Team member invitations via API not supported in self-hosted version. Please use the web interface.",
-  });
+  const ctx = await createContext({ req, res }, sessionGetter);
+  try {
+    const createCaller = createCallerFactory(viewerTeamsRouter);
+    const caller = createCaller(ctx);
+    await caller.inviteMember({
+      role: data.role,
+      language: data.language,
+      teamId: data.teamId,
+      usernameOrEmail: data.usernameOrEmail,
+      creationSource: CreationSource.API_V1,
+    });
+
+    return { success: true, message: `${data.usernameOrEmail} has been invited.` };
+  } catch (cause) {
+    if (cause instanceof TRPCError) {
+      const statusCode = getHTTPStatusCodeFromError(cause);
+      throw new HttpError({ statusCode, message: cause.message });
+    }
+
+    throw cause;
+  }
 }
 
 async function checkPermissions(req: NextApiRequest, body: TInviteMemberInputSchema) {

@@ -1,5 +1,6 @@
 import { enrichUserWithDelegationCredentials } from "@calcom/app-store/delegationCredential";
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
+import { workflowSelect } from "@calcom/features/workflows/lib/workflowSelect";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
 import { isPrismaObjOrUndefined } from "@calcom/lib/isPrismaObj";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
@@ -9,9 +10,6 @@ import { bookingMinimalSelect, prisma } from "@calcom/prisma";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
-// Workflows removed - empty select to maintain query shape
-const workflowSelect = {};
 
 async function getEventType(id: number) {
   return prisma.eventType.findUnique({

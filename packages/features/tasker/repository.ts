@@ -5,7 +5,7 @@ import { Prisma } from "@calcom/prisma/client";
 import { type TaskTypes } from "./tasker";
 import { z } from "zod";
 
-// Stub for removed EE workflow schema
+// Keep minimal payload shape for historical scan-workflow tasks after workflows removal.
 const scanWorkflowBodySchema = z.object({
   createdAt: z.string().optional(),
 });

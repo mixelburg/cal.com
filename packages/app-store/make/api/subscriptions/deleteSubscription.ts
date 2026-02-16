@@ -1,25 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import z from "zod";
-
-// API keys removed (EE feature) - stub function with full ApiKey type
-type ApiKey = {
-  id: string;
-  userId: number;
-  teamId: number | null;
-  createdAt: Date;
-  appId: string | null;
-  lastUsedAt: Date | null;
-  note: string | null;
-  expiresAt: Date | null;
-  hashedKey: string;
-};
-async function findValidApiKey(_apiKey: string, _appId?: string): Promise<ApiKey | null> {
-  return null;
-}
+import findValidApiKey from "@calcom/features/ee/api-keys/lib/findValidApiKey";
 import { deleteSubscription } from "@calcom/features/webhooks/lib/scheduleTrigger";
-import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import { defaultHandler } from "@calcom/lib/server/defaultHandler";
 import { defaultResponder } from "@calcom/lib/server/defaultResponder";
+import type { NextApiRequest, NextApiResponse } from "next";
+import z from "zod";
 
 const querySchema = z.object({
   apiKey: z.string(),

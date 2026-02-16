@@ -1,7 +1,7 @@
 import type { ConnectedApps } from "@calcom/app-store/_utils/getConnectedApps";
 import type { EventLocationType } from "@calcom/app-store/locations";
 import type { eventTypeMetaDataSchemaWithTypedApps } from "@calcom/app-store/zod-utils";
-// Stub for removed EE type
+// Cal.ai phone templates are not available in self-hosted; keep compatibility with persisted metadata.
 type TemplateType = string;
 import type { ChildrenEventType } from "@calcom/features/eventtypes/lib/childrenEventType";
 import type { IntervalLimit } from "@calcom/lib/intervalLimits/intervalLimitSchema";

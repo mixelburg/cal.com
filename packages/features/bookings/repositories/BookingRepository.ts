@@ -8,6 +8,7 @@ import {
   bookingMinimalSelect,
 } from "@calcom/prisma/selects/booking";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
+import { workflowSelect } from "@calcom/features/workflows/lib/workflowSelect";
 
 import type {
   BookingWhereInput,
@@ -15,9 +16,6 @@ import type {
   BookingUpdateData,
   BookingWhereUniqueInput,
 } from "./IBookingRepository";
-
-// Stub for removed EE workflow
-const workflowSelect = {};
 
 const workflowReminderSelect = {
   id: true,

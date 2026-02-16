@@ -1,10 +1,6 @@
+import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { teamMetadataSchema, userMetadata } from "@calcom/prisma/zod-utils";
-
-// Stub for removed EE org function
-function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
-  return WEBAPP_URL;
-}
 
 export const enrichFormWithMigrationData = <
   T extends {

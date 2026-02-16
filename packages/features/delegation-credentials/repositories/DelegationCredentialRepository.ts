@@ -10,16 +10,6 @@ import { prisma } from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
 
 export type { ServiceAccountKey };
-
-// Stub for removed EE org repository
-function getOrganizationRepository(): any {
-  return {
-    async findByMemberEmail(_params: { email: string }): Promise<any | null> {
-      return null;
-    }
-  };
-}
-
 const repositoryLogger = logger.getSubLogger({ prefix: ["DelegationCredentialRepository"] });
 const delegationCredentialSafeSelect = {
   id: true,
@@ -146,9 +136,26 @@ export class DelegationCredentialRepository {
       prefix: ["findUniqueByOrgMemberEmailIncludeSensitiveServiceAccountKey"],
     });
     log.debug("called with", { email });
-    const organizationRepository = getOrganizationRepository();
-    const organization = await organizationRepository.findByMemberEmail({ email });
-    if (!organization) {
+    const organizationMembership = await prisma.membership.findFirst({
+      where: {
+        accepted: true,
+        user: {
+          email,
+        },
+        team: {
+          isOrganization: true,
+        },
+      },
+      select: {
+        team: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    const organizationId = organizationMembership?.team.id;
+    if (!organizationId) {
       log.debug("Email not found in any organization:", email);
       return null;
     }
@@ -157,7 +164,7 @@ export class DelegationCredentialRepository {
     const delegationCredential = await prisma.delegationCredential.findUnique({
       where: {
         organizationId_domain: {
-          organizationId: organization.id,
+          organizationId,
           domain: emailDomain,
         },
       },

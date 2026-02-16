@@ -6,6 +6,7 @@ import { MembershipRepository } from "@calcom/features/membership/repositories/M
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { ErrorWithCode } from "@calcom/lib/errors";
@@ -18,13 +19,12 @@ import { MembershipRole, SchedulingType } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 import { eventTypeMetaDataSchemaWithUntypedApps } from "@calcom/prisma/zod-utils";
 
-// Stub for removed EE org functions
 async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
-  return "";
+  return WEBAPP_URL;
 }
 
 function getBookerBaseUrlSync(_orgSlug: string | null): string {
-  return "";
+  return WEBAPP_URL;
 }
 
 const log = logger.getSubLogger({ prefix: ["viewer.eventTypes.getByViewer"] });
@@ -203,7 +203,7 @@ export const getEventTypesByViewer = async (user: User, filters?: Filters, forRo
   );
 
   if (shouldListUserEvents) {
-    const bookerUrl = ""; // Organizations removed
+    const bookerUrl = await getBookerBaseUrl(profile.organizationId ?? null);
     eventTypeGroups.push({
       teamId: null,
       bookerUrl,
@@ -285,7 +285,7 @@ export const getEventTypesByViewer = async (user: User, filters?: Filters, forRo
           return {
             teamId: team.id,
             parentId: team.parentId,
-            bookerUrl: "", // Organizations removed
+            bookerUrl: getBookerBaseUrlSync(team.parent?.slug ?? teamParentMetadata?.requestedSlug ?? null),
             membershipRole:
               orgMembership && compareMembership(orgMembership, membership.role)
                 ? orgMembership

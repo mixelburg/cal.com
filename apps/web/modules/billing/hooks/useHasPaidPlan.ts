@@ -1,4 +1,4 @@
-// Stub for removed EE billing hooks - self-hosters don't have paid plans or billing
+// Self-hosted builds do not include paid-plan billing features.
 export const useHasPaidPlan = () => {
   return { isLoading: false, hasPaidPlan: false };
 };

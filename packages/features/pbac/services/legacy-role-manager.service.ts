@@ -2,13 +2,18 @@ import { isOrganisationAdmin, isOrganisationOwner } from "@calcom/features/pbac/
 import { prisma } from "@calcom/prisma";
 import type { Membership } from "@calcom/prisma/client";
 import { MembershipRole } from "@calcom/prisma/enums";
-
 import { RoleManagementError, RoleManagementErrorCode } from "../domain/errors/role-management.error";
 import type { IRoleManager } from "./role-manager.interface";
 
-// Stub for removed EE function
-async function isTeamOwner(_userId: number, _teamId: number): Promise<boolean> {
-  return false;
+async function isTeamOwner(userId: number, teamId: number): Promise<boolean> {
+  return !!(await prisma.membership.findFirst({
+    where: {
+      userId,
+      teamId,
+      accepted: true,
+      role: MembershipRole.OWNER,
+    },
+  }));
 }
 
 export class LegacyRoleManager implements IRoleManager {

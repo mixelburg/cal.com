@@ -1,17 +1,7 @@
-import { keyBy } from "lodash";
-import type { GetServerSidePropsContext, NextApiResponse } from "next";
-
-import { getPremiumMonthlyPlanPriceId } from "@calcom/app-store/stripepayment/lib/utils";
 import { sendChangeOfEmailVerification } from "@calcom/features/auth/lib/verifyEmail";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
-
-// Stub for removed EE billing service
-const billingService: any = {
-  updateCustomer: async (_params: any) => null,
-};
 import { checkUsername } from "@calcom/features/profile/lib/checkUsername";
 import { ScheduleRepository } from "@calcom/features/schedules/repositories/ScheduleRepository";
-import hasKeyInMetadata from "@calcom/lib/hasKeyInMetadata";
 import { HttpError } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 import { uploadAvatar } from "@calcom/lib/server/avatar";
@@ -21,13 +11,13 @@ import slugify from "@calcom/lib/slugify";
 import { validateBookerLayouts } from "@calcom/lib/validateBookerLayouts";
 import { prisma } from "@calcom/prisma";
 import { Prisma } from "@calcom/prisma/client";
-import type { JsonValue } from "@calcom/types/Json";
 import { userMetadata as userMetadataSchema } from "@calcom/prisma/zod-utils";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
-
+import type { JsonValue } from "@calcom/types/Json";
 import { TRPCError } from "@trpc/server";
-
-import { updateUserMetadataAllowedKeys, type TUpdateProfileInputSchema } from "./updateProfile.schema";
+import { keyBy } from "lodash";
+import type { GetServerSidePropsContext, NextApiResponse } from "next";
+import { type TUpdateProfileInputSchema, updateUserMetadataAllowedKeys } from "./updateProfile.schema";
 
 const log = logger.getSubLogger({ prefix: ["updateProfile"] });
 type UpdateProfileOptions = {
@@ -56,8 +46,6 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
     secondaryEmails: undefined,
   };
 
-  let isPremiumUsername = false;
-
   const layoutError = validateBookerLayouts(input?.metadata?.defaultBookerLayouts || null);
   if (layoutError) {
     const t = await getTranslation(locale, "common");
@@ -70,7 +58,6 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
     if (username !== user.username) {
       data.username = username;
       const response = await checkUsername(username);
-      isPremiumUsername = response.premium;
       if (!response.available) {
         const t = await getTranslation(locale, "common");
         throw new TRPCError({ code: "BAD_REQUEST", message: t("username_already_taken") });
@@ -134,22 +121,6 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
       avatar: await resizeBase64Image(input.avatarUrl),
       userId: user.id,
     });
-  }
-
-  if (input.completedOnboarding) {
-    const userTeams = await prisma.user.findUnique({
-      where: {
-        id: user.id,
-      },
-      select: {
-        teams: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    // Team member event type updates removed with EE code
   }
 
   if (travelSchedules) {
@@ -270,15 +241,7 @@ export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions)
     });
   }
 
-  // Notify stripe about the change
-  if (updatedUser && updatedUser.metadata && hasKeyInMetadata(updatedUser, "stripeCustomerId")) {
-    const stripeCustomerId = `${updatedUser.metadata.stripeCustomerId}`;
-    await billingService.updateCustomer({
-      customerId: stripeCustomerId,
-      email: updatedUser.email,
-      userId: updatedUser.id,
-    });
-  }
+  // Stripe customer sync removed (EE billing feature)
 
   if (updatedUser && hasEmailBeenChanged) {
     // Skip sending verification email when user tries to change his primary email to a verified secondary email

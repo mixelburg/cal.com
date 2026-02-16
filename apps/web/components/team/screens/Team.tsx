@@ -6,7 +6,7 @@ import { markdownToSafeHTML } from "@calcom/lib/markdownToSafeHTML";
 import type { UserProfile } from "@calcom/types/UserProfile";
 import { UserAvatar } from "@calcom/ui/components/avatar";
 
-// Stub for removed EE TeamWithMembers type
+// Local shape kept for team member cards in self-hosted builds.
 type TeamWithMembers = {
   inviteToken?: string;
   members: Array<{

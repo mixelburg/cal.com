@@ -13,7 +13,7 @@ export const samlTenantProductHandler = ({ ctx, input }: SamlTenantProductOption
   const { prisma } = ctx;
   const { email } = input;
 
-  // Stub for removed EE SSO function
+  // EE SSO tenant-product lookup is intentionally unavailable in self-hosted builds.
   return null;
 };
 

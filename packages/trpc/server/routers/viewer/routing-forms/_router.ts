@@ -16,7 +16,7 @@ export const routingFormsRouter = router({
       return handler({ ctx, input });
     }),
   }),
-  // Stub for removed EE attribute routing endpoint
+  // EE attribute-routing endpoint is intentionally unavailable in self-hosted builds.
   findTeamMembersMatchingAttributeLogicOfRoute: publicProcedure
     .input(z.any())
     .mutation(async () => ({

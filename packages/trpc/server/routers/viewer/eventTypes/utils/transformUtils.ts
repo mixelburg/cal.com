@@ -1,18 +1,10 @@
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import type { MembershipRole } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 
 import type { TeamPermissions } from "./permissionUtils";
-
-// Stub for removed EE org functions
-async function getBookerBaseUrl(_orgId: number | null): Promise<string> {
-  return "";
-}
-
-function getBookerBaseUrlSync(_orgSlug: string | null): string {
-  return "";
-}
 
 export interface EventTypeGroup {
   teamId?: number | null;
@@ -54,7 +46,7 @@ export async function createUserEventGroup(
   },
   parentOrgHasLockedEventTypes: boolean
 ): Promise<EventTypeGroup> {
-  const bookerUrl = ""; // Organizations removed
+  const bookerUrl = WEBAPP_URL;
 
   return {
     teamId: null,
@@ -107,7 +99,7 @@ export async function createTeamEventGroup(
   return {
     teamId: team.id,
     parentId: team.parentId,
-    bookerUrl: "", // Organizations removed
+    bookerUrl: WEBAPP_URL,
     membershipRole: effectiveRole,
     profile: {
       image: team.parent

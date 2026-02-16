@@ -67,7 +67,7 @@ export const loggedInViewerRouter = router({
       );
       return removeNotificationsSubscriptionHandler({ ctx, input });
     }),
-  // Stub for removed EE no-show fee tracking
+  // No-show fee tracking is an EE-only capability and is intentionally unavailable in self-hosted builds.
   markNoShow: authedProcedure
     .input(z.any())
     .mutation(async () => {

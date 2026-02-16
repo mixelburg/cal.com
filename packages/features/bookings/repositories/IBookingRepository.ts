@@ -1,7 +1,5 @@
-import { Booking, BookingStatus } from "@calcom/prisma/client";
-
-// Stub for removed EE WorkflowMethods
-type WorkflowMethods = string;
+import { Booking } from "@calcom/prisma/client";
+import type { BookingStatus, WorkflowMethods } from "@calcom/prisma/enums";
 
 export interface BookingWhereInput {
   id?: number;
