@@ -1,11 +1,14 @@
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import logger from "@calcom/lib/logger";
 import { prisma } from "@calcom/prisma";
 
 const log = logger.getSubLogger({ name: "hideBranding" });
-// TeamRepository removed - EE feature. Using direct Prisma queries instead.
+const teamRepository = new TeamRepository(prisma);
 const userRepository = new UserRepository(prisma);
+
+// Organizations removed - Team parent can be null in self-hosted
 type Team = {
   hideBranding: boolean | null;
   parent: {
@@ -30,12 +33,13 @@ type UserWithProfile = UserWithoutProfile & {
 
 /**
  * Determines if branding should be hidden by checking entity and organization settings
+ * Organizations removed - organizationHideBranding will always be null in self-hosted
  */
 function resolveHideBranding(options: {
   entityHideBranding: boolean | null;
   organizationHideBranding: boolean | null;
 }): boolean {
-  // If the organization has branding hidden, we should hide branding for the entity regardless of its own setting
+  // Organizations removed - no org branding setting to check
   if (options.organizationHideBranding) {
     return true;
   }
@@ -54,26 +58,23 @@ export async function getHideBranding({
   teamId?: number;
 }): Promise<boolean> {
   if (teamId) {
-    // Get team data (direct query since TeamRepository is EE)
-    const team = await prisma.team.findUnique({
-      where: { id: teamId },
-      select: { hideBranding: true },
-    });
+    const team = await teamRepository.findTeamWithParentHideBranding({ teamId });
 
     if (!team) return false;
 
     return resolveHideBranding({
       entityHideBranding: team.hideBranding,
-      organizationHideBranding: null, // Organizations removed - no parent teams
+      // Organizations removed - parent will be null
+      organizationHideBranding: team.parent?.hideBranding ?? null,
     });
   } else if (userId) {
-    // Get user data with profile and organization
     const user = await userRepository.findUserWithHideBranding({ userId });
 
     if (!user) return false;
 
     return resolveHideBranding({
       entityHideBranding: user.hideBranding,
+      // Organizations removed - no org branding for users
       organizationHideBranding: user.profiles?.[0]?.organization?.hideBranding,
     });
   }
@@ -97,11 +98,13 @@ export function shouldHideBrandingForEventUsingProfile({
   if (team) {
     hideBranding = resolveHideBranding({
       entityHideBranding: team.hideBranding ?? null,
-      organizationHideBranding: null, // Organizations removed - no parent teams
+      // Organizations removed - parent will be null
+      organizationHideBranding: team.parent?.hideBranding ?? null,
     });
   } else if (owner) {
     hideBranding = resolveHideBranding({
       entityHideBranding: owner.hideBranding ?? null,
+      // Organizations removed - no org branding for users
       organizationHideBranding: owner.profile?.organization?.hideBranding ?? null,
     });
   } else {
@@ -113,7 +116,6 @@ export function shouldHideBrandingForEventUsingProfile({
 
 /**
  * A wrapper over shouldHideBrandingForEventUsingProfile that fetches the profile itself
- * Use it when you don't have user's profile
  */
 export async function shouldHideBrandingForEvent({
   eventTypeId,
@@ -133,7 +135,7 @@ export async function shouldHideBrandingForEvent({
       eventTypeId,
     });
   } else if (owner) {
-    // Needed only for User events, not for Team events
+    // Organizations removed - no org profiles in self-hosted
     ownerProfile = organizationId
       ? await ProfileRepository.findByUserIdAndOrgSlug({
           userId: owner.id,
