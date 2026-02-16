@@ -19,7 +19,7 @@ const featureStateSchema: ZodEnum<["enabled", "disabled", "inherit"]> = z.enum([
 const featureOptInService: ReturnType<typeof getFeatureOptInService> = getFeatureOptInService();
 const teamFeatureRepository: ReturnType<typeof getTeamFeatureRepository> = getTeamFeatureRepository();
 const userFeatureRepository: ReturnType<typeof getUserFeatureRepository> = getUserFeatureRepository();
-const teamRepository: any = null; // Stub for removed EE TeamRepository
+// Organizations removed - no parent org lookup needed
 
 export const featureOptInRouter = router({
   /**
@@ -38,9 +38,8 @@ export const featureOptInRouter = router({
    * Also returns the organization state if the team belongs to an organization.
    */
   listForTeam: createTeamPbacProcedure("featureOptIn.read").query(async ({ input }) => {
-    // Get the team's parent organization ID (if any)
-    const parentOrg = await teamRepository.findParentOrganizationByTeamId(input.teamId);
-    const parentOrgId = parentOrg?.id ?? null;
+    // Organizations removed - no parent org hierarchy
+    const parentOrgId = null;
 
     return featureOptInService.listFeaturesForTeam({ teamId: input.teamId, parentOrgId, scope: "team" });
   }),

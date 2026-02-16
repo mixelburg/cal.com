@@ -10,19 +10,9 @@ import logger from "@calcom/lib/logger";
 import { getTranslation } from "@calcom/lib/server/i18n";
 import prisma from "@calcom/prisma";
 import type { Prisma } from "@calcom/prisma/client";
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 import type { IAbstractPaymentService } from "@calcom/types/PaymentService";
-
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findById(_params: any): Promise<any | null> {
-    return null;
-  }
-  async findParentOrganizationByTeamId(_teamId: number): Promise<any | null> {
-    return null;
-  }
-}
 
 export const handleNoShowFee = async ({
   booking,

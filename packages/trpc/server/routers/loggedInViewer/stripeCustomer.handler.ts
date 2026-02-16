@@ -4,9 +4,6 @@ import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import { TRPCError } from "@trpc/server";
 
-// Stub for removed EE billing service - returns null to skip billing logic
-const getBillingProviderService = () => null;
-
 type StripeCustomerOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;
@@ -14,6 +11,6 @@ type StripeCustomerOptions = {
 };
 
 export const stripeCustomerHandler = async ({ ctx }: StripeCustomerOptions) => {
-  // Billing service disabled (EE-only)
+  // Team billing removed - self-hosted users don't have premium subscriptions
   return { isPremium: false, username: null };
 };
