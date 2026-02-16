@@ -23,33 +23,20 @@ import { getCachedTeamData, getEnrichedEventType, getCRMData, shouldUseApiV2ForT
 // Type for team data (EE TeamData removed)
 type TeamData = Awaited<ReturnType<typeof getCachedTeamData>>;
 
-// Stub for removed EE getOrganizationSEOSettings
-function getOrganizationSEOSettings(_teamData: any): { allowSEOIndexing?: boolean } | null {
-  return null;
-}
-
-// Stub for removed EE orgDomainConfig
-function orgDomainConfig(_request: any, _orgSlug?: string) {
-  return { currentOrgDomain: null, isValidOrgDomain: false };
-}
-
 const paramsSchema = z.object({
   slug: z.string().transform((s) => slugify(s)),
   type: z.string().transform((s) => slugify(s)),
 });
 
 const _getTeamMetadataForBooking = (teamData: NonNullable<TeamData>, eventTypeId: number) => {
-  const organizationSettings = getOrganizationSEOSettings(teamData);
-  const allowSEOIndexing = organizationSettings?.allowSEOIndexing ?? false;
-
+  // Organizations removed - no SEO settings, no parent org banner
   return {
-    // Organizations removed - no parent org banner
     orgBannerUrl: "",
     hideBranding: shouldHideBrandingForTeamEvent({
       eventTypeId,
       team: teamData,
     }),
-    isSEOIndexable: allowSEOIndexing,
+    isSEOIndexable: false,
   };
 };
 
@@ -62,14 +49,10 @@ export async function getOrgContext(params: Params) {
   if (!result.success) return notFound(); // should never happen
 
   const { slug: teamSlug, type: meetingSlug } = result.data;
-  const { currentOrgDomain, isValidOrgDomain } = orgDomainConfig(
-    buildLegacyRequest(await headers(), await cookies()),
-    Array.isArray(params?.orgSlug) ? params?.orgSlug[0] : params?.orgSlug
-  );
-
+  // Organizations removed - no org domain logic
   return {
-    currentOrgDomain,
-    isValidOrgDomain,
+    currentOrgDomain: null,
+    isValidOrgDomain: false,
     teamSlug,
     meetingSlug,
   };
