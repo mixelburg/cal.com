@@ -3,12 +3,12 @@ import type { Dispatch } from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { shallow } from "zustand/shallow";
 
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { MembershipRole } from "@calcom/prisma/enums";
 import { trpc } from "@calcom/trpc/react";
 import { Avatar } from "@calcom/ui/components/avatar";
+import { Button } from "@calcom/ui/components/button";
 import { Form } from "@calcom/ui/components/form";
 import { ToggleGroup, Select } from "@calcom/ui/components/form";
 import { Icon } from "@calcom/ui/components/icon";
@@ -16,9 +16,6 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetBody } from "@calco
 import { Skeleton, Loader } from "@calcom/ui/components/skeleton";
 import { showToast } from "@calcom/ui/components/toast";
 import { Tooltip } from "@calcom/ui/components/tooltip";
-import { DisplayInfo } from "@calcom/web/modules/users/components/UserTable/EditSheet/DisplayInfo";
-import { SheetFooterControls } from "@calcom/web/modules/users/components/UserTable/EditSheet/SheetFooterControls";
-import { useEditMode } from "@calcom/web/modules/users/components/UserTable/EditSheet/store";
 import type { MemberPermissions } from "@calcom/features/pbac/lib/team-member-permissions";
 
 import { updateRoleInCache, getUpdatedUser } from "./MemberChangeRoleModal";
@@ -46,10 +43,8 @@ export function EditMemberSheet({
   const { t } = useLocale();
   const { user } = state.editSheet;
   const selectedUser = user as User;
-  const [editMode, setEditMode, setMutationLoading] = useEditMode(
-    (state) => [state.editMode, state.setEditMode, state.setMutationLoading],
-    shallow
-  );
+  const [editMode, setEditMode] = useState(false);
+  const [mutationLoading, setMutationLoading] = useState(false);
   const [role, setRole] = useState<string>(selectedUser.customRoleId || selectedUser.role);
   const name =
     selectedUser.name ||
@@ -222,14 +217,28 @@ export function EditMemberSheet({
             <SheetBody className="stack-y-4 flex flex-col p-4">
               <div className="stack-y-4 mb-4 flex flex-col">
                 <h3 className="text-emphasis mb-1 text-base font-semibold">{t("profile")}</h3>
-                <DisplayInfo label="Cal" value={bookingLink} icon="external-link" />
-                <DisplayInfo label={t("email")} value={selectedUser.email} icon="at-sign" />
+                <div className="flex items-center gap-6">
+                  <div className="flex w-[110px] items-center gap-2">
+                    <Icon className="text-subtle h-4 w-4" name="external-link" />
+                    <label className="text-subtle text-sm font-medium">Cal</label>
+                  </div>
+                  <span className="text-default text-sm">{bookingLink}</span>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="flex w-[110px] items-center gap-2">
+                    <Icon className="text-subtle h-4 w-4" name="at-sign" />
+                    <label className="text-subtle text-sm font-medium">{t("email")}</label>
+                  </div>
+                  <span className="text-default text-sm">{selectedUser.email}</span>
+                </div>
                 {!editMode ? (
-                  <DisplayInfo
-                    label={t("role")}
-                    value={[selectedUser.customRole?.name || selectedUser.role]}
-                    icon="fingerprint"
-                  />
+                  <div className="flex items-center gap-6">
+                    <div className="flex w-[110px] items-center gap-2">
+                      <Icon className="text-subtle h-4 w-4" name="fingerprint" />
+                      <label className="text-subtle text-sm font-medium">{t("role")}</label>
+                    </div>
+                    <span className="text-default text-sm">{selectedUser.customRole?.name || selectedUser.role}</span>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-6">
                     <div className="flex w-[110px] items-center gap-2">
@@ -280,10 +289,24 @@ export function EditMemberSheet({
               </div>
             </SheetBody>
             <SheetFooter className="mt-auto">
-              <SheetFooterControls
-                canChangeMemberRole={permissions?.canChangeMemberRole}
-                canEditAttributesForUser={permissions?.canEditAttributesForUser}
-              />
+                <div className="flex w-full justify-end gap-2">
+                {!editMode ? (
+                  permissions?.canChangeMemberRole ? (
+                    <Button color="secondary" onClick={() => setEditMode(true)}>
+                      {t("edit")}
+                    </Button>
+                  ) : null
+                ) : (
+                  <>
+                    <Button color="secondary" onClick={() => setEditMode(false)}>
+                      {t("cancel")}
+                    </Button>
+                    <Button type="submit" color="primary" loading={mutationLoading}>
+                      {t("save")}
+                    </Button>
+                  </>
+                )}
+              </div>
             </SheetFooter>
           </Form>
         ) : (

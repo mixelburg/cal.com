@@ -4,9 +4,8 @@ import posthog from "posthog-js";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
-import { subdomainSuffix } from "@calcom/features/ee/organizations/lib/orgDomains";
 import type { NewTeamFormValues } from "@calcom/features/ee/teams/lib/types";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import slugify from "@calcom/lib/slugify";
 import type { RouterOutputs } from "@calcom/trpc/react";
@@ -31,9 +30,7 @@ export const CreateANewTeamForm = (props: CreateANewTeamFormProps) => {
   const { inDialog, onCancel, slug, submitLabel, onSuccess } = props;
   const { t, isLocaleReady } = useLocale();
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(null);
-  const orgBranding = useOrgBranding();
-
-  const newTeamFormMethods = useForm<NewTeamFormValues>({
+  const newTeamFormMethods= useForm<NewTeamFormValues>({
     defaultValues: {
       slug,
     },
@@ -144,11 +141,7 @@ export const CreateANewTeamForm = (props: CreateANewTeamFormProps) => {
                 name="slug"
                 placeholder="acme"
                 label={t("team_url")}
-                addOnLeading={`${
-                  orgBranding
-                    ? `${orgBranding.fullDomain.replace("https://", "").replace("http://", "")}/`
-                    : `${subdomainSuffix()}/team/`
-                }`}
+                addOnLeading={`${WEBAPP_URL.replace(/^https?:\/\//, "")}/team/`}
                 value={value}
                 defaultValue={value}
                 onChange={(e) => {

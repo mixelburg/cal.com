@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
 import { Dialog } from "@calcom/features/components/controlled-dialog";
-import { getTeamUrlSync } from "@calcom/features/ee/organizations/lib/getTeamUrlSync";
 import { getPlaceholderAvatar } from "@calcom/lib/defaultAvatarImage";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { useRefreshData } from "@calcom/lib/hooks/useRefreshData";
@@ -62,7 +62,6 @@ export default function TeamListItem(props: Props) {
       utils.viewer.teams.get.invalidate();
       utils.viewer.teams.list.invalidate();
       revalidateTeamsList();
-      utils.viewer.teams.hasTeamPlan.invalidate();
       utils.viewer.teams.listInvites.invalidate();
       const userOrganizationId = orgId ?? undefined;
       const isSubTeamOfDifferentOrg = team.parentId ? team.parentId != userOrganizationId : false;
@@ -94,9 +93,7 @@ export default function TeamListItem(props: Props) {
   };
 
   if (!team) return null;
-  const teamUrl = team.isOrganization
-    ? getTeamUrlSync({ orgSlug: team.slug, teamSlug: null })
-    : getTeamUrlSync({ orgSlug: team.parent ? team.parent.slug : null, teamSlug: team.slug });
+  const teamUrl = `${WEBAPP_URL}/team/${team.slug || ""}`;
   const teamInfo = (
     <div className="item-center flex truncate p-5">
       <Avatar
@@ -207,12 +204,7 @@ export default function TeamListItem(props: Props) {
                     <Button
                       color="secondary"
                       onClick={() => {
-                        navigator.clipboard.writeText(
-                          `${getTeamUrlSync({
-                            orgSlug: team.parent ? team.parent.slug : null,
-                            teamSlug: team.slug,
-                          })}`
-                        );
+                        navigator.clipboard.writeText(`${WEBAPP_URL}/team/${team.slug}`);
                         showToast(t("link_copied"), "success");
                       }}
                       variant="icon"
@@ -244,14 +236,11 @@ export default function TeamListItem(props: Props) {
                     {!team.slug && <TeamPublishButton teamId={team.id} />}
                     {team.slug && (
                       <DropdownMenuItem>
-                        <DropdownItem
-                          type="button"
-                          target="_blank"
-                          href={`${getTeamUrlSync({
-                            orgSlug: team.parent ? team.parent.slug : null,
-                            teamSlug: team.slug,
-                          })}`}
-                          StartIcon="external-link">
+                          <DropdownItem
+                            type="button"
+                            target="_blank"
+                            href={`${WEBAPP_URL}/team/${team.slug}`}
+                            StartIcon="external-link">
                           {t("preview_team") as string}
                         </DropdownItem>
                       </DropdownMenuItem>

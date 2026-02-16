@@ -12,7 +12,6 @@ import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { useQueryState, parseAsBoolean } from "nuqs";
 import posthog from "posthog-js";
 import { useMemo, useReducer, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
@@ -29,7 +28,6 @@ import {
   DataTableWrapper,
   DataTableSelectionBar,
 } from "~/data-table/components";
-import { useOrgBranding } from "@calcom/features/ee/organizations/context/provider";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -58,7 +56,6 @@ import { Checkbox } from "@calcom/ui/components/form";
 import { showToast } from "@calcom/ui/components/toast";
 import { Tooltip } from "@calcom/ui/components/tooltip";
 import TeamAvailabilityModal from "@calcom/web/modules/ee/teams/components/TeamAvailabilityModal";
-import { DynamicLink } from "@calcom/web/modules/users/components/UserTable/BulkActions/DynamicLink";
 import type { MemberPermissions } from "@calcom/features/pbac/lib/team-member-permissions";
 
 import DeleteBulkTeamMembers from "./DeleteBulkTeamMembers";
@@ -179,13 +176,11 @@ export default function MemberList(props: Props) {
 
 function MemberListContent(props: Props) {
   const { facetedTeamValues } = props;
-  const [dynamicLinkVisible, setDynamicLinkVisible] = useQueryState("dynamicLink", parseAsBoolean);
   const { t, i18n } = useLocale();
   const { data: session } = useSession();
 
   const utils = trpc.useUtils();
-  const orgBranding = useOrgBranding();
-  const domain = orgBranding?.fullDomain ?? WEBAPP_URL;
+  const domain = WEBAPP_URL;
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -272,8 +267,6 @@ function MemberListContent(props: Props) {
     async onSuccess() {
       await utils.viewer.teams.get.invalidate();
       await utils.viewer.eventTypes.invalidate();
-      await utils.viewer.organizations.listMembers.invalidate();
-      await utils.viewer.organizations.getMembers.invalidate();
       showToast(t("success"), "success");
     },
     async onError(err) {
@@ -737,24 +730,11 @@ function MemberListContent(props: Props) {
             )}
           </>
         }>
-        {numberOfSelectedRows >= 2 && dynamicLinkVisible && (
-          <DataTableSelectionBar.Root className="bottom-[7.3rem]! md:bottom-32!">
-            <DynamicLink table={table} domain={domain} />
-          </DataTableSelectionBar.Root>
-        )}
         {numberOfSelectedRows > 0 && (
           <DataTableSelectionBar.Root className="bottom-16! justify-center md:w-max">
             <p className="text-brand-subtle px-2 text-center text-xs leading-none sm:text-sm sm:font-medium">
               {t("number_selected", { count: numberOfSelectedRows })}
             </p>
-            {numberOfSelectedRows >= 2 && (
-              <DataTableSelectionBar.Button
-                color="secondary"
-                onClick={() => setDynamicLinkVisible(!dynamicLinkVisible)}
-                icon="handshake">
-                {t("group_meeting")}
-              </DataTableSelectionBar.Button>
-            )}
             <EventTypesList table={table} teamId={props.team.id} />
             <DeleteBulkTeamMembers
               users={table.getSelectedRowModel().flatRows.map((row) => row.original)}

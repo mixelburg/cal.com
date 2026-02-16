@@ -10,7 +10,6 @@ import { z } from "zod";
 
 import { checkAdminOrOwner } from "@calcom/features/auth/lib/checkAdminOrOwner";
 import { Dialog } from "@calcom/features/components/controlled-dialog";
-import { getTeamUrlSync } from "@calcom/features/ee/organizations/lib/getTeamUrlSync";
 import { trackFormbricksAction } from "@calcom/web/modules/formbricks/lib/trackFormbricksAction";
 import SectionBottomActions from "@calcom/features/settings/SectionBottomActions";
 import { IS_TEAM_BILLING_ENABLED, WEBAPP_URL } from "@calcom/lib/constants";
@@ -99,12 +98,7 @@ const ProfileView = () => {
   );
   const isAdmin = team && checkAdminOrOwner(team.membership.role);
 
-  const permalink = team
-    ? `${getTeamUrlSync({
-        orgSlug: team.parent ? team.parent.slug : null,
-        teamSlug: team.slug,
-      })}`
-    : "";
+  const permalink = team ? `${WEBAPP_URL}/team/${team.slug || ""}` : "";
 
   const isBioEmpty = !team || !team.bio || !team.bio.replace("<p><br></p>", "").length;
 
@@ -416,12 +410,7 @@ const TeamProfileForm = ({ team, teamId }: TeamProfileFormProps) => {
                 value={value}
                 data-testid="team-url"
                 addOnClassname="testid-leading-text-team-url"
-                addOnLeading={`${getTeamUrlSync(
-                  { orgSlug: team.parent ? team.parent.slug : null, teamSlug: null },
-                  {
-                    protocol: false,
-                  }
-                )}`}
+                addOnLeading={`${WEBAPP_URL.replace(/^https?:\/\//, "")}/team/`}
                 onChange={(e) => {
                   form.clearErrors("slug");
                   form.setValue("slug", slugify(e?.target.value, true), { shouldDirty: true });

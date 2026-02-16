@@ -51,7 +51,6 @@ export default function TeamList(props: Props) {
     async onSuccess() {
       await utils.viewer.teams.list.invalidate();
       revalidateTeamsList();
-      await utils.viewer.teams.hasTeamPlan.invalidate();
       trackFormbricksAction("team_disbanded");
     },
     async onError(err) {
