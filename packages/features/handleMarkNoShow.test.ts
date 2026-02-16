@@ -105,9 +105,7 @@ vi.mock("@calcom/features/bookings/di/BookingEventHandlerService.container", () 
   getBookingEventHandlerService: mockGetBookingEventHandlerService,
 }));
 
-vi.mock("@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType", () => ({
-  getAllWorkflowsFromEventType: vi.fn().mockResolvedValue([]),
-}));
+// Workflows removed (EE feature) - mock no longer needed
 
 vi.mock("@calcom/lib/getOrgIdFromMemberOrTeamId", () => ({
   default: vi.fn().mockResolvedValue(null),

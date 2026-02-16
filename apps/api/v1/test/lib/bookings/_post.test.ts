@@ -170,9 +170,7 @@ vi.mock("@calcom/features/ee/workflows/lib/getAllWorkflows", () => ({
   workflowSelect: {},
 }));
 
-vi.mock("@calcom/features/ee/workflows/lib/getAllWorkflowsFromEventType", () => ({
-  getAllWorkflowsFromEventType: vi.fn().mockResolvedValue([]),
-}));
+// Workflows removed (EE feature) - mock no longer needed
 
 vi.mock("@calcom/lib/server/i18n", () => {
   const mockT = (key: string, options?: any) => {

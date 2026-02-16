@@ -12,11 +12,6 @@ import type { JsonObject } from "@calcom/types/Json";
 
 import { BookingEmailAndSmsAsyncTasksPayload, BookingTasks } from "./types";
 
-// Stub for removed EE workflow function
-async function getAllWorkflowsFromEventType(_eventType: any): Promise<never[]> {
-  return [];
-}
-
 export interface IBookingTaskServiceDependencies {
   emailsAndSmsHandler: BookingEmailSmsHandler;
   bookingRepository: BookingRepository;
@@ -92,11 +87,6 @@ export class BookingEmailAndSmsTaskService implements BookingTasks {
       t: calendarEvent.organizer.language.translate,
     } satisfies EventNameObjectType;
 
-    const workflows = await getAllWorkflowsFromEventType({
-      ...eventType,
-      metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
-    });
-
     await this.dependencies.emailsAndSmsHandler.send({
       action: "BOOKING_CONFIRMED",
       data: {
@@ -105,7 +95,7 @@ export class BookingEmailAndSmsTaskService implements BookingTasks {
           metadata: eventTypeMetaDataSchemaWithTypedApps.parse(eventType.metadata),
         },
         eventNameObject,
-        workflows: workflows,
+        workflows: [], // Workflows removed (EE feature) - type requires it but handler never uses it
         evt: calendarEvent,
         additionalInformation: calendarEvent.additionalInformation ?? {},
         additionalNotes: calendarEvent.additionalNotes,
