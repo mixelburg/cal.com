@@ -456,7 +456,7 @@ export const getOptions = ({
           belongsToActiveTeam,
           orgAwareUsername: existingUser.username,
           org: null,
-        } as JWT;
+        } as unknown as JWT;
       };
       if (!user) {
         return await autoMergeIdentities();

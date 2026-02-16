@@ -167,7 +167,6 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
 
   const markdownStrippedBio = stripMarkdown(user?.bio || "");
   // Organizations removed - no org context
-  const org: { logoUrl?: string; slug?: string | null; name?: string } | null = null;
 
   return {
     props: {
@@ -180,10 +179,8 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (cont
         profile: user.profile,
       })),
       entity: {
-        ...(org?.logoUrl ? { logoUrl: org?.logoUrl } : {}),
-        considerUnpublished: !isARedirectFromNonOrgLink && org?.slug === null,
         orgSlug: currentOrgDomain,
-        name: org?.name ?? null,
+        name: null,
       },
       eventTypes,
       safeBio,
