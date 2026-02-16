@@ -126,49 +126,9 @@ export const viewerTeamsRouter = router({
       const { default: handler } = await import("./updateInternalNotesPresets.handler");
       return handler({ ctx, input });
     }),
-  // Stub for removed EE managed event reassignment endpoint (infinite query)
-  getManagedEventUsersToReassign: authedProcedure
-    .input(
-      z.object({
-        bookingId: z.number(),
-        limit: z.number(),
-        cursor: z.number().nullish(),
-        searchTerm: z.string().optional(),
-      })
-    )
-    .query(async () => ({
-      items: [] as Array<{ id: number; name: string | null; email: string; status: string }>,
-      nextCursor: undefined as number | undefined,
-    })),
-  // Stub for removed EE round-robin reassignment endpoint (infinite query)
-  getRoundRobinHostsToReassign: authedProcedure
-    .input(
-      z.object({
-        bookingId: z.number(),
-        exclude: z.string(),
-        limit: z.number(),
-        cursor: z.number().nullish(),
-        searchTerm: z.string().optional(),
-      })
-    )
-    .query(async () => ({
-      items: [] as Array<{ id: number; name: string | null; email: string; status: string }>,
-      nextCursor: undefined as number | undefined,
-    })),
-  // Stub for removed EE round-robin reassignment mutation
-  roundRobinReassign: authedProcedure.input(z.any()).mutation(async () => ({
-    reassignedTo: { name: "N/A" },
-  })),
-  // Stub for removed EE managed event reassignment mutation
-  managedEventReassign: authedProcedure.input(z.any()).mutation(async () => ({
-    success: true,
-  })),
-  // Stub for removed EE round-robin manual reassignment mutation
-  roundRobinManualReassign: authedProcedure.input(z.any()).mutation(async () => ({
-    success: true,
-  })),
-  // Stub for removed EE managed event manual reassignment mutation
-  managedEventManualReassign: authedProcedure.input(z.any()).mutation(async () => ({
-    success: true,
-  })),
+  // EE features removed: 6 reassignment endpoints (managed events + round-robin reassignment)
+  // - getManagedEventUsersToReassign, getRoundRobinHostsToReassign
+  // - roundRobinReassign, managedEventReassign
+  // - roundRobinManualReassign, managedEventManualReassign
+  // UI removed: ReassignDialog.tsx (15KB)
 });

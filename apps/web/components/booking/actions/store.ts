@@ -7,11 +7,9 @@ export type BookingActionsStore = {
   // Dialog states
   rejectionDialogIsOpen: boolean;
   chargeCardDialogIsOpen: boolean;
-  viewRecordingsDialogIsOpen: boolean;
-  meetingSessionDetailsDialogIsOpen: boolean;
+  // EE features removed: viewRecordingsDialogIsOpen, meetingSessionDetailsDialogIsOpen, isOpenReassignDialog
   isNoShowDialogOpen: boolean;
   isOpenRescheduleDialog: boolean;
-  isOpenReassignDialog: boolean;
   isOpenSetLocationDialog: boolean;
   isOpenAddGuestsDialog: boolean;
   isOpenReportDialog: boolean;
@@ -23,11 +21,9 @@ export type BookingActionsStore = {
   // Dialog setters
   setRejectionDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setChargeCardDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setViewRecordingsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setMeetingSessionDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // EE features removed: setViewRecordingsDialogIsOpen, setMeetingSessionDetailsDialogIsOpen, setIsOpenReassignDialog
   setIsNoShowDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenRescheduleDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsOpenReassignDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenLocationDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenAddGuestsDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenReportDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,11 +38,9 @@ export const createBookingActionsStore = () => {
     // Initial dialog states
     rejectionDialogIsOpen: false,
     chargeCardDialogIsOpen: false,
-    viewRecordingsDialogIsOpen: false,
-    meetingSessionDetailsDialogIsOpen: false,
+    // EE features removed: viewRecordingsDialogIsOpen, meetingSessionDetailsDialogIsOpen, isOpenReassignDialog
     isNoShowDialogOpen: false,
     isOpenRescheduleDialog: false,
-    isOpenReassignDialog: false,
     isOpenSetLocationDialog: false,
     isOpenAddGuestsDialog: false,
     isOpenReportDialog: false,
@@ -64,16 +58,7 @@ export const createBookingActionsStore = () => {
       set((state) => ({
         chargeCardDialogIsOpen: typeof isOpen === "function" ? isOpen(state.chargeCardDialogIsOpen) : isOpen,
       })),
-    setViewRecordingsDialogIsOpen: (isOpen) =>
-      set((state) => ({
-        viewRecordingsDialogIsOpen:
-          typeof isOpen === "function" ? isOpen(state.viewRecordingsDialogIsOpen) : isOpen,
-      })),
-    setMeetingSessionDetailsDialogIsOpen: (isOpen) =>
-      set((state) => ({
-        meetingSessionDetailsDialogIsOpen:
-          typeof isOpen === "function" ? isOpen(state.meetingSessionDetailsDialogIsOpen) : isOpen,
-      })),
+    // EE features removed: setViewRecordingsDialogIsOpen, setMeetingSessionDetailsDialogIsOpen, setIsOpenReassignDialog
     setIsNoShowDialogOpen: (isOpen) =>
       set((state) => ({
         isNoShowDialogOpen: typeof isOpen === "function" ? isOpen(state.isNoShowDialogOpen) : isOpen,
@@ -81,10 +66,6 @@ export const createBookingActionsStore = () => {
     setIsOpenRescheduleDialog: (isOpen) =>
       set((state) => ({
         isOpenRescheduleDialog: typeof isOpen === "function" ? isOpen(state.isOpenRescheduleDialog) : isOpen,
-      })),
-    setIsOpenReassignDialog: (isOpen) =>
-      set((state) => ({
-        isOpenReassignDialog: typeof isOpen === "function" ? isOpen(state.isOpenReassignDialog) : isOpen,
       })),
     setIsOpenLocationDialog: (isOpen) =>
       set((state) => ({

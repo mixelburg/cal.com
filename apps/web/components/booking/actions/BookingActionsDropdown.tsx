@@ -17,12 +17,12 @@ import {
 import type { ActionType } from "@calcom/ui/components/table";
 import { showToast } from "@calcom/ui/components/toast";
 import { Tooltip } from "@calcom/ui/components/tooltip";
-import { MeetingSessionDetailsDialog } from "@calcom/web/modules/ee/video/components/MeetingSessionDetailsDialog";
+// EE features removed: MeetingSessionDetailsDialog, ViewRecordingsDialog (video recordings EE-only)
 import { AddGuestsDialog } from "@components/dialog/AddGuestsDialog";
 import { CancelBookingDialog } from "@components/dialog/CancelBookingDialog";
 import { ChargeCardDialog } from "@components/dialog/ChargeCardDialog";
 import { EditLocationDialog } from "@components/dialog/EditLocationDialog";
-import { ReassignDialog } from "@components/dialog/ReassignDialog";
+// EE feature removed: ReassignDialog (managed events + round-robin reassignment EE-only)
 import { RejectionReasonDialog } from "@components/dialog/RejectionReasonDialog";
 import { ReportBookingDialog } from "@components/dialog/ReportBookingDialog";
 import { RerouteDialog } from "@components/dialog/RerouteDialog";
@@ -30,7 +30,6 @@ import { RescheduleDialog } from "@components/dialog/RescheduleDialog";
 import { WrongAssignmentDialog } from "@components/dialog/WrongAssignmentDialog";
 import { useState } from "react";
 import type { z } from "zod";
-import ViewRecordingsDialog from "~/ee/video/components/ViewRecordingsDialog";
 import { useBookingConfirmation } from "../hooks/useBookingConfirmation";
 import { RoutingTraceSheet } from "../RoutingTraceSheet";
 import type { BookingItemProps } from "../types";
@@ -94,24 +93,11 @@ export function BookingActionsDropdown({
   // Use store for all other dialog states
   const chargeCardDialogIsOpen = useBookingActionsStoreContext((state) => state.chargeCardDialogIsOpen);
   const setChargeCardDialogIsOpen = useBookingActionsStoreContext((state) => state.setChargeCardDialogIsOpen);
-  const viewRecordingsDialogIsOpen = useBookingActionsStoreContext(
-    (state) => state.viewRecordingsDialogIsOpen
-  );
-  const setViewRecordingsDialogIsOpen = useBookingActionsStoreContext(
-    (state) => state.setViewRecordingsDialogIsOpen
-  );
-  const meetingSessionDetailsDialogIsOpen = useBookingActionsStoreContext(
-    (state) => state.meetingSessionDetailsDialogIsOpen
-  );
-  const setMeetingSessionDetailsDialogIsOpen = useBookingActionsStoreContext(
-    (state) => state.setMeetingSessionDetailsDialogIsOpen
-  );
+  // EE features removed: viewRecordingsDialog, meetingSessionDetailsDialog, reassignDialog state
   const isNoShowDialogOpen = useBookingActionsStoreContext((state) => state.isNoShowDialogOpen);
   const setIsNoShowDialogOpen = useBookingActionsStoreContext((state) => state.setIsNoShowDialogOpen);
   const isOpenRescheduleDialog = useBookingActionsStoreContext((state) => state.isOpenRescheduleDialog);
   const setIsOpenRescheduleDialog = useBookingActionsStoreContext((state) => state.setIsOpenRescheduleDialog);
-  const isOpenReassignDialog = useBookingActionsStoreContext((state) => state.isOpenReassignDialog);
-  const setIsOpenReassignDialog = useBookingActionsStoreContext((state) => state.setIsOpenReassignDialog);
   const isOpenSetLocationDialog = useBookingActionsStoreContext((state) => state.isOpenSetLocationDialog);
   const setIsOpenLocationDialog = useBookingActionsStoreContext((state) => state.setIsOpenLocationDialog);
   const isOpenAddGuestsDialog = useBookingActionsStoreContext((state) => state.isOpenAddGuestsDialog);
@@ -294,7 +280,7 @@ export function BookingActionsDropdown({
             : action.id === "add_members"
               ? () => setIsOpenAddGuestsDialog(true)
               : action.id === "reassign"
-                ? () => setIsOpenReassignDialog(true)
+                ? undefined // EE feature removed: reassignment (managed events + round-robin)
                 : undefined,
   })) as ActionType[];
 
@@ -303,9 +289,9 @@ export function BookingActionsDropdown({
     ...action,
     onClick:
       action.id === "view_recordings"
-        ? () => setViewRecordingsDialogIsOpen(true)
+        ? undefined // EE feature removed: video recordings
         : action.id === "meeting_session_details"
-          ? () => setMeetingSessionDetailsDialogIsOpen(true)
+          ? undefined // EE feature removed: meeting session details
           : action.id === "charge_card"
             ? () => setChargeCardDialogIsOpen(true)
             : action.id === "no_show"
@@ -324,7 +310,9 @@ export function BookingActionsDropdown({
     disabled:
       action.disabled ||
       (action.id === "no_show" && !(isBookingInPast || isOngoing)) ||
-      (action.id === "view_recordings" && !booking.isRecorded),
+      (action.id === "view_recordings" && true) || // EE feature removed: always disable video recordings
+      (action.id === "meeting_session_details" && true) || // EE feature removed: always disable meeting details
+      (action.id === "reassign" && true), // EE feature removed: always disable reassignment
   })) as ActionType[];
 
   const reportAction = getReportAction(actionContext);
@@ -422,16 +410,7 @@ export function BookingActionsDropdown({
         setIsOpenDialog={setIsOpenRescheduleDialog}
         bookingUid={booking.uid}
       />
-      {isOpenReassignDialog && (
-        <ReassignDialog
-          isOpenDialog={isOpenReassignDialog}
-          setIsOpenDialog={setIsOpenReassignDialog}
-          bookingId={booking.id}
-          teamId={booking.eventType?.team?.id || 0}
-          bookingFromRoutingForm={isBookingFromRoutingForm}
-          isManagedEvent={booking.eventType?.parentId != null}
-        />
-      )}
+      {/* EE feature removed: ReassignDialog (managed events + round-robin reassignment) */}
       <EditLocationDialog
         booking={booking}
         saveLocation={saveLocation}
@@ -476,22 +455,7 @@ export function BookingActionsDropdown({
           paymentCurrency={booking.payment[0].currency}
         />
       )}
-      {isCalVideoLocation && (
-        <ViewRecordingsDialog
-          booking={booking}
-          isOpenDialog={viewRecordingsDialogIsOpen}
-          setIsOpenDialog={setViewRecordingsDialogIsOpen}
-          timeFormat={booking.loggedInUser.userTimeFormat ?? null}
-        />
-      )}
-      {isCalVideoLocation && meetingSessionDetailsDialogIsOpen && (
-        <MeetingSessionDetailsDialog
-          booking={booking}
-          isOpenDialog={meetingSessionDetailsDialogIsOpen}
-          setIsOpenDialog={setMeetingSessionDetailsDialogIsOpen}
-          timeFormat={booking.loggedInUser.userTimeFormat ?? null}
-        />
-      )}
+      {/* EE features removed: ViewRecordingsDialog, MeetingSessionDetailsDialog (video recordings & meeting details) */}
       {isNoShowDialogOpen && (
         <NoShowAttendeesDialog
           bookingUid={booking.uid}
