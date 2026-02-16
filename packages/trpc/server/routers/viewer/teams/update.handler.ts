@@ -1,3 +1,4 @@
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { IS_TEAM_BILLING_ENABLED } from "@calcom/lib/constants";
 import type { IntervalLimit } from "@calcom/lib/intervalLimits/intervalLimitSchema";
@@ -13,18 +14,7 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TUpdateInputSchema } from "./update.schema";
 
-// Stub for removed EE TeamRepository
-class TeamRepository {
-  constructor(_prisma: any) {}
-  async findById(_teamId: number): Promise<any | null> {
-    return null;
-  }
-  async isSlugAvailableForUpdate(_params: { slug: string; teamId: number; parentId?: number | null }): Promise<boolean> {
-    return true;
-  }
-}
-
-// Stub for removed EE org function
+// Organizations removed - org origin not needed
 function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
   return "";
 }

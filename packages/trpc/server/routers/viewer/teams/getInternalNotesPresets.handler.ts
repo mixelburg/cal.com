@@ -5,9 +5,12 @@ import { TRPCError } from "@trpc/server";
 
 import type { TGetInternalNotesPresetsInputSchema } from "./getInternalNotesPresets.schema";
 
-// Stub for removed EE function
-async function isTeamMember(_userId: number, _teamId: number): Promise<boolean> {
-  return false;
+async function isTeamMember(userId: number, teamId: number): Promise<boolean> {
+  const membership = await prisma.membership.findUnique({
+    where: { userId_teamId: { userId, teamId } },
+    select: { id: true },
+  });
+  return !!membership;
 }
 
 type UpdateMembershipOptions = {

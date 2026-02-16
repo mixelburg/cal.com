@@ -1,3 +1,4 @@
+import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
@@ -6,11 +7,6 @@ import { TRPCError } from "@trpc/server";
 
 import type { TrpcSessionUser } from "../../../types";
 import type { TDeleteInputSchema } from "./delete.schema";
-
-// Stub for removed EE TeamService
-class TeamService {
-  static async delete(_params: any): Promise<void> {}
-}
 
 type DeleteOptions = {
   ctx: {
@@ -41,7 +37,8 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
 
   if (!hasPermission) throw new TRPCError({ code: "FORBIDDEN" });
 
-  return await TeamService.delete({ id: input.teamId });
+  const teamRepository = new TeamRepository(prisma);
+  return await teamRepository.deleteById({ id: input.teamId });
 };
 
 export default deleteHandler;

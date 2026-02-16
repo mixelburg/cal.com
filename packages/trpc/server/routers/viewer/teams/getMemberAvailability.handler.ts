@@ -1,6 +1,7 @@
 import { enrichUserWithDelegationCredentialsIncludeServiceAccountKey } from "@calcom/app-store/delegationCredential";
 import { getUserAvailabilityService } from "@calcom/features/di/containers/GetUserAvailability";
 import { MembershipRepository } from "@calcom/features/membership/repositories/MembershipRepository";
+import { prisma } from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
 import { TRPCError } from "@trpc/server";
@@ -8,9 +9,12 @@ import { TRPCError } from "@trpc/server";
 import type { TGetMemberAvailabilityInputSchema } from "./getMemberAvailability.schema";
 import dayjs from "@calcom/dayjs";
 
-// Stub for removed EE function
-async function isTeamMember(_userId: number, _teamId: number): Promise<boolean> {
-  return false;
+async function isTeamMember(userId: number, teamId: number): Promise<boolean> {
+  const membership = await prisma.membership.findUnique({
+    where: { userId_teamId: { userId, teamId } },
+    select: { id: true },
+  });
+  return !!membership;
 }
 
 type GetMemberAvailabilityOptions = {
@@ -22,8 +26,8 @@ type GetMemberAvailabilityOptions = {
 
 export const getMemberAvailabilityHandler = async ({ ctx, input }: GetMemberAvailabilityOptions) => {
   const userAvailabilityService = getUserAvailabilityService();
-  const team = await isTeamMember(ctx.user?.id, input.teamId);
-  if (!team) throw new TRPCError({ code: "UNAUTHORIZED" });
+  const isMember = await isTeamMember(ctx.user?.id, input.teamId);
+  if (!isMember) throw new TRPCError({ code: "UNAUTHORIZED" });
 
   // verify member is in team
   const members = await MembershipRepository.findByTeamIdForAvailability({ teamId: input.teamId });
