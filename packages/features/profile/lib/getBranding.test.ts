@@ -5,7 +5,7 @@ import { getBrandingForEventType, getBrandingForUser, getBrandingForTeam } from 
 describe("getBranding", () => {
   describe("getBrandingForEventType", () => {
     describe("team events", () => {
-      it("should use parent org branding when available", () => {
+      it("should use team branding even when parent org exists", () => {
         const eventType = {
           team: {
             name: "Team A",
@@ -24,9 +24,9 @@ describe("getBranding", () => {
         const result = getBrandingForEventType({ eventType });
 
         expect(result).toEqual({
-          theme: "dark",
-          brandColor: "#111111",
-          darkBrandColor: "#222222",
+          theme: "light",
+          brandColor: "#AAAAAA",
+          darkBrandColor: "#BBBBBB",
         });
       });
 
@@ -53,7 +53,7 @@ describe("getBranding", () => {
     });
 
     describe("personal events", () => {
-      it("should use organization branding when available", () => {
+      it("should use user branding even when organization exists", () => {
         const eventType = {
           team: null,
           profile: {
@@ -75,9 +75,9 @@ describe("getBranding", () => {
         const result = getBrandingForEventType({ eventType });
 
         expect(result).toEqual({
-          theme: "dark",
-          brandColor: "#111111",
-          darkBrandColor: "#222222",
+          theme: "light",
+          brandColor: "#AAAAAA",
+          darkBrandColor: "#BBBBBB",
         });
       });
 
@@ -108,7 +108,7 @@ describe("getBranding", () => {
   });
 
   describe("getBrandingForUser", () => {
-    it("should use organization branding when available", () => {
+    it("should use user branding even when organization exists", () => {
       const user = {
         theme: "light",
         brandColor: "#AAAAAA",
@@ -125,9 +125,9 @@ describe("getBranding", () => {
       const result = getBrandingForUser({ user });
 
       expect(result).toEqual({
-        theme: "dark",
-        brandColor: "#111111",
-        darkBrandColor: "#222222",
+        theme: "light",
+        brandColor: "#AAAAAA",
+        darkBrandColor: "#BBBBBB",
       });
     });
 
@@ -152,7 +152,7 @@ describe("getBranding", () => {
   });
 
   describe("getBrandingForTeam", () => {
-    it("should use parent org branding when available", () => {
+    it("should use team branding even when parent org exists", () => {
       const team = {
         brandColor: "#AAAAAA",
         darkBrandColor: "#BBBBBB",
@@ -167,9 +167,9 @@ describe("getBranding", () => {
       const result = getBrandingForTeam({ team });
 
       expect(result).toEqual({
-        theme: "dark",
-        brandColor: "#111111",
-        darkBrandColor: "#222222",
+        theme: "light",
+        brandColor: "#AAAAAA",
+        darkBrandColor: "#BBBBBB",
       });
     });
 

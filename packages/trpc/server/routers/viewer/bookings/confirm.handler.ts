@@ -13,6 +13,7 @@ import { processPaymentRefund } from "@calcom/features/bookings/lib/payment/proc
 import { BookingAccessService } from "@calcom/features/bookings/services/BookingAccessService";
 import type { GetSubscriberOptions } from "@calcom/features/webhooks/lib/getWebhooks";
 import type { EventPayloadType, EventTypeInfo } from "@calcom/features/webhooks/lib/sendPayload";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
 import { isPrismaObjOrUndefined } from "@calcom/lib/isPrismaObj";
@@ -275,7 +276,7 @@ export const confirmHandler = async ({ ctx, input }: ConfirmOptions) => {
 
   const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
 
-  const bookerUrl = "";
+  const bookerUrl = WEBAPP_URL;
 
   const attendeesList = await Promise.all(attendeesListPromises);
   const tOrganizer = await getTranslation(booking.user?.locale ?? "en", "common");

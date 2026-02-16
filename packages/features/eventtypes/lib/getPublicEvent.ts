@@ -27,6 +27,7 @@ import {
   userMetadata as userMetadataSchema,
 } from "@calcom/prisma/zod-utils";
 import type { UserProfile } from "@calcom/types/UserProfile";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 
 // Stub functions for removed EE org features
 function getSlugOrRequestedSlug(slug: string) {
@@ -34,7 +35,7 @@ function getSlugOrRequestedSlug(slug: string) {
 }
 
 function getBookerBaseUrlSync(_orgSlug: string | null): string {
-  return "";
+  return WEBAPP_URL;
 }
 
 const userSelect = {
@@ -343,13 +344,13 @@ export const getPublicEvent = async (
       subsetOfUsers: users.map((user) => ({
         ...user,
         metadata: undefined,
-        bookerUrl: "", // Organizations removed
+        bookerUrl: WEBAPP_URL,
       })),
       users: fetchAllUsers
         ? users.map((user) => ({
             ...user,
             metadata: undefined,
-            bookerUrl: "", // Organizations removed
+            bookerUrl: WEBAPP_URL,
           }))
         : undefined,
       locations: privacyFilteredLocations(locations),

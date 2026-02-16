@@ -12,7 +12,7 @@ import {
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import {
   expectBookingCancelledWebhookToHaveBeenFired,
-  expectWorkflowToBeTriggered,
+  expectWorkflowToBeNotTriggered,
 } from "@calcom/testing/lib/bookingScenario/expects";
 import { setupAndTeardown } from "@calcom/testing/lib/bookingScenario/setupAndTeardown";
 
@@ -153,7 +153,7 @@ describe("Cancel Booking", () => {
       },
     });
 
-    expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+    expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
   });
 
   test("Should call processPaymentRefund", async () => {
@@ -569,7 +569,7 @@ describe("Cancel Booking", () => {
     expect(result.bookingId).toBe(idOfBookingToBeCancelled);
     expect(result.bookingUid).toBe(uidOfBookingToBeCancelled);
 
-    expectWorkflowToBeTriggered({
+    expectWorkflowToBeNotTriggered({
       emailsToReceive: [primaryHost.email, secondaryHost.email],
       emails,
     });

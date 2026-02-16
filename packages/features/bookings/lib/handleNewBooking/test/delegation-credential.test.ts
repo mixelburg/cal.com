@@ -22,7 +22,7 @@ import {
   buildDelegationCredential,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import {
-  expectWorkflowToBeTriggered,
+  expectWorkflowToBeNotTriggered,
   expectSuccessfulBookingCreationEmails,
   expectBookingToBeInDatabase,
   expectBookingCreatedWebhookToHaveBeenFired,
@@ -301,7 +301,7 @@ describe("handleNewBooking", () => {
           iCalUID: createdBooking.iCalUID,
         });
 
-        expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+        expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
         expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
           credential: buildDelegationCredential({
             serviceAccountKey: delegationCredential.serviceAccountKey,
@@ -479,7 +479,7 @@ describe("handleNewBooking", () => {
           iCalUID: createdBooking.iCalUID,
         });
 
-        expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+        expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
         expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
           credential: buildDelegationCredential({
             serviceAccountKey: delegationCredential.serviceAccountKey,
@@ -674,7 +674,7 @@ describe("handleNewBooking", () => {
           iCalUID: createdBooking.iCalUID,
         });
 
-        expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+        expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
         expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
           credential: buildDelegationCredential({
             serviceAccountKey: delegationCredential.serviceAccountKey,

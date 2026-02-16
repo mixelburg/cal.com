@@ -31,7 +31,6 @@ vi.mock("@calcom/features/users/repositories/UserRepository", () => {
     }),
   };
 });
-vi.mock("@calcom/features/ee/organizations/lib/orgDomains");
 vi.mock("@calcom/features/routing-forms/lib/isAuthorizedToViewForm");
 vi.mock("@calcom/app-store/routing-forms/lib/getSerializableForm");
 vi.mock("@calcom/app-store/routing-forms/lib/getResponseToStore");
@@ -113,7 +112,6 @@ describe("getRoutedUrl", () => {
   beforeEach(() => {
     vi.resetAllMocks();
     // Provide default mock implementations
-    vi.mocked(orgDomainConfig).mockReturnValue({ currentOrgDomain: null, isValidOrgDomain: false });
     vi.mocked(PrismaRoutingFormRepository.findFormByIdIncludeUserTeamAndOrg).mockResolvedValue(null);
 
     const mockEnrichUserWithItsProfile = vi.fn().mockImplementation(async ({ user }) => user);

@@ -6,14 +6,6 @@ import { encryptServiceAccountKey } from "@calcom/lib/server/serviceAccountKey";
 
 import { DelegationCredentialRepository } from "./DelegationCredentialRepository";
 
-const mockOrganizationRepository = {
-  findByMemberEmail: vi.fn(),
-};
-
-vi.mock("@calcom/features/ee/organizations/di/OrganizationRepository.container", () => ({
-  getOrganizationRepository: () => mockOrganizationRepository,
-}));
-
 vi.mock("@calcom/prisma", () => ({
   prisma: {},
 }));
@@ -97,9 +89,6 @@ const createTestDelegationCredential = async (overrides = {}) => {
   });
 };
 
-const setupOrganizationMock = (returnValue: { id: number } | null) => {
-  mockOrganizationRepository.findByMemberEmail.mockResolvedValue(returnValue);
-};
 
 describe("DelegationCredentialRepository", () => {
   beforeEach(() => {
@@ -189,7 +178,21 @@ describe("DelegationCredentialRepository", () => {
 
       describe("findUniqueByOrgMemberEmailIncludeSensitiveServiceAccountKey", () => {
         it("should return valid delegation when email exists in organization", async () => {
-          setupOrganizationMock({ id: 1 });
+          await prismock.user.create({
+            data: {
+              id: 1,
+              email: "user@example.com",
+              username: "testuser",
+            },
+          });
+          await prismock.membership.create({
+            data: {
+              userId: 1,
+              teamId: 1,
+              accepted: true,
+              role: "MEMBER",
+            },
+          });
 
           const result =
             await DelegationCredentialRepository.findUniqueByOrgMemberEmailIncludeSensitiveServiceAccountKey({
@@ -202,8 +205,6 @@ describe("DelegationCredentialRepository", () => {
         });
 
         it("should return null when email not found in any organization", async () => {
-          setupOrganizationMock(null);
-
           const result =
             await DelegationCredentialRepository.findUniqueByOrgMemberEmailIncludeSensitiveServiceAccountKey({
               email: "nonexistent@example.com",

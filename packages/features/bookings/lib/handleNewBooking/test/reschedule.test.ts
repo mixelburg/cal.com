@@ -20,7 +20,7 @@ import {
   getDefaultBookingFields,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import {
-  expectWorkflowToBeTriggered,
+  expectWorkflowToBeNotTriggered,
   expectBookingToBeInDatabase,
   expectBookingRescheduledWebhookToHaveBeenFired,
   expectSuccessfulBookingRescheduledEmails,
@@ -248,7 +248,7 @@ describe("handleNewBooking", () => {
               ],
             },
           });
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           expectSuccessfulVideoMeetingUpdationInCalendar(videoMock, {
             calEvent: {
@@ -467,7 +467,7 @@ describe("handleNewBooking", () => {
             },
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           expectSuccessfulVideoMeetingUpdationInCalendar(videoMock, {
             calEvent: {
@@ -661,7 +661,7 @@ describe("handleNewBooking", () => {
             },
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           expectSuccessfulBookingRescheduledEmails({
             booker,
@@ -857,7 +857,7 @@ describe("handleNewBooking", () => {
               },
             });
 
-            expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+            expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
             expectBookingRequestedEmails({
               booker,
@@ -1087,7 +1087,7 @@ describe("handleNewBooking", () => {
               },
             });
 
-            expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+            expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
             expectSuccessfulVideoMeetingUpdationInCalendar(videoMock, {
               calEvent: {
@@ -1329,7 +1329,7 @@ describe("handleNewBooking", () => {
               },
             });
 
-            expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+            expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
             expectSuccessfulCalendarEventUpdationInCalendar(calendarMock, {
               externalCalendarId: "MOCK_EXTERNAL_CALENDAR_ID",
@@ -1552,7 +1552,7 @@ describe("handleNewBooking", () => {
               },
             });
 
-            //expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+            //expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
             expectBookingRequestedEmails({
               booker,
@@ -1795,7 +1795,7 @@ describe("handleNewBooking", () => {
               },
             });
 
-            expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+            expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
             expectSuccessfulVideoMeetingUpdationInCalendar(videoMock, {
               calEvent: {

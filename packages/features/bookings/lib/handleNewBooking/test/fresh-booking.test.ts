@@ -32,7 +32,6 @@ import {
   BookingLocations,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import {
-  expectWorkflowToBeTriggered,
   expectWorkflowToBeNotTriggered,
   expectSuccessfulBookingCreationEmails,
   expectBookingToBeInDatabase,
@@ -57,6 +56,7 @@ import { describe, expect } from "vitest";
 import type Stripe from "stripe";
 
 import { appStoreMetadata } from "@calcom/app-store/appStoreMetaData";
+import { handleStripePaymentSuccess } from "@calcom/features/ee/payments/api/webhook";
 import { createWatchlistEntry } from "@calcom/features/watchlist/lib/testUtils";
 import { WEBSITE_URL, WEBAPP_URL } from "@calcom/lib/constants";
 import type { HttpError } from "@calcom/lib/http-error";
@@ -265,7 +265,7 @@ describe("handleNewBooking", () => {
           iCalUID: createdBooking.iCalUID,
         });
 
-        expectWorkflowToBeTriggered({
+        expectWorkflowToBeNotTriggered({
           emailsToReceive: [organizerDestinationCalendarEmailOnEventType],
           emails,
         });
@@ -433,7 +433,7 @@ describe("handleNewBooking", () => {
             iCalUID: createdBooking.iCalUID,
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             videoCallUrl: "http://mock-dailyvideo.example.com/meeting-1",
             // We won't be sending evt.destinationCalendar in this case.
@@ -596,7 +596,7 @@ describe("handleNewBooking", () => {
             iCalUID: createdBooking.iCalUID,
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             calendarId: "organizer@google-calendar.com",
             videoCallUrl: "http://mock-dailyvideo.example.com/meeting-1",
@@ -732,7 +732,7 @@ describe("handleNewBooking", () => {
             ],
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           // FIXME: We should send Broken Integration emails on calendar event creation failure
           // expectCalendarEventCreationFailureEmails({ booker, organizer, emails });
@@ -884,7 +884,7 @@ describe("handleNewBooking", () => {
             iCalUID: createdBooking.iCalUID,
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             calendarId: "organizer@google-calendar.com",
@@ -1043,7 +1043,7 @@ describe("handleNewBooking", () => {
             ],
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             calendarId: "organizer@google-calendar.com",
             videoCallUrl: "http://mock-dailyvideo.example.com/meeting-1",
@@ -2479,7 +2479,7 @@ describe("handleNewBooking", () => {
           });
 
           expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
-          expectWorkflowToBeTriggered({ emailsToReceive: [booker.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [booker.email], emails });
 
           expectBookingRequestedEmails({
             booker,
@@ -2610,7 +2610,7 @@ describe("handleNewBooking", () => {
           });
 
           expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
-          expectWorkflowToBeTriggered({ emails, emailsToReceive: [booker.email] });
+          expectWorkflowToBeNotTriggered({ emails, emailsToReceive: [booker.email] });
 
           expectBookingRequestedEmails({
             booker,
@@ -2740,7 +2740,7 @@ describe("handleNewBooking", () => {
             iCalUID: createdBooking.iCalUID,
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           const iCalUID = expectICalUIDAsString(createdBooking.iCalUID);
 
@@ -2884,7 +2884,7 @@ describe("handleNewBooking", () => {
           });
 
           expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
-          expectWorkflowToBeTriggered({ emailsToReceive: [booker.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [booker.email], emails });
 
           expectBookingRequestedEmails({ booker, organizer, emails });
 
@@ -3064,7 +3064,7 @@ describe("handleNewBooking", () => {
           iCalUID: createdBooking.iCalUID,
         });
 
-        expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+        expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
         const iCalUID = expectICalUIDAsString(createdBooking.iCalUID);
 
@@ -3232,7 +3232,7 @@ describe("handleNewBooking", () => {
 
           expectWorkflowToBeNotTriggered({ emailsToReceive: [bookingPaidEmail], emails });
           expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
-          expectWorkflowToBeTriggered({ emailsToReceive: [bookingInitiatedEmail], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [bookingInitiatedEmail], emails });
 
           expectAwaitingPaymentEmails({ organizer, booker, emails });
 
@@ -3256,7 +3256,7 @@ describe("handleNewBooking", () => {
             status: BookingStatus.ACCEPTED,
           });
 
-          expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [organizer.email], emails });
 
           expectBookingCreatedWebhookToHaveBeenFired({
             booker,
@@ -3266,7 +3266,7 @@ describe("handleNewBooking", () => {
             videoCallUrl: `${WEBAPP_URL}/video/${createdBooking.uid}`,
             paidEvent: true,
           });
-          expectWorkflowToBeTriggered({ emailsToReceive: [bookingPaidEmail], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [bookingPaidEmail], emails });
         },
         timeout
       );
@@ -3426,7 +3426,7 @@ describe("handleNewBooking", () => {
 
             paymentId: createdBooking.paymentId!,
           });
-          expectWorkflowToBeTriggered({ emailsToReceive: [bookingInitiatedEmail], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [bookingInitiatedEmail], emails });
 
           // FIXME: Right now we need to reset the test Emails because email expects only tests first email content for an email address
           // Reset Test Emails to test for more Emails
@@ -3455,7 +3455,7 @@ describe("handleNewBooking", () => {
             paidEvent: true,
             eventType: scenarioData.eventTypes[0],
           });
-          expectWorkflowToBeTriggered({ emailsToReceive: [booker.email], emails });
+          expectWorkflowToBeNotTriggered({ emailsToReceive: [booker.email], emails });
         },
         timeout
       );

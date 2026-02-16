@@ -18,26 +18,7 @@ const _testWithAndWithoutOrg = (
   mode: "only" | "skip" | "run" = "run"
 ): void => {
   const t = mode === "only" ? test.only : mode === "skip" ? test.skip : test;
-  t(
-    `${description} - With org`,
-    async ({ emails, sms }) => {
-      const org = await createOrganization({
-        name: "Test Org",
-        slug: "testorg",
-      });
-
-      await fn({
-        emails,
-        sms,
-        org: {
-          organization: org,
-          urlOrigin: `${WEBSITE_PROTOCOL}//${org.slug}.cal.local:3000`,
-        },
-      });
-    },
-    timeout
-  );
-
+  // Organizations are EE-only and removed in cal.diy - skip org variant
   t(
     `${description}`,
     async ({ emails, sms }) => {

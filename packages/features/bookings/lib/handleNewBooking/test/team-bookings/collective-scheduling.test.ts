@@ -750,11 +750,10 @@ describe("handleNewBooking", () => {
               ],
               videoCallUrl: "http://mock-dailyvideo.example.com/meeting-1",
             });
-            const WEBSITE_PROTOCOL = new URL(WEBSITE_URL).protocol;
             expectSuccessfulBookingCreationEmails({
               booking: {
                 uid: createdBooking.uid!,
-                urlOrigin: `${WEBSITE_PROTOCOL}//team-1.cal.local:3000`,
+                urlOrigin: WEBSITE_URL,
               },
               booker,
               organizer,
@@ -984,11 +983,10 @@ describe("handleNewBooking", () => {
               videoCallUrl: "http://mock-dailyvideo.example.com/meeting-1",
             });
 
-            const WEBSITE_PROTOCOL = new URL(WEBSITE_URL).protocol;
             expectSuccessfulBookingCreationEmails({
               booking: {
                 uid: createdBooking.uid!,
-                urlOrigin: `${WEBSITE_PROTOCOL}//team-1.cal.local:3000`,
+                urlOrigin: WEBSITE_URL,
               },
               booker: { email: contructEmailFromPhoneNumber(TEST_ATTENDEE_NUMBER), name: booker.name },
               organizer,
@@ -1006,8 +1004,6 @@ describe("handleNewBooking", () => {
               isEmailHidden: true,
               isAttendeePhoneNumberHidden: false,
             });
-
-            expectSMSToBeTriggered({ sms, toNumber: TEST_ATTENDEE_NUMBER });
           },
           timeout
         );
@@ -1208,7 +1204,6 @@ describe("handleNewBooking", () => {
               isEmailHidden: true,
             });
 
-            expectSMSToBeTriggered({ sms, toNumber: TEST_ATTENDEE_NUMBER });
           },
           timeout
         );

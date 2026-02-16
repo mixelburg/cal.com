@@ -20,6 +20,7 @@ import {
 } from "@calcom/features/webhooks/lib/scheduleTrigger";
 import sendPayload from "@calcom/features/webhooks/lib/sendOrSchedulePayload";
 import { CalendarEventBuilder } from "@calcom/lib/builders/CalendarEvent/builder";
+import { WEBSITE_URL } from "@calcom/lib/constants";
 import { CalendarEventDirector } from "@calcom/lib/builders/CalendarEvent/director";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
@@ -148,7 +149,7 @@ export const requestRescheduleHandler = async ({ ctx, input, source }: RequestRe
   const eventType = bookingToReschedule.eventType;
   builder.init({
     title: bookingToReschedule.title,
-    bookerUrl: "",
+    bookerUrl: WEBSITE_URL,
     type: event && event.slug ? event.slug : bookingToReschedule.title,
     startTime: bookingToReschedule.startTime.toISOString(),
     endTime: bookingToReschedule.endTime.toISOString(),

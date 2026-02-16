@@ -1,25 +1,10 @@
 import type { NextMiddleware } from "next-api-middleware";
 
-// EE features removed - stub classes and functions
-class ApiKeyService {
-  constructor(_repo: any) {}
-  async verify(_hashedKey: string) { return null; }
-  async verifyKeyByHashedKey(_hashedKey: string) { 
-    return { valid: false, error: "API keys not supported", userId: null, user: { uuid: "", role: "", locked: false, email: "" } }; 
-  }
-}
-class PrismaApiKeyRepository {
-  constructor(_prisma: any) {}
-}
-class DeploymentRepository {
-  constructor(_prisma: any) {}
-}
-class LicenseKeySingleton {
-  static async getInstance(_repo: any) { 
-    return { get: () => null, checkLicense: async () => false }; 
-  }
-}
-function hashAPIKey(_key: string) { return ""; }
+import { LicenseKeySingleton } from "@calcom/ee/common/server/LicenseKeyService";
+import { hashAPIKey } from "@calcom/features/ee/api-keys/lib/apiKeys";
+import { PrismaApiKeyRepository } from "@calcom/features/ee/api-keys/repositories/PrismaApiKeyRepository";
+import { ApiKeyService } from "@calcom/features/ee/api-keys/services/ApiKeyService";
+import { DeploymentRepository } from "@calcom/features/ee/deployment/repositories/DeploymentRepository";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { prisma } from "@calcom/prisma";
 
@@ -52,9 +37,9 @@ export const verifyApiKey: NextMiddleware = async (req, res, next) => {
   }
 
   // save the user id and uuid in the request for later use
-  req.userId = result.userId!;
-  req.userUuid = result.user!.uuid;
-  req.user = result.user!;
+  req.userId = result.userId;
+  req.userUuid = result.user.uuid;
+  req.user = result.user;
 
   const { isAdmin, scope } = await isAdminGuard(req);
   const userIsLockedOrBlocked = await isLockedOrBlocked(req);

@@ -4,7 +4,7 @@ import { ALL_APPS } from "@calcom/app-store/utils";
 import { getAssignmentReasonCategory } from "@calcom/features/bookings/lib/getAssignmentReasonCategory";
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import type { BookingRepository } from "@calcom/features/bookings/repositories/BookingRepository";
-import { WEBAPP_URL } from "@calcom/lib/constants";
+import { WEBSITE_URL } from "@calcom/lib/constants";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
 import { getTranslation } from "@calcom/lib/server/i18n";
 import { getTimeFormatStringFromUserTimeFormat, type TimeFormat } from "@calcom/lib/timeFormat";
@@ -126,7 +126,7 @@ export class CalendarEventBuilder {
       : undefined;
     const appsStatus: AppsStatus[] = [];
 
-    const bookerUrl = WEBAPP_URL;
+    const bookerUrl = WEBSITE_URL;
 
     const parsedBookingResponses = bookingResponsesSchema.safeParse(responses);
     const bookingResponses = parsedBookingResponses.success ? parsedBookingResponses.data : null;

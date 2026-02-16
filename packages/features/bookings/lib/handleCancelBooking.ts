@@ -32,6 +32,7 @@ import sendPayload from "@calcom/features/webhooks/lib/sendOrSchedulePayload";
 import type { EventTypeInfo } from "@calcom/features/webhooks/lib/sendPayload";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { HttpError } from "@calcom/lib/http-error";
 import { isPrismaObjOrUndefined } from "@calcom/lib/isPrismaObj";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
@@ -339,7 +340,7 @@ async function handler(input: CancelBookingInput, dependencies?: Dependencies) {
     userId: bookingToDelete.userId,
   });
 
-  const bookerUrl = "";
+  const bookerUrl = WEBAPP_URL;
 
   const evt: CalendarEvent = {
     bookerUrl,

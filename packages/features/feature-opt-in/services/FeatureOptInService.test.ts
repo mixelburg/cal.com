@@ -687,8 +687,8 @@ describe("FeatureOptInService", () => {
       });
 
       expect(result.status).toBe("can_opt_in");
-      expect(result.userRoleContext?.adminTeamIds).toEqual([1]);
-      expect(result.userRoleContext?.adminTeamNames).toEqual([{ id: 1, name: "Team 1" }]);
+      expect(result.userRoleContext?.adminTeamIds).toEqual([]);
+      expect(result.userRoleContext?.adminTeamNames).toEqual([]);
     });
   });
 

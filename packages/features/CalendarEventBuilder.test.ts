@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import dayjs from "@calcom/dayjs";
 import { BookingForCalEventBuilder, CalendarEventBuilder } from "@calcom/features/CalendarEventBuilder";
-import { WEBAPP_URL } from "@calcom/lib/constants";
+import { WEBSITE_URL } from "@calcom/lib/constants";
 import { TimeFormat } from "@calcom/lib/timeFormat";
 import type { Person } from "@calcom/types/Calendar";
 
@@ -1976,7 +1976,7 @@ describe("CalendarEventBuilder", () => {
       expect(builtFromBooking.userFieldsResponses).toBeDefined();
       expect(builtFromBooking.customInputs).toEqual({ oldCustomField: "oldValue" });
 
-      expect(builtFromBooking.bookerUrl).toBe(WEBAPP_URL);
+      expect(builtFromBooking.bookerUrl).toBe(WEBSITE_URL);
     });
 
     it("should resolve app type to human-readable app name in appsStatus", async () => {

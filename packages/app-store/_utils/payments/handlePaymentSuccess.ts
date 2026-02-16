@@ -17,6 +17,7 @@ import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
 import { getTeamIdFromEventType } from "@calcom/lib/getTeamIdFromEventType";
 import tasker from "@calcom/features/tasker";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
@@ -129,8 +130,7 @@ export async function handlePaymentSuccess(params: {
       parentId: booking.eventType?.parentId ?? null,
     },
   });
-  // Organizations removed - no booker URL needed
-  const bookerUrl = "";
+  const bookerUrl = WEBAPP_URL;
 
   try {
     // Workflows removed (EE feature) - getAllWorkflowsFromEventType always returns []

@@ -1,6 +1,7 @@
 import { enrichUserWithDelegationCredentials } from "@calcom/app-store/delegationCredential";
 import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { workflowSelect } from "@calcom/features/workflows/lib/workflowSelect";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
 import { isPrismaObjOrUndefined } from "@calcom/lib/isPrismaObj";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
@@ -155,8 +156,7 @@ export async function getBooking(bookingId: number) {
     },
   });
 
-  // Organizations removed - use empty bookerUrl
-  const bookerUrl = "";
+  const bookerUrl = WEBAPP_URL;
 
   const attendeesList = await Promise.all(attendeesListPromises);
   const selectedDestinationCalendar = booking.destinationCalendar || user.destinationCalendar;

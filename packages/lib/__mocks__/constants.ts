@@ -5,6 +5,7 @@ import type * as constants from "@calcom/lib/constants";
 const initialConstants = {
   IS_PRODUCTION: false,
   IS_TEAM_BILLING_ENABLED: false,
+  WEBAPP_URL: "",
   WEBSITE_URL: "",
   PUBLIC_INVALIDATE_AVAILABLE_SLOTS_ON_BOOKING_FORM: true,
   CLOUDFLARE_SITE_ID: "test-site-id",

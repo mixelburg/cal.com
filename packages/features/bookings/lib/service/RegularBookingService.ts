@@ -64,7 +64,7 @@ import type { EventPayloadType, EventTypeInfo } from "@calcom/features/webhooks/
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
 import { groupHostsByGroupId } from "@calcom/lib/bookings/hostGroupUtils";
 import { shouldIgnoreContactOwner } from "@calcom/lib/bookings/routing/utils";
-import { DEFAULT_GROUP_ID, ENABLE_ASYNC_TASKER } from "@calcom/lib/constants";
+import { DEFAULT_GROUP_ID, ENABLE_ASYNC_TASKER, WEBSITE_URL } from "@calcom/lib/constants";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { ErrorWithCode } from "@calcom/lib/errors";
 import { extractBaseEmail } from "@calcom/lib/extract-base-email";
@@ -1448,7 +1448,7 @@ async function handler(
   });
 
   const organizerOrganizationId = organizerOrganizationProfile?.organizationId;
-  const bookerUrl = "";
+  const bookerUrl = WEBSITE_URL;
 
   const destinationCalendar = eventType.destinationCalendar
     ? [eventType.destinationCalendar]

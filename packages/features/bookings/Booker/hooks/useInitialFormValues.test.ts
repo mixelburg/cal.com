@@ -130,8 +130,8 @@ describe("useInitialFormValues - Autofill Disable Feature", () => {
     });
   });
 
-  describe("when organization HAS disabled autofill", () => {
-    it("should NOT use URL parameters when team.organizationSettings.disableAutofillOnBookingPage is true", async () => {
+  describe("autofill always enabled in cal.diy (organizations removed)", () => {
+    it("should use URL parameters even when team.parent.organizationSettings.disableAutofillOnBookingPage was true", async () => {
       const eventType: Pick<BookerEvent, "bookingFields" | "team" | "owner"> = {
         bookingFields: mockBookingFields,
         team: {
@@ -167,94 +167,13 @@ describe("useInitialFormValues - Autofill Disable Feature", () => {
         expect(result.current.values.responses).toBeDefined();
       });
 
-      expect(result.current.values.responses?.phone).toBeUndefined();
-      expect(result.current.values.responses?.name).toBe("");
-    });
-
-    it("should NOT use URL parameters when team.parent.organizationSettings.disableAutofillOnBookingPage is true", async () => {
-      const eventType: Pick<BookerEvent, "bookingFields" | "team" | "owner"> = {
-        bookingFields: mockBookingFields,
-        team: {
-          organizationSettings: null,
-          parent: {
-            organizationSettings: {
-              disableAutofillOnBookingPage: true,
-            },
-          },
-        },
-        owner: null,
-      };
-
-      const extraOptions = {
-        phone: "+9876543210",
-      };
-
-      const prefillFormParams = {
-        guests: [],
-        name: "Parent Team User",
-      };
-
-      const { result } = renderHook(() =>
-        useInitialFormValues({
-          ...baseProps,
-          eventType,
-          extraOptions,
-          prefillFormParams,
-        })
-      );
-
-      await waitFor(() => {
-        expect(result.current.values.responses).toBeDefined();
+      expect(result.current.values.responses).toMatchObject({
+        name: "John Doe",
+        phone: "+1234567890",
       });
-
-      expect(result.current.values.responses?.phone).toBeUndefined();
-      expect(result.current.values.responses?.name).toBe("");
     });
 
-    it("should NOT use URL parameters when owner.organization.organizationSettings.disableAutofillOnBookingPage is true", async () => {
-      const eventType: Pick<BookerEvent, "bookingFields" | "team" | "owner"> = {
-        bookingFields: mockBookingFields,
-        team: null,
-        owner: {
-          profile: {
-            organization: {
-              organizationSettings: {
-                disableAutofillOnBookingPage: true,
-              },
-            },
-          },
-        },
-      };
-
-      const extraOptions = {
-        phone: "+5555555555",
-      };
-
-      const prefillFormParams = {
-        guests: [],
-        name: "Personal Event User",
-      };
-
-      const { result } = renderHook(() =>
-        useInitialFormValues({
-          ...baseProps,
-          eventType,
-          extraOptions,
-          prefillFormParams,
-        })
-      );
-
-      await waitFor(() => {
-        expect(result.current.values.responses).toBeDefined();
-      });
-
-      expect(result.current.values.responses?.phone).toBeUndefined();
-      expect(result.current.values.responses?.name).toBe("");
-    });
-  });
-
-  describe("session data handling with autofill disabled", () => {
-    it("should not use session email/name when autofill is disabled", async () => {
+    it("should use session email/name since autofill cannot be disabled without orgs", async () => {
       const eventType: Pick<BookerEvent, "bookingFields" | "team" | "owner"> = {
         bookingFields: mockBookingFields,
         team: {
@@ -268,7 +187,7 @@ describe("useInitialFormValues - Autofill Disable Feature", () => {
       };
 
       const extraOptions = {
-        phone: "+1234567890", // This should be blocked
+        phone: "+1234567890",
       };
 
       const { result } = renderHook(() =>
@@ -276,8 +195,8 @@ describe("useInitialFormValues - Autofill Disable Feature", () => {
           ...baseProps,
           eventType,
           extraOptions,
-          email: "session@example.com", // Session data
-          name: "Session User", // Session data
+          email: "session@example.com",
+          name: "Session User",
           hasSession: true,
         })
       );
@@ -286,9 +205,9 @@ describe("useInitialFormValues - Autofill Disable Feature", () => {
         expect(result.current.values.responses).toBeDefined();
       });
 
-      expect(result.current.values.responses?.email).toBe("");
-      expect(result.current.values.responses?.name).toBe("");
-      expect(result.current.values.responses?.phone).toBeUndefined();
+      expect(result.current.values.responses?.email).toBe("session@example.com");
+      expect(result.current.values.responses?.name).toBe("Session User");
+      expect(result.current.values.responses?.phone).toBe("+1234567890");
     });
   });
 });
