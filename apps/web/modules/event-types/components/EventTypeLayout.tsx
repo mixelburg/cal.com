@@ -5,6 +5,7 @@ import {
   EventTypeEmbedButton,
   EventTypeEmbedDialog,
 } from "@calcom/web/modules/embed/components/EventTypeEmbed";
+import { useLockedFieldsManager } from "@calcom/features/eventtypes/lib/useLockedFieldsManager";
 import type { FormValues } from "@calcom/features/eventtypes/lib/types";
 import type { EventTypeSetupProps } from "@calcom/features/eventtypes/lib/types";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
