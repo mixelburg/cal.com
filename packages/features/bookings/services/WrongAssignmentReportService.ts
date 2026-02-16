@@ -94,16 +94,10 @@ export class WrongAssignmentReportService {
     limit: number;
     offset: number;
   }) {
-    const { wrongAssignmentReportRepo, teamRepo } = this.deps;
+    const { wrongAssignmentReportRepo } = this.deps;
 
-    let teamIds: number[];
-
-    if (input.isAll) {
-      const childTeams = await teamRepo.findAllByParentId({ parentId: input.teamId, select: { id: true } });
-      teamIds = [input.teamId, ...childTeams.map((t) => t.id)];
-    } else {
-      teamIds = [input.teamId];
-    }
+    // Organizations removed - no child teams in self-hosted
+    const teamIds: number[] = [input.teamId];
 
     const { reports, totalCount } = await wrongAssignmentReportRepo.findByTeamIdsAndStatuses({
       teamIds,

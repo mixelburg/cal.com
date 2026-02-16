@@ -177,6 +177,8 @@ export async function handler(
   eventType = {
     ...eventType,
     bookingFields: getBookingFieldsWithSystemFields({ ...eventType, isOrgTeamEvent }),
+    // Workflows removed (EE feature)
+    workflows: [],
   };
 
   if (!eventType.team?.id) {

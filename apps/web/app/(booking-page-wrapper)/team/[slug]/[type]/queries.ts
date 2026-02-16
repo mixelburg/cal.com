@@ -9,8 +9,8 @@ import {
   processEventDataShared,
 } from "@calcom/features/eventtypes/lib/getPublicEvent";
 import { getTeamEventType } from "@calcom/features/eventtypes/lib/getTeamEventType";
-import { getTeamData } from "@calcom/features/ee/teams/lib/getTeamData";
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
+import { getTeamData } from "@calcom/features/ee/teams/lib/getTeamData";
 import { FeaturesRepository } from "@calcom/features/flags/features.repository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { NEXTJS_CACHE_TTL } from "@calcom/lib/constants";
