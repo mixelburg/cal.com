@@ -1,7 +1,6 @@
 import { TeamService } from "@calcom/features/ee/teams/services/teamService";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { WEBAPP_URL } from "@calcom/lib/constants";
-import { Redirect } from "@calcom/lib/redirect";
 import { MembershipRole } from "@calcom/prisma/enums";
 
 import { TRPCError } from "@trpc/server";
@@ -38,16 +37,7 @@ export const publishHandler = async ({ ctx, input }: PublishOptions) => {
   const { teamId } = input;
   await checkPermissions({ ctx, input });
 
-  try {
-    const { redirectUrl, status } = await TeamService.publish(teamId);
-    if (redirectUrl) return { url: redirectUrl, status };
-  } catch (error) {
-    /** We return the url for client redirect if needed */
-    if (error instanceof Redirect) return { url: error.url };
-    let message = "Unknown Error on publishHandler";
-    if (error instanceof Error) message = error.message;
-    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message });
-  }
+  await TeamService.publish(teamId);
 
   return {
     url: `${WEBAPP_URL}/settings/teams/${teamId}/profile`,

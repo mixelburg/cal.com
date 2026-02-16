@@ -1,10 +1,6 @@
 import { randomBytes } from "node:crypto";
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
-import { deleteWorkfowRemindersOfRemovedMember } from "@calcom/features/ee/teams/lib/deleteWorkflowRemindersOfRemovedMember";
 import { updateNewTeamMemberEventTypes } from "@calcom/features/ee/teams/lib/queries";
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
-import { WorkflowService } from "@calcom/features/ee/workflows/lib/service/WorkflowService";
 import { OnboardingPathService } from "@calcom/features/onboarding/lib/onboarding-path.service";
 import { createAProfileForAnExistingUser } from "@calcom/features/profile/lib/createAProfileForAnExistingUser";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
@@ -115,29 +111,9 @@ export class TeamService {
    * External, critical services like billing are handled first to prevent data inconsistencies.
    */
   static async delete({ id }: { id: number }) {
-    // Step 1: Cancel the external billing subscription first.
-    // If this fails, the entire operation aborts, leaving the team and its data intact.
-    // This prevents a state where the user is billed for a deleted team.
-    // const teamBilling = await TeamBillingService.findAndInit(id);
-    const teamBillingServiceFactory = getTeamBillingServiceFactory();
-    const teamBillingService = await teamBillingServiceFactory.findAndInit(id);
-    await teamBillingService.cancel();
-
-    // Step 2: Clean up internal, related data like workflow reminders.
-    try {
-      await WorkflowService.deleteWorkflowRemindersOfRemovedTeam(id);
-    } catch (e) {
-      // Log the error, but don't abort the deletion.
-      // It's better to have a deleted team with orphaned reminders than to halt the process
-      // after the subscription has already been canceled.
-      logger.error(`Failed to delete workflow reminders for team ${id}`, e);
-    }
-
-    // Step 3: Delete the team from the database. This is the core "commit" point.
     const teamRepo = new TeamRepository(prisma);
     const deletedTeam = await teamRepo.deleteById({ id });
 
-    // Step 4: Clean up any final, non-critical external state.
     if (deletedTeam && deletedTeam.isOrganization && deletedTeam.slug) {
       deleteDomain(deletedTeam.slug);
     }
@@ -169,12 +145,6 @@ export class TeamService {
     }
 
     await Promise.all(deleteMembershipPromises);
-    const teamBillingServiceFactory = getTeamBillingServiceFactory();
-    const teamBillingServices = await teamBillingServiceFactory.findAndInitMany(teamIds);
-    const teamBillingPromises = teamBillingServices.map((teamBillingService) =>
-      teamBillingService.updateQuantity("removal")
-    );
-    await Promise.allSettled(teamBillingPromises);
   }
 
   static async inviteMemberByToken(token: string, userId: number) {
@@ -218,19 +188,6 @@ export class TeamService {
         }
       } else throw e;
     }
-
-    if (!verificationToken.team.parentId) {
-      const seatTracker = new SeatChangeTrackingService();
-      await seatTracker.logSeatAddition({
-        teamId: verificationToken.teamId,
-        userId,
-        triggeredBy: userId,
-      });
-    }
-
-    const teamBillingServiceFactory = getTeamBillingServiceFactory();
-    const teamBillingService = await teamBillingServiceFactory.findAndInit(verificationToken.teamId);
-    await teamBillingService.updateQuantity("addition");
 
     return verificationToken.team.name;
   }
@@ -307,14 +264,6 @@ export class TeamService {
         });
       }
 
-      if (!membership.team.parentId) {
-        const seatTracker = new SeatChangeTrackingService();
-        await seatTracker.logSeatRemoval({
-          teamId,
-          userId,
-          triggeredBy: userId,
-        });
-      }
     } catch (e) {
       console.log(e);
     }
@@ -365,10 +314,8 @@ export class TeamService {
     });
   }
 
-  static async publish(teamId: number) {
-    const teamBillingServiceFactory = getTeamBillingServiceFactory();
-    const teamBillingService = await teamBillingServiceFactory.findAndInit(teamId);
-    return teamBillingService.publish();
+  static async publish(_teamId: number) {
+    return;
   }
 
   private static async removeMember({
@@ -390,16 +337,6 @@ export class TeamService {
     } else {
       log.debug("Removing a member from a team");
       await TeamService.removeFromTeam(membership, teamId);
-    }
-
-    await deleteWorkfowRemindersOfRemovedMember(team, userId, isOrg);
-
-    if (!team.parentId) {
-      const seatTracker = new SeatChangeTrackingService();
-      await seatTracker.logSeatRemoval({
-        teamId,
-        userId,
-      });
     }
 
     return { membership };

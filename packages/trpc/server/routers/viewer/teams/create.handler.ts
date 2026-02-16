@@ -1,16 +1,11 @@
 import type { NextApiRequest } from "next";
 
-import { generateTeamCheckoutSession } from "@calcom/features/ee/teams/lib/payments";
 import { ProfileRepository } from "@calcom/features/profile/repositories/ProfileRepository";
-import { IS_TEAM_BILLING_ENABLED, WEBAPP_URL } from "@calcom/lib/constants";
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import { uploadLogo } from "@calcom/lib/server/avatar";
 import { resizeBase64Image } from "@calcom/lib/server/resizeBase64Image";
-import { getTrackingFromCookies } from "@calcom/lib/tracking";
-import type { TrackingData } from "@calcom/lib/tracking";
 import { prisma } from "@calcom/prisma";
 import { MembershipRole } from "@calcom/prisma/enums";
-import type { BillingPeriod as BillingPeriodEnum } from "@calcom/prisma/zod-utils";
-
 import { TRPCError } from "@trpc/server";
 
 import type { TrpcSessionUser } from "../../../types";
@@ -24,46 +19,9 @@ type CreateOptions = {
   input: TCreateInputSchema;
 };
 
-const generateCheckoutSession = async ({
-  teamSlug,
-  teamName,
-  userId,
-  isOnboarding,
-  billingPeriod,
-  tracking,
-}: {
-  teamSlug: string;
-  teamName: string;
-  userId: number;
-  isOnboarding?: boolean;
-  billingPeriod?: "MONTHLY" | "ANNUALLY";
-  tracking?: TrackingData;
-}) => {
-  if (!IS_TEAM_BILLING_ENABLED) {
-    console.info("Team billing is disabled, not generating a checkout session.");
-    return;
-  }
-
-  const checkoutSession = await generateTeamCheckoutSession({
-    teamSlug,
-    teamName,
-    userId,
-    isOnboarding,
-    billingPeriod: billingPeriod as BillingPeriodEnum | undefined,
-    tracking,
-  });
-
-  if (!checkoutSession.url)
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed retrieving a checkout session URL.",
-    });
-  return { url: checkoutSession.url, message: "Payment required to publish team" };
-};
-
 export const createHandler = async ({ ctx, input }: CreateOptions) => {
   const { user } = ctx;
-  const { slug, name, bio, isOnboarding, billingPeriod } = input;
+  const { slug, name, bio } = input;
   const isOrgChildTeam = !!user.profile?.organizationId;
 
   // For orgs we want to create teams under the org
@@ -87,28 +45,6 @@ export const createHandler = async ({ ctx, input }: CreateOptions) => {
     });
 
     if (nameCollisions) throw new TRPCError({ code: "BAD_REQUEST", message: "team_slug_exists_as_user" });
-  }
-
-  // If the user is not a part of an org, then make them pay before creating the team
-  if (!isOrgChildTeam) {
-    const tracking = getTrackingFromCookies(ctx.req?.cookies);
-
-    const checkoutSession = await generateCheckoutSession({
-      teamSlug: slug,
-      teamName: name,
-      userId: user.id,
-      isOnboarding,
-      billingPeriod,
-      tracking,
-    });
-
-    // If there is a checkout session, return it. Otherwise, it means it's disabled.
-    if (checkoutSession)
-      return {
-        url: checkoutSession.url,
-        message: checkoutSession.message,
-        team: null,
-      };
   }
 
   const createdTeam = await prisma.team.create({

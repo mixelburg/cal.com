@@ -1,7 +1,3 @@
-import prisma from "@calcom/prisma";
-
-import { OrganizationBillingPortalService } from "@calcom/features/ee/organizations/lib/OrganizationBillingPortalService";
-import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import type { BillingPortalService } from "../base/BillingPortalService";
 import { TeamBillingPortalService } from "../team/TeamBillingPortalService";
 import { UserBillingPortalService } from "../user/UserBillingPortalService";

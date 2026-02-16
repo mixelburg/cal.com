@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { getAppFromSlug } from "@calcom/app-store/utils";
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
+import { getOrgFullOrigin } from "@calcom/ee/organizations/lib/orgDomains";
 import { getTeam, getOrg } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { DATABASE_CHUNK_SIZE } from "@calcom/lib/constants";
@@ -226,7 +226,7 @@ export async function getTeamWithMembers(args: {
             .filter((membership) => membership.team.id !== teamOrOrg.id)
             .map((membership) => membership.team.slug)
         : null,
-      bookerUrl: getBookerBaseUrlSync(profile?.organization?.slug || ""),
+      bookerUrl: getOrgFullOrigin(profile?.organization?.slug || ""),
       connectedApps: !isTeamView
         ? credentials?.map((cred) => {
             const appSlug = cred.app?.slug;

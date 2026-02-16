@@ -114,7 +114,7 @@ export class NoSlotsNotificationService {
           endTime: eventDetails.endTime.format("YYYY-MM-DD"),
           // For now navigate here - when impersonation via parameter has been pushed we will impersonate and then navigate to availability
           editLink: `${WEBAPP_URL}/availability?type=team`,
-          teamSlug: teamSlug ?? "",
+          teamSlug: teamSlug?.slug ?? "",
         };
 
         emailsToSend.push(sendOrganizationAdminNoSlotsNotification(payload));

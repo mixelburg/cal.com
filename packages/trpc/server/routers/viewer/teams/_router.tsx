@@ -2,8 +2,6 @@ import type { NextApiRequest } from "next";
 import authedProcedure from "../../../procedures/authedProcedure";
 import { router } from "../../../trpc";
 import { ZAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
-import { ZGetActiveUserBookingsInputSchema } from "./getActiveUserBookings.schema";
-import { ZGetActiveUserBreakdownInputSchema } from "./getActiveUserBreakdown.schema";
 import { ZAddMembersToEventTypes } from "./addMembersToEventTypes.schema";
 import { ZChangeMemberRoleInputSchema } from "./changeMemberRole.schema";
 import { ZCheckIfMembershipExistsInputSchema } from "./checkIfMembershipExists.schema";
@@ -15,30 +13,18 @@ import { ZGetSchema } from "./get.schema";
 import { ZGetInternalNotesPresetsInputSchema } from "./getInternalNotesPresets.schema";
 import { ZGetMemberAvailabilityInputSchema } from "./getMemberAvailability.schema";
 import { ZGetMembershipbyUserInputSchema } from "./getMembershipbyUser.schema";
-import { ZGetSubscriptionStatusInputSchema } from "./getSubscriptionStatus.schema";
 import { ZGetUserConnectedAppsInputSchema } from "./getUserConnectedApps.schema";
-import { ZHasActiveTeamPlanInputSchema } from "./hasActiveTeamPlan.schema";
 import { ZHasEditPermissionForUserSchema } from "./hasEditPermissionForUser.schema";
 import { ZInviteMemberInputSchema } from "./inviteMember/inviteMember.schema";
 import { ZInviteMemberByTokenSchemaInputSchema } from "./inviteMemberByToken.schema";
 import { ZLegacyListMembersInputSchema } from "./legacyListMembers.schema";
 import { ZGetListSchema } from "./list.schema";
-import { ZListInvoicesInputSchema } from "./listInvoices.schema";
 import { ZListMembersInputSchema } from "./listMembers.schema";
-import { ZGetManagedEventUsersToReassignInputSchema } from "./managedEvents/getManagedEventUsersToReassign.schema";
-import { ZManagedEventManualReassignInputSchema } from "./managedEvents/managedEventManualReassign.schema";
-import { ZManagedEventReassignInputSchema } from "./managedEvents/managedEventReassign.schema";
-import { hasTeamPlan } from "./procedures/hasTeamPlan";
 import { ZPublishInputSchema } from "./publish.schema";
 import { ZRemoveHostsFromEventTypes } from "./removeHostsFromEventTypes.schema";
 import { ZRemoveMemberInputSchema } from "./removeMember.schema";
 import { ZResendInvitationInputSchema } from "./resendInvitation.schema";
-import { ZGetRoundRobinHostsInputSchema } from "./roundRobin/getRoundRobinHostsToReasign.schema";
-import { ZRoundRobinManualReassignInputSchema } from "./roundRobin/roundRobinManualReassign.schema";
-import { ZRoundRobinReassignInputSchema } from "./roundRobin/roundRobinReassign.schema";
 import { ZSetInviteExpirationInputSchema } from "./setInviteExpiration.schema";
-import { ZSkipTeamTrialsInputSchema } from "./skipTeamTrials.schema";
-import { ZSkipTrialForTeamInputSchema } from "./skipTrialForTeam.schema";
 import { ZUpdateInputSchema } from "./update.schema";
 import { ZUpdateInternalNotesPresetsInputSchema } from "./updateInternalNotesPresets.schema";
 import { ZUpdateMembershipInputSchema } from "./updateMembership.schema";
@@ -104,11 +90,6 @@ export const viewerTeamsRouter = router({
     const { default: handler } = await import("./publish.handler");
     return handler(opts);
   }),
-  /** This is a temporal endpoint so we can progressively upgrade teams to the new billing system. */
-  getUpgradeable: authedProcedure.query(async ({ ctx }) => {
-    const { default: handler } = await import("./getUpgradeable.handler");
-    return handler({ userId: ctx.user.id });
-  }),
   listMembers: authedProcedure.input(ZListMembersInputSchema).query(async (opts) => {
     const { default: handler } = await import("./listMembers.handler");
     return handler(opts);
@@ -125,7 +106,6 @@ export const viewerTeamsRouter = router({
     const { default: handler } = await import("./getUserConnectedApps.handler");
     return handler(opts);
   }),
-  hasTeamPlan,
   hasTeamMembership: authedProcedure.query(async (opts) => {
     const { default: handler } = await import("./hasTeamMembership.handler");
     return handler(opts);
@@ -158,37 +138,6 @@ export const viewerTeamsRouter = router({
     const { default: handler } = await import("./resendInvitation.handler");
     return handler(opts);
   }),
-  roundRobinReassign: authedProcedure.input(ZRoundRobinReassignInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./roundRobin/roundRobinReassign.handler");
-    return handler(opts);
-  }),
-  roundRobinManualReassign: authedProcedure
-    .input(ZRoundRobinManualReassignInputSchema)
-    .mutation(async (opts) => {
-      const { default: handler } = await import("./roundRobin/roundRobinManualReassign.handler");
-      return handler(opts);
-    }),
-  getRoundRobinHostsToReassign: authedProcedure.input(ZGetRoundRobinHostsInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./roundRobin/getRoundRobinHostsToReasign.handler");
-    return handler(opts);
-  }),
-  // Managed Events Reassignment
-  managedEventReassign: authedProcedure.input(ZManagedEventReassignInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./managedEvents/managedEventReassign.handler");
-    return handler(opts);
-  }),
-  managedEventManualReassign: authedProcedure
-    .input(ZManagedEventManualReassignInputSchema)
-    .mutation(async (opts) => {
-      const { default: handler } = await import("./managedEvents/managedEventManualReassign.handler");
-      return handler(opts);
-    }),
-  getManagedEventUsersToReassign: authedProcedure
-    .input(ZGetManagedEventUsersToReassignInputSchema)
-    .query(async (opts) => {
-      const { default: handler } = await import("./managedEvents/getManagedEventUsersToReassign.handler");
-      return handler(opts);
-    }),
   checkIfMembershipExists: authedProcedure
     .input(ZCheckIfMembershipExistsInputSchema)
     .mutation(async (opts) => {
@@ -215,32 +164,4 @@ export const viewerTeamsRouter = router({
       const { default: handler } = await import("./updateInternalNotesPresets.handler");
       return handler({ ctx, input });
     }),
-  hasActiveTeamPlan: authedProcedure.input(ZHasActiveTeamPlanInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./hasActiveTeamPlan.handler");
-    return handler(opts);
-  }),
-  skipTeamTrials: authedProcedure.input(ZSkipTeamTrialsInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./skipTeamTrials.handler");
-    return handler(opts);
-  }),
-  skipTrialForTeam: authedProcedure.input(ZSkipTrialForTeamInputSchema).mutation(async (opts) => {
-    const { default: handler } = await import("./skipTrialForTeam.handler");
-    return handler(opts);
-  }),
-  getSubscriptionStatus: authedProcedure.input(ZGetSubscriptionStatusInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./getSubscriptionStatus.handler");
-    return handler(opts);
-  }),
-  listInvoices: authedProcedure.input(ZListInvoicesInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./listInvoices.handler");
-    return handler(opts);
-  }),
-  getActiveUserBreakdown: authedProcedure.input(ZGetActiveUserBreakdownInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./getActiveUserBreakdown.handler");
-    return handler(opts);
-  }),
-  getActiveUserBookings: authedProcedure.input(ZGetActiveUserBookingsInputSchema).query(async (opts) => {
-    const { default: handler } = await import("./getActiveUserBookings.handler");
-    return handler(opts);
-  }),
 });

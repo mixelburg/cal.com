@@ -1,7 +1,5 @@
 import { type TFunction } from "i18next";
 
-import { getTeamBillingServiceFactory } from "@calcom/ee/billing/di/containers/Billing";
-import { DueInvoiceService } from "@calcom/features/ee/billing/service/dueInvoice/DueInvoiceService";
 import { PermissionCheckService } from "@calcom/features/pbac/services/permission-check.service";
 import { UserRepository } from "@calcom/features/users/repositories/UserRepository";
 import { checkRateLimitAndThrowError } from "@calcom/lib/checkRateLimitAndThrowError";
@@ -230,10 +228,6 @@ export const inviteMembersWithNoInviterPermissionCheck = async (
     });
   }
 
-  const teamBillingServiceFactory = getTeamBillingServiceFactory();
-  const teamBillingService = teamBillingServiceFactory.init(team);
-  await teamBillingService.updateQuantity("addition");
-
   return {
     // TODO: Better rename it to invitations only maybe?
     usernameOrEmail:
@@ -265,27 +259,7 @@ const inviteMembers = async ({ ctx, input }: InviteMemberOptions) => {
     });
   }
 
-  // Check if invitations are blocked due to unpaid invoices
-  const dueInvoiceService = new DueInvoiceService();
-  const inviteeEmails = (typeof usernameOrEmail === "string" ? [usernameOrEmail] : usernameOrEmail).map((u) =>
-    typeof u === "string" ? u : u.email
-  );
-  const canInvite = await dueInvoiceService.canInviteToTeam({
-    teamId: team.id,
-    inviteeEmails,
-    isSubTeam: !!team.parentId,
-    parentOrgId: team.parentId,
-  });
-
-  if (!canInvite.allowed) {
-    const translation = await getTranslation(input.language ?? "en", "common");
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: translation(canInvite.reason ?? "invitations_blocked_unpaid_invoice"),
-    });
-  }
-
-  const requestedSlugForTeam = team?.metadata?.requestedSlug ?? null;
+  const requestedSlugForTeam= team?.metadata?.requestedSlug ?? null;
   const isTeamAnOrg = team.isOrganization;
   const organization = inviter.profile.organization;
 

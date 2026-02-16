@@ -1,3 +1,4 @@
+import { WEBAPP_URL } from "@calcom/lib/constants";
 import logger from "@calcom/lib/logger";
 
 import { deleteDnsRecord, addDnsRecord } from "./deploymentServices/cloudflare";
@@ -7,6 +8,12 @@ import {
 } from "./deploymentServices/vercel";
 
 const log = logger.getSubLogger({ prefix: ["domainManager/organization"] });
+
+function subdomainSuffix() {
+  const urlSplit = WEBAPP_URL.replace("https://", "")?.replace("http://", "").split(".");
+  return urlSplit.length === 3 ? urlSplit.slice(1).join(".") : urlSplit.join(".");
+}
+
 export const deleteDomain = async (slug: string) => {
   const domain = `${slug}.${subdomainSuffix()}`;
   // We must have some domain deleted

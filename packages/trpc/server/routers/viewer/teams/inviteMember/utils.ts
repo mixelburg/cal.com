@@ -1,4 +1,3 @@
-import { SeatChangeTrackingService } from "@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService";
 import { getParsedTeam } from "@calcom/features/ee/teams/lib/getParsedTeam";
 import {
   createMemberships,
@@ -388,15 +387,6 @@ export async function createNewUsersConnectToOrgIfExists({
     { timeout: 10000 }
   );
 
-  if (createdUsers.length > 0) {
-    const seatTracker = new SeatChangeTrackingService();
-    const trackingTeamId = parentId ?? teamId;
-    await seatTracker.logSeatAddition({
-      teamId: trackingTeamId,
-      seatCount: createdUsers.length,
-    });
-  }
-
   return createdUsers;
 }
 
@@ -699,14 +689,6 @@ export async function handleExistingUsersInvites({
         };
       })
     );
-
-    if (!team.parentId && existingUsersWithMembershipsNew.length > 0) {
-      const seatTracker = new SeatChangeTrackingService();
-      await seatTracker.logSeatAddition({
-        teamId: team.id,
-        seatCount: existingUsersWithMembershipsNew.length,
-      });
-    }
 
     const autoJoinUsers = existingUsersWithMembershipsNew.filter(
       (user) => orgConnectInfoByUsernameOrEmail[user.email].autoAccept

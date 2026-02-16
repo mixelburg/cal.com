@@ -1,4 +1,4 @@
-import { getBookerBaseUrlSync } from "@calcom/features/ee/organizations/lib/getBookerBaseUrlSync";
+import { getOrgFullOrigin } from "@calcom/ee/organizations/lib/orgDomains";
 import { TeamRepository } from "@calcom/features/ee/teams/repositories/TeamRepository";
 import {
   Resource,
@@ -141,7 +141,7 @@ export const listMembersHandler = async ({ ctx, input }: ListMembersHandlerOptio
         organization: profile?.organization,
         accepted: member.accepted,
         disableImpersonation: user.disableImpersonation,
-        bookerUrl: getBookerBaseUrlSync(profile?.organization?.slug || ""),
+        bookerUrl: getOrgFullOrigin(profile?.organization?.slug || ""),
         teamId: member.teamId,
         lastActiveAt: member.user.lastActiveAt
           ? new Intl.DateTimeFormat(ctx.user.locale, {

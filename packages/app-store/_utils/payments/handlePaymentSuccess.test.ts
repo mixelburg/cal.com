@@ -8,7 +8,6 @@ import dayjs from "@calcom/dayjs";
 class CreditService {
   hasAvailableCredits = async () => true;
 }
-import { getBookerBaseUrl } from "@calcom/features/ee/organizations/lib/getBookerBaseUrl";
 import { WebhookTriggerEvents } from "@calcom/features/webhooks/lib/WebhookTriggerEvents";
 import { BookingStatus } from "@calcom/prisma/enums";
 
@@ -47,7 +46,6 @@ vi.mock("@calcom/prisma", async (importOriginal) => {
   };
 });
 vi.mock("@calcom/lib/getOrgIdFromMemberOrTeamId");
-vi.mock("@calcom/features/ee/organizations/lib/getBookerUrlServer");
 vi.mock("@calcom/lib/getTeamIdFromEventType");
 vi.mock("@calcom/lib/CalEventParser");
 vi.mock("@calcom/features/ee/billing/credit-service");
@@ -210,7 +208,6 @@ describe("handlePaymentSuccess", () => {
 
     // Mock utility functions
     vi.mocked(getOrgIdFromMemberOrTeamId).mockResolvedValue(undefined);
-    vi.mocked(getBookerBaseUrl).mockResolvedValue("https://cal.com");
     vi.mocked(getTeamIdFromEventType).mockResolvedValue(null);
     vi.mocked(getVideoCallUrlFromCalEvent).mockReturnValue("");
     vi.mocked(CreditService.prototype.hasAvailableCredits).mockResolvedValue(true);

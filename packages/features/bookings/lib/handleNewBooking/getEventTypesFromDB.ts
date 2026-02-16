@@ -2,7 +2,6 @@ import type { LocationObject } from "@calcom/app-store/locations";
 import { getBookingFieldsWithSystemFields } from "@calcom/features/bookings/lib/getBookingFields";
 import type { DefaultEvent } from "@calcom/features/eventtypes/lib/defaultEvents";
 import { withSelectedCalendars } from "@calcom/features/users/repositories/UserRepository";
-import { workflowSelect } from "@calcom/features/workflows/lib/workflowSelect";
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { parseRecurringEvent } from "@calcom/lib/isRecurringEvent";
 import { prisma } from "@calcom/prisma";
@@ -109,13 +108,6 @@ const getEventTypesFromDBSelect = {
   owner: {
     select: {
       hideBranding: true,
-    },
-  },
-  workflows: {
-    select: {
-      workflow: {
-        select: workflowSelect,
-      },
     },
   },
   locations: true,
@@ -230,7 +222,7 @@ export const getEventTypesFromDB = async (eventTypeId: number) => {
     recurringEvent: parseRecurringEvent(eventType?.recurringEvent),
     customInputs: customInputSchema.array().parse(eventType?.customInputs || []),
     locations: (eventType?.locations ?? []) as LocationObject[],
-    bookingFields: getBookingFieldsWithSystemFields({ ...restEventType, isOrgTeamEvent }),
+    bookingFields: getBookingFieldsWithSystemFields({ ...restEventType, isOrgTeamEvent, workflows: [] }),
     rrSegmentQueryValue: rrSegmentQueryValueSchema.parse(eventType.rrSegmentQueryValue) ?? null,
     isDynamic: false,
     hostGroups: eventType.hostGroups || [],

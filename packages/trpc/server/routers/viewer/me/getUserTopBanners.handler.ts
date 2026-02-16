@@ -7,7 +7,6 @@ import { prisma } from "@calcom/prisma";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import type { TrpcSessionUser } from "@calcom/trpc/server/types";
 
-import { getUpgradeableHandler } from "../teams/getUpgradeable.handler";
 import { checkInvalidAppCredentials } from "./checkForInvalidAppCredentials";
 import { shouldVerifyEmailHandler } from "./shouldVerifyEmail.handler";
 
@@ -39,26 +38,23 @@ const checkInvalidGoogleCalendarCredentials = async ({ ctx }: Props) => {
 };
 
 export const getUserTopBannersHandler = async ({ ctx }: Props) => {
-  const upgradeableTeamMememberships = getUpgradeableHandler({ userId: ctx.user.id });
   const shouldEmailVerify = shouldVerifyEmailHandler({ ctx });
   // const isInvalidCalendarCredential = checkInvalidGoogleCalendarCredentials({ ctx });
   const appsWithInavlidCredentials = checkInvalidAppCredentials({ ctx });
   // Billing removed - no due invoice banners
 
   const [
-    teamUpgradeBanner,
     verifyEmailBanner,
     // calendarCredentialBanner,
     invalidAppCredentialBanners,
   ] = await Promise.allSettled([
-    upgradeableTeamMememberships,
     shouldEmailVerify,
     // isInvalidCalendarCredential,
     appsWithInavlidCredentials,
   ]);
 
   return {
-    teamUpgradeBanner: teamUpgradeBanner.status === "fulfilled" ? teamUpgradeBanner.value : [],
+    teamUpgradeBanner: [],
     orgUpgradeBanner: [],
     verifyEmailBanner: verifyEmailBanner.status === "fulfilled" ? !verifyEmailBanner.value.isVerified : false,
     calendarCredentialBanner: false,
