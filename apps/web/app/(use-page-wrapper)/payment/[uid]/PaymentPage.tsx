@@ -51,8 +51,9 @@ const BtcpayPaymentComponent = dynamic(
   }
 );
 
-type PaymentPageProps = any; // Stub for removed EE type
-// StripePaymentComponent removed (EE feature)
+import type { PaymentPageProps } from "@calcom/features/ee/payments/pages/payment";
+
+// Stripe payment removed (EE feature) - but Alby/BTCPay/PayPal/HitPay are core features
 
 const PaymentPage: FC<PaymentPageProps> = (props) => {
   const { t, i18n } = useLocale();
