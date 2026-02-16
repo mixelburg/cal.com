@@ -13,10 +13,7 @@ export type UserAdminRouterOutputs = inferRouterOutputs<UserAdminRouter>;
 
 const userIdSchema = z.object({ userId: z.coerce.number() });
 
-// Stub for removed EE org function
-function getOrgFullOrigin(_slug: string, _options?: { protocol: boolean }): string {
-  return "";
-}
+// Organizations removed - no org origin needed
 
 const userBodySchema = UserSchema.pick({
   name: true,
@@ -106,9 +103,8 @@ export const userAdminRouter = router({
               throw new Error("Team has no attached slug.");
             }
 
-            const orgUrlPrefix = getOrgFullOrigin(data.slug);
-
-            const toUrl = `${orgUrlPrefix}/${input.username}`;
+            // Organizations removed - no org URL prefix
+            const toUrl = `/${input.username}`;
 
             await prisma.tempOrgRedirect.updateMany({
               where: {

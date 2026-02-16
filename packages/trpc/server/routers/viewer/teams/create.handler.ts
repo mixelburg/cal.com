@@ -15,10 +15,7 @@ import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../types";
 import type { TCreateInputSchema } from "./create.schema";
 
-// Stub for removed EE function
-async function generateTeamCheckoutSession(_params: any): Promise<any> {
-  return null;
-}
+// Billing removed - checkout session not available in self-hosted
 
 type CreateOptions = {
   ctx: {
@@ -43,26 +40,9 @@ const generateCheckoutSession = async ({
   billingPeriod?: "MONTHLY" | "ANNUALLY";
   tracking?: TrackingData;
 }) => {
-  if (!IS_TEAM_BILLING_ENABLED) {
-    console.info("Team billing is disabled, not generating a checkout session.");
-    return;
-  }
-
-  const checkoutSession = await generateTeamCheckoutSession({
-    teamSlug,
-    teamName,
-    userId,
-    isOnboarding,
-    billingPeriod: billingPeriod as BillingPeriodEnum | undefined,
-    tracking,
-  });
-
-  if (!checkoutSession.url)
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed retrieving a checkout session URL.",
-    });
-  return { url: checkoutSession.url, message: "Payment required to publish team" };
+  // Billing removed - team billing not available in self-hosted version
+  console.info("Team billing is disabled in self-hosted version.");
+  return;
 };
 
 export const createHandler = async ({ ctx, input }: CreateOptions) => {
