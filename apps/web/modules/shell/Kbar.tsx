@@ -177,14 +177,7 @@ const KBAR_ACTION_CONFIGS: ActionConfig[] = [
     keywords: "two factor authentication",
     href: "/settings/security/two-factor-auth",
   },
-  {
-    id: "impersonation",
-    name: "user_impersonation_heading",
-    section: "security",
-    shortcut: ["u", "i"],
-    keywords: "user impersonation",
-    href: "/settings/security/impersonation",
-  },
+  // EE feature removed: impersonation (admin-only feature)
   {
     id: "license",
     name: "choose_a_license",

@@ -103,11 +103,7 @@ const getTabs = (orgBranding: OrganizationBranding | null) => {
           href: "/settings/security/password",
           trackingMetadata: { section: "security", page: "password" },
         },
-        {
-          name: "impersonation",
-          href: "/settings/security/impersonation",
-          trackingMetadata: { section: "security", page: "impersonation" },
-        },
+        // EE feature removed: impersonation (admin-only feature)
         {
           name: "2fa_auth",
           href: "/settings/security/two-factor-auth",
@@ -255,11 +251,7 @@ const getTabs = (orgBranding: OrganizationBranding | null) => {
           href: "/settings/admin/billing",
           trackingMetadata: { section: "admin", page: "billing" },
         },
-        {
-          name: "impersonation",
-          href: "/settings/admin/impersonation",
-          trackingMetadata: { section: "admin", page: "impersonation" },
-        },
+        // EE feature removed: admin impersonation (admin-only feature)
         {
           name: "apps",
           href: "/settings/admin/apps/calendar",
