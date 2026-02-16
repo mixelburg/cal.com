@@ -15,7 +15,6 @@ import slugify from "@calcom/lib/slugify";
 import { BookingStatus, RedirectType } from "@calcom/prisma/enums";
 
 import { buildLegacyCtx, buildLegacyRequest } from "@lib/buildLegacyCtx";
-import { handleOrgRedirect } from "@lib/handleOrgRedirect";
 
 import CachedClientView, { type TeamBookingPageProps } from "~/team/type-view-cached";
 

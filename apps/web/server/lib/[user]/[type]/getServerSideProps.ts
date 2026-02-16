@@ -14,8 +14,6 @@ import slugify from "@calcom/lib/slugify";
 import { prisma } from "@calcom/prisma";
 import { BookingStatus, RedirectType } from "@calcom/prisma/enums";
 
-import { handleOrgRedirect } from "@lib/handleOrgRedirect";
-
 import { getUsersInOrgContext } from "@server/lib/[user]/getServerSideProps";
 
 type Props = {

@@ -14,8 +14,6 @@ import type { User } from "@calcom/prisma/client";
 import { BookingStatus, RedirectType, SchedulingType } from "@calcom/prisma/enums";
 import { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 
-import { handleOrgRedirect } from "@lib/handleOrgRedirect";
-
 const paramsSchema = z.object({
   type: z.string().transform((s) => slugify(s)),
   slug: z.string().transform((s) => slugify(s)),

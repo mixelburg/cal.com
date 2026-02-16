@@ -19,8 +19,6 @@ import { RedirectType } from "@calcom/prisma/enums";
 import type { EventTypeMetaDataSchema } from "@calcom/prisma/zod-utils";
 import type { UserProfile } from "@calcom/types/UserProfile";
 
-import { handleOrgRedirect } from "@lib/handleOrgRedirect";
-
 const log = logger.getSubLogger({ prefix: ["[[pages/[user]]]"] });
 type UserPageProps = {
   profile: {

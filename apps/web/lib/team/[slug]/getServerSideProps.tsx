@@ -12,8 +12,6 @@ import type { Team } from "@calcom/prisma/client";
 import { RedirectType } from "@calcom/prisma/enums";
 import { teamMetadataSchema } from "@calcom/prisma/zod-utils";
 
-import { handleOrgRedirect } from "@lib/handleOrgRedirect";
-
 const log = logger.getSubLogger({ prefix: ["team/[slug]"] });
 
 // Organizations removed - no verified domain redirects for self-hosters
