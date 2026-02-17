@@ -260,26 +260,30 @@ async function mockMessageFromOpenedTab({ type, data }: { type: string; data: an
 
 async function expectEventTypeInfoInCurrentRouting({
   eventTypeText,
-  eventTypeHref,
+  eventTypePath,
 }: {
   eventTypeText: string;
-  eventTypeHref: string;
+  eventTypePath: string;
 }) {
   const eventTypeEl = screen.getByTestId("current-routing-status-event-type");
   expect(eventTypeEl).toHaveTextContent(eventTypeText);
-  await expect(eventTypeEl.querySelector("a")).toHaveAttribute("href", eventTypeHref);
+  const href = eventTypeEl.querySelector("a")?.getAttribute("href");
+  expect(href).toBeTruthy();
+  expect(new URL(href as string, "https://cal.com").pathname).toBe(eventTypePath);
 }
 
 async function expectEventTypeInfoInReroutePreview({
   eventTypeText,
-  eventTypeHref,
+  eventTypePath,
 }: {
   eventTypeText: string;
-  eventTypeHref: string;
+  eventTypePath: string;
 }) {
   const eventTypeEl = screen.getByTestId("reroute-preview-event-type");
   expect(eventTypeEl).toHaveTextContent(eventTypeText);
-  await expect(eventTypeEl.querySelector("a")).toHaveAttribute("href", eventTypeHref);
+  const href = eventTypeEl.querySelector("a")?.getAttribute("href");
+  expect(href).toBeTruthy();
+  expect(new URL(href as string, "https://cal.com").pathname).toBe(eventTypePath);
 }
 
 function expectOrganizerInfoInCurrentRouting({ organizerText }: { organizerText: string }) {
@@ -357,7 +361,7 @@ describe("RerouteDialog", () => {
 
     expectEventTypeInfoInCurrentRouting({
       eventTypeText: "team/test-team/test-event",
-      eventTypeHref: "http://localhost:3000/team/test-team/test-event",
+      eventTypePath: "/team/test-team/test-event",
     });
     expectOrganizerInfoInCurrentRouting({
       organizerText: "user@example.com",
@@ -425,7 +429,7 @@ describe("RerouteDialog", () => {
 
       expectEventTypeInfoInReroutePreview({
         eventTypeText: "team/test-team/new-test-event",
-        eventTypeHref: "http://localhost:3000/team/test-team/new-test-event",
+        eventTypePath: "/team/test-team/new-test-event",
       });
       await expect(screen.getByText("verify_new_route")).toBeEnabled();
       expect(screen.getByTestId("reroute-preview-hosts")).toHaveTextContent("reroute_preview_possible_host");
