@@ -89,14 +89,6 @@ export class AppModule implements NestModule {
       .apply(RawBodyMiddleware)
       .forRoutes(
         {
-          path: "/api/v2/billing/webhook",
-          method: RequestMethod.POST,
-        },
-        {
-          path: "/v2/billing/webhook",
-          method: RequestMethod.POST,
-        },
-        {
           path: "/v2/webhooks/vercel/deployment-promoted",
           method: RequestMethod.POST,
         }

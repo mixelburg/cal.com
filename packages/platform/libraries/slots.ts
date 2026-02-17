@@ -12,4 +12,3 @@ export { QualifiedHostsService };
 
 export { FilterHostsService };
 export { NoSlotsNotificationService };
-export { validateRoundRobinSlotAvailability };

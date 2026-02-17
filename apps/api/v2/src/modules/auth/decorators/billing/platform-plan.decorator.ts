@@ -1,4 +1,5 @@
-import type { PlatformPlanType } from "@/modules/billing/types";
 import { Reflector } from "@nestjs/core";
+
+export type PlatformPlanType = "STARTER" | "ESSENTIALS" | "SCALE";
 
 export const PlatformPlan = Reflector.createDecorator<PlatformPlanType>();

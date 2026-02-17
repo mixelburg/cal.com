@@ -16,8 +16,8 @@ import {
   sendChangeOfEmailVerification,
   sendEmailVerificationByCode,
 } from "@calcom/features/auth/lib/verifyEmail";
+import { verifyCodeUnAuthenticated } from "@calcom/features/auth/lib/verifyCodeUnAuthenticated";
 import { sendSignupToOrganizationEmail } from "@calcom/trpc/server/routers/viewer/teams/inviteMember/utils";
-import { verifyEmailCodeHandler } from "@calcom/trpc/server/routers/viewer/workflows/verifyEmailCode.handler";
 
 export { AttendeeVerifyEmail };
 
@@ -52,4 +52,10 @@ export { sendSignupToOrganizationEmail };
 export { sendEmailVerificationByCode };
 export { sendChangeOfEmailVerification };
 
-export { verifyEmailCodeHandler };
+export async function verifyEmailCodeHandler({
+  input,
+}: {
+  input: { email: string; code: string; teamId?: number };
+}) {
+  return verifyCodeUnAuthenticated(input.email, input.code);
+}

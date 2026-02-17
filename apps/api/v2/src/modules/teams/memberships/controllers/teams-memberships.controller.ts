@@ -1,5 +1,4 @@
 import { SUCCESS_STATUS } from "@calcom/platform-constants";
-import { updateNewTeamMemberEventTypes } from "@calcom/platform-libraries/event-types";
 import {
   Body,
   Controller,
@@ -119,11 +118,7 @@ export class TeamsMembershipsController {
     );
 
     if (!currentMembership.accepted && updatedMembership.accepted) {
-      try {
-        await updateNewTeamMemberEventTypes(updatedMembership.userId, teamId);
-      } catch (err) {
-        this.logger.error("Could not update new team member eventTypes", err);
-      }
+      this.logger.debug("Skipping team-member event type synchronization in cal.diy");
     }
 
     return {

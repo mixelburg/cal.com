@@ -1,5 +1,4 @@
 import { TeamService } from "@calcom/platform-libraries";
-import { updateNewTeamMemberEventTypes } from "@calcom/platform-libraries/event-types";
 import { BadRequestException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { OrganizationMembershipService } from "@/lib/services/organization-membership.service";
 import { OAuthClientRepository } from "@/modules/oauth-clients/oauth-client.repository";
@@ -49,11 +48,7 @@ export class TeamsMembershipsService {
     }
 
     if (data.accepted) {
-      try {
-        await updateNewTeamMemberEventTypes(data.userId, teamId);
-      } catch (err) {
-        this.logger.error("Could not update new team member eventTypes", err);
-      }
+      this.logger.debug("Skipping team-member event type synchronization in cal.diy");
     }
     const teamMembership = await this.teamsMembershipsRepository.createTeamMembership(teamId, data);
     return teamMembership;

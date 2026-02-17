@@ -1,6 +1,5 @@
 import { MembershipRoles } from "@/modules/auth/decorators/roles/membership-roles.decorator";
 import { MembershipsRepository } from "@/modules/memberships/memberships.repository";
-import { OrganizationsService } from "@/modules/organizations/index/organizations.service";
 import { UsersService } from "@/modules/users/services/users.service";
 import { UserWithProfile } from "@/modules/users/users.repository";
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
@@ -12,7 +11,6 @@ import { MembershipRole } from "@calcom/platform-libraries";
 export class OrganizationRolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private organizationsService: OrganizationsService,
     private membershipRepository: MembershipsRepository,
     private usersService: UsersService
   ) {}
@@ -26,8 +24,6 @@ export class OrganizationRolesGuard implements CanActivate {
       throw new ForbiddenException("OrganizationRolesGuard - No organization associated with the user.");
     }
 
-    await this.isPlatform(organizationId);
-
     const membership = await this.membershipRepository.findOrgUserMembership(organizationId, user.id);
     const allowedRoles = this.reflector.get(MembershipRoles, context.getHandler());
 
@@ -35,13 +31,6 @@ export class OrganizationRolesGuard implements CanActivate {
     this.isRoleAllowed(membership.role, allowedRoles);
 
     return true;
-  }
-
-  async isPlatform(organizationId: number) {
-    const isPlatform = await this.organizationsService.isPlatform(organizationId);
-    if (!isPlatform) {
-      throw new ForbiddenException("OrganizationRolesGuard - Organization is not a platform (SHP).");
-    }
   }
 
   getOrganizationId(context: ExecutionContext) {
