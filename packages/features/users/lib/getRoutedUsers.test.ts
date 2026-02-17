@@ -2,12 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 
 import { getRoutedUsersWithContactOwnerAndFixedUsers } from "./getRoutedUsers";
 
-vi.mock("@calcom/prisma", () => {
-  return {
-    default: vi.fn(),
-  };
-});
-
 describe("getRoutedUsersWithContactOwnerAndFixedUsers", () => {
   const users = [
     { id: 1, email: "user1@example.com", isFixed: false },

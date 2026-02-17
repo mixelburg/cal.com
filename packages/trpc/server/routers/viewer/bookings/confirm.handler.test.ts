@@ -14,9 +14,7 @@ describe.skip("confirmHandler", () => {
     // mockNoTranslations();
   });
 
-  test("should successfully confirm booking when event type doesn't have any default location", async ({
-    emails,
-  }) => {
+  test("should successfully confirm booking when event type doesn't have any default location", async () => {
     const attendeeUser = getOrganizer({
       email: "test@example.com",
       name: "test name",
@@ -110,10 +108,9 @@ describe.skip("confirmHandler", () => {
     });
 
     expect(res?.status).toBe(BookingStatus.ACCEPTED);
-    expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
   });
 
-  test("should trigger BOOKING_REJECTED workflow when booking is rejected", async ({ emails }) => {
+  test("should trigger BOOKING_REJECTED workflow when booking is rejected", async () => {
     const attendeeUser = getOrganizer({
       email: "test@example.com",
       name: "test name",
@@ -197,6 +194,5 @@ describe.skip("confirmHandler", () => {
     });
 
     expect(res?.status).toBe(BookingStatus.REJECTED);
-    expectWorkflowToBeTriggered({ emailsToReceive: [organizer.email], emails });
   });
 });

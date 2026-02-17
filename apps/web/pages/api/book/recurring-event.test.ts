@@ -13,7 +13,7 @@ import {
 import { createMockNextJsRequest } from "@calcom/testing/lib/bookingScenario/createMockNextJsRequest";
 import {
   expectBookingCreatedWebhookToHaveBeenFired,
-  expectBookingToBeInDatabase, // expectWorkflowToBeTriggered,
+  expectBookingToBeInDatabase,
   expectSuccessfulBookingCreationEmails,
   expectSuccessfulCalendarEventCreationInCalendar,
 } from "@calcom/testing/lib/bookingScenario/expects";
@@ -206,8 +206,6 @@ describe("handleNewBooking", () => {
               videoCallUrl: `${WEBAPP_URL}/video/${createdBookings[0].uid}`,
             });
           }
-
-          // expectWorkflowToBeTriggered();
 
           expectSuccessfulBookingCreationEmails({
             booker,
@@ -556,8 +554,6 @@ describe("handleNewBooking", () => {
             });
           }
 
-          // expectWorkflowToBeTriggered();
-
           expectSuccessfulBookingCreationEmails({
             booker,
             booking: {
@@ -773,8 +769,6 @@ describe("handleNewBooking", () => {
               videoCallUrl: `${WEBAPP_URL}/video/${createdBookings[0].uid}`,
             });
           }
-
-          // expectWorkflowToBeTriggered();
 
           expectSuccessfulBookingCreationEmails({
             booking: {

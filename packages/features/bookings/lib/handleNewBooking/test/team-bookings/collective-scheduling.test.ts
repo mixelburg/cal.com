@@ -16,13 +16,11 @@ import {
   getDefaultBookingFields,
 } from "@calcom/testing/lib/bookingScenario/bookingScenario";
 import {
-  // expectWorkflowToBeTriggered,
   expectSuccessfulBookingCreationEmails,
   expectBookingToBeInDatabase,
   expectBookingCreatedWebhookToHaveBeenFired,
   expectSuccessfulCalendarEventCreationInCalendar,
   expectSuccessfulVideoMeetingCreation,
-  expectSMSToBeTriggered,
   expectBookingRequestedEmails,
   expectBookingRequestedWebhookToHaveBeenFired,
 } from "@calcom/testing/lib/bookingScenario/expects";
@@ -207,7 +205,6 @@ describe("handleNewBooking", () => {
               ],
             });
 
-            // expectWorkflowToBeTriggered();
             expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
               destinationCalendars: [
                 {
@@ -507,7 +504,6 @@ describe("handleNewBooking", () => {
                 },
               ],
             });
-            // expectWorkflowToBeTriggered();
             expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
               destinationCalendars: [
                 {
@@ -736,7 +732,6 @@ describe("handleNewBooking", () => {
               ],
             });
 
-            // expectWorkflowToBeTriggered();
             expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
               destinationCalendars: [
                 {
@@ -1453,7 +1448,6 @@ describe("handleNewBooking", () => {
               },
             ],
           });
-          // expectWorkflowToBeTriggered();
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             destinationCalendars: [
               {
@@ -1652,7 +1646,6 @@ describe("handleNewBooking", () => {
               },
             ],
           });
-          // expectWorkflowToBeTriggered();
           expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
             destinationCalendars: [
               {
@@ -2052,7 +2045,6 @@ describe("handleNewBooking", () => {
                 },
               ],
             });
-            // expectWorkflowToBeTriggered();
             expectSuccessfulCalendarEventCreationInCalendar(calendarMock, {
               destinationCalendars: [
                 {

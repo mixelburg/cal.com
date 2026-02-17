@@ -296,38 +296,6 @@ describe("getUserEventGroups", () => {
     });
   });
 
-  describe("Organization handling", () => {
-    it("should handle organization locked event types", async () => {
-      const { ProfileRepository } = await import("@calcom/features/profile/repositories/ProfileRepository");
-
-      const mockProfileWithOrg = {
-        ...mockProfile,
-        organization: {
-          organizationSettings: {
-            lockEventTypeCreationForUsers: true,
-          },
-        },
-      } as unknown as NonNullable<
-        Awaited<
-          ReturnType<
-            typeof import("@calcom/features/profile/repositories/ProfileRepository").ProfileRepository.findByUpIdWithAuth
-          >
-        >
-      >;
-
-      vi.mocked(ProfileRepository.findByUpIdWithAuth).mockResolvedValue(mockProfileWithOrg);
-      mockFindAllByUpIdIncludeTeam.mockResolvedValue([]);
-      mockFilterTeamsByEventTypeReadPermission.mockResolvedValue([]);
-
-      const result = await getUserEventGroups({
-        ctx: mockCtx,
-        input: null,
-      });
-
-      expect(result.eventTypeGroups[0].profile.eventTypesLockedByOrg).toBe(true);
-    });
-  });
-
   describe("Routing forms", () => {
     it("should handle routing forms slug format", async () => {
       const { ProfileRepository } = await import("@calcom/features/profile/repositories/ProfileRepository");

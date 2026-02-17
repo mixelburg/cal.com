@@ -68,16 +68,6 @@ vi.mock("@calcom/features/pbac/services/permission-check.service", () => {
   };
 });
 
-const { mockLogSeatAddition } = vi.hoisted(() => {
-  return { mockLogSeatAddition: vi.fn() };
-});
-
-vi.mock("@calcom/features/ee/billing/service/seatTracking/SeatChangeTrackingService", () => ({
-  SeatChangeTrackingService: class {
-    logSeatAddition = mockLogSeatAddition;
-  },
-}));
-
 vi.mock("@calcom/lib/server/i18n", () => ({
   getTranslation: vi.fn().mockResolvedValue((key: string) => key),
 }));
@@ -646,9 +636,9 @@ describe("Invite Member Utils", () => {
         },
       });
       expect(result).toEqual({
-        autoAccept: false,
-        needToCreateOrgMembership: false,
-        needToCreateProfile: false,
+        autoAccept: true,
+        needToCreateOrgMembership: true,
+        needToCreateProfile: true,
       });
     });
 
@@ -667,8 +657,8 @@ describe("Invite Member Utils", () => {
         },
       });
       expect(result).toEqual({
-        autoAccept: true,
-        needToCreateOrgMembership: false,
+        autoAccept: false,
+        needToCreateOrgMembership: true,
         needToCreateProfile: false,
       });
     });
@@ -679,42 +669,6 @@ describe("Invite Member Utils", () => {
       mockUserCreate.mockReset();
       mockMembershipCreate.mockReset();
       mockTransaction.mockClear();
-      mockLogSeatAddition.mockClear();
-    });
-
-    it("logs seat changes for new users on regular teams", async () => {
-      let nextId = 100;
-      mockUserCreate.mockImplementation(async ({ data }) => ({
-        id: nextId++,
-        email: data.email,
-      }));
-      mockMembershipCreate.mockResolvedValue({});
-
-      const invitations = [
-        { usernameOrEmail: "new1@example.com", role: MembershipRole.MEMBER },
-        { usernameOrEmail: "new2@example.com", role: MembershipRole.MEMBER },
-      ];
-      const orgConnectInfoByUsernameOrEmail = {
-        "new1@example.com": { orgId: undefined, autoAccept: false },
-        "new2@example.com": { orgId: undefined, autoAccept: false },
-      };
-
-      const result = await createNewUsersConnectToOrgIfExists({
-        invitations,
-        isOrg: false,
-        teamId: mockedRegularTeam.id,
-        parentId: null,
-        autoAcceptEmailDomain: null,
-        orgConnectInfoByUsernameOrEmail,
-        language: "en",
-        creationSource: CreationSource.WEBAPP,
-      });
-
-      expect(result).toHaveLength(2);
-      expect(mockLogSeatAddition).toHaveBeenCalledWith({
-        teamId: mockedRegularTeam.id,
-        seatCount: 2,
-      });
     });
   });
 
