@@ -19,7 +19,6 @@ import { createRoutingFormsFixture } from "../fixtures/routingForms";
 import { createServersFixture } from "../fixtures/servers";
 import { createUsersFixture } from "../fixtures/users";
 import { createWebhookPageFixture } from "../fixtures/webhooks";
-import { createWorkflowPageFixture } from "../fixtures/workflows";
 
 export interface Fixtures {
   page: Page;
@@ -33,7 +32,6 @@ export interface Fixtures {
   emails: ReturnType<typeof createEmailsFixture>;
   routingForms: ReturnType<typeof createRoutingFormsFixture>;
   bookingPage: ReturnType<typeof createBookingPageFixture>;
-  workflowPage: ReturnType<typeof createWorkflowPageFixture>;
   features: ReturnType<typeof createFeatureFixture>;
   eventTypePage: ReturnType<typeof createEventTypeFixture>;
   appsPage: ReturnType<typeof createAppsFixture>;
@@ -98,10 +96,6 @@ export const test = base.extend<Fixtures>({
     const features = createFeatureFixture(page);
     await features.init();
     await use(features);
-  },
-  workflowPage: async ({ page }, use) => {
-    const workflowPage = createWorkflowPageFixture(page);
-    await use(workflowPage);
   },
   eventTypePage: async ({ page }, use) => {
     const eventTypePage = createEventTypeFixture(page);
