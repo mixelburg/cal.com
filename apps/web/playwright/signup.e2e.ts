@@ -1,6 +1,5 @@
 import type { Browser, Page } from "@playwright/test";
 import { expect } from "@playwright/test";
-import { hashSync } from "bcryptjs";
 import { randomBytes } from "node:crypto";
 
 import { APP_NAME, IS_PREMIUM_USERNAME_ENABLED, IS_MAILHOG_ENABLED } from "@calcom/lib/constants";
@@ -117,84 +116,6 @@ test.describe("Email Signup Flow Test", async () => {
     });
   });
 
-  test("Signup with org invite token for existing user redirects to login without overwriting password", async ({
-    page,
-    prisma,
-  }) => {
-    const originalPassword = "OriginalPass99!";
-    const attackerPassword = "AttackerPass99!";
-    const testEmail = `existing-user-${Date.now()}@example.com`;
-
-    // Create existing user without emailVerified to bypass server-side check
-    const hashedPassword = hashSync(originalPassword, 12);
-    const existingUser = await prisma.user.create({
-      data: {
-        email: testEmail,
-        username: `existing-user-${Date.now()}`,
-        password: { create: { hash: hashedPassword } },
-        emailVerified: null,
-      },
-    });
-
-    // Create org invite token for the existing user's email
-    const token = randomBytes(32).toString("hex");
-    const org = await prisma.team.create({
-      data: {
-        name: "Test Org",
-        slug: `test-org-${Date.now()}`,
-        isOrganization: true,
-      },
-    });
-
-    await prisma.verificationToken.create({
-      data: {
-        identifier: existingUser.email,
-        token,
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        teamId: org.id,
-      },
-    });
-
-    // Clear any existing session before attempting signup
-    await page.context().clearCookies();
-
-    // Try to signup with the invite token using a different password
-    await page.goto(`/signup?token=${token}`);
-    await expect(page.getByTestId("signup-submit-button")).toBeVisible();
-
-    await page.locator('input[name="password"]').fill(attackerPassword);
-
-    // Intercept the signup API request to verify 409 response
-    const responsePromise = page.waitForResponse(
-      (response) => response.url().includes("/api/auth/signup") && response.request().method() === "POST"
-    );
-
-    const submitButton = page.getByTestId("signup-submit-button");
-    await submitButton.click();
-
-    // Verify API returns 409 (user already exists)
-    const response = await responsePromise;
-    expect(response.status()).toBe(409);
-
-    const responseBody = await response.json();
-    expect(responseBody.message).toBe("user_already_exists");
-
-    // Should redirect to login (toast shows and redirects after 3s)
-    await expect(page).toHaveURL(/\/auth\/login/, { timeout: 8000 });
-
-    // Verify original password still works by logging in
-    await page.locator('input[name="email"]').fill(existingUser.email);
-    await page.locator('input[name="password"]').fill(originalPassword);
-    await page.locator('button[type="submit"]').click();
-
-    // Should successfully login with original password
-    await expect(page).toHaveURL(/\/(getting-started|event-types|teams)/, { timeout: 8000 });
-
-    // Cleanup
-    await prisma.verificationToken.deleteMany({ where: { token } });
-    await prisma.user.delete({ where: { id: existingUser.id } });
-    await prisma.team.delete({ where: { id: org.id } });
-  });
   test("Signup with valid (non premium) username", async ({ page, users }) => {
     const userToCreate = users.buildForSignup({
       username: "rick-jones",
@@ -356,7 +277,7 @@ test.describe("Email Signup Flow Test", async () => {
     await page.goto(`/settings/teams/${team.id}/settings`);
 
     await test.step("Invite User to team", async () => {
-      // TODO: This invite logic should live in a fixture - its used in team and orgs invites (Duplicated from team/org invites)
+      // TODO: This invite logic should live in a fixture - shared with invite-based signup tests.
       const invitedUserEmail = `rick_${Date.now()}@domain-${Date.now()}.com`;
       await page.locator(`button:text("${t("add")}")`).click();
       await page.locator('input[name="inviteUser"]').fill(invitedUserEmail);
@@ -422,74 +343,6 @@ test.describe("Email Signup Flow Test", async () => {
     await expect(submitButton).toBeEnabled();
   });
 
-  test("Signup with org invite link creates user and joins organization", async ({
-    page,
-    users,
-    browser,
-  }) => {
-    const orgOwner = await users.create(undefined, { hasTeam: true, isOrg: true });
-    const { team: org } = await orgOwner.getOrgMembership();
-    await orgOwner.apiLogin();
-    await page.goto(`/settings/organizations/${org.slug}/members`);
-
-    await page.getByTestId("new-organization-member-button").click();
-    const inviteLink = await getInviteLink(page);
-
-    const email = users.trackEmail({ username: "rick", domain: "domain.com" });
-    const usernameDerivedFromEmail = `${email.split("@")[0]}-domain`;
-
-    await signupFromInviteLink({ browser, inviteLink, email });
-
-    await expectUserToBeAMemberOfOrganization({
-      page,
-      orgSlug: org.slug,
-      username: usernameDerivedFromEmail,
-      role: "member",
-      isMemberShipAccepted: true,
-      email,
-    });
-  });
-
-  test("Signup with sub-team invite link creates user and joins both team and org", async ({
-    page,
-    users,
-    browser,
-  }) => {
-    const orgOwner = await users.create(undefined, { hasTeam: true, isOrg: true, hasSubteam: true });
-    await orgOwner.apiLogin();
-    const { team: subTeam } = await orgOwner.getFirstTeamMembership();
-    const { team: org } = await orgOwner.getOrgMembership();
-
-    await page.goto(`/settings/teams/${subTeam.id}/members`);
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(500);
-    await page.getByTestId("new-member-button").click();
-    const inviteLink = await getInviteLink(page);
-
-    const email = users.trackEmail({ username: "rick", domain: "domain.com" });
-    const usernameDerivedFromEmail = `${email.split("@")[0]}-domain`;
-
-    await signupFromInviteLink({ browser, inviteLink, email });
-
-    await expectUserToBeAMemberOfTeam({
-      page,
-      teamId: subTeam.id,
-      username: usernameDerivedFromEmail,
-      email,
-      role: "member",
-      isMemberShipAccepted: true,
-    });
-
-    await expectUserToBeAMemberOfOrganization({
-      page,
-      orgSlug: org.slug,
-      username: usernameDerivedFromEmail,
-      role: "member",
-      isMemberShipAccepted: true,
-      email,
-    });
-  });
-
   test("Signup with email-based token still works (regression test)", async ({ page, prisma, users }) => {
     const token = randomBytes(32).toString("hex");
     const userToCreate = users.buildForSignup({
@@ -548,34 +401,6 @@ test.describe("Email Signup Flow Test", async () => {
     await prisma.team.delete({ where: { id: emailToken.teamId! } });
   });
 });
-
-async function expectUserToBeAMemberOfOrganization({
-  page,
-  orgSlug,
-  username,
-  email,
-  role,
-  isMemberShipAccepted,
-}: {
-  page: Page;
-  orgSlug: string | null;
-  username: string;
-  role: string;
-  isMemberShipAccepted: boolean;
-  email: string;
-}) {
-  await page.goto(`/settings/organizations/${orgSlug}/members`);
-  await expect(page.locator(`[data-testid="member-${username}-username"]`)).toHaveText(username);
-  await expect(page.locator(`[data-testid="member-${username}-email"]`)).toHaveText(email);
-  expect((await page.locator(`[data-testid="member-${username}-role"]`).textContent())?.toLowerCase()).toBe(
-    role.toLowerCase()
-  );
-  if (isMemberShipAccepted) {
-    await expect(page.locator(`[data-testid2="member-${username}-pending"]`)).toBeHidden();
-  } else {
-    await expect(page.locator(`[data-testid2="member-${username}-pending"]`)).toBeVisible();
-  }
-}
 
 async function expectUserToBeAMemberOfTeam({
   page,

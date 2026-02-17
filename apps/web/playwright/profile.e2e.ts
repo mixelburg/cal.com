@@ -17,12 +17,10 @@ test.afterEach(async ({ users }) => {
 });
 
 test.describe("Teams", () => {
-  test("Profile page is loaded for users in Organization", async ({ page, users }) => {
+  test("Profile page is loaded for team users", async ({ page, users }) => {
     const teamMatesObj = [{ name: "teammate-1" }, { name: "teammate-2" }];
     const owner = await users.create(undefined, {
       hasTeam: true,
-      isOrg: true,
-      hasSubteam: true,
       teammates: teamMatesObj,
     });
     await owner.apiLogin();

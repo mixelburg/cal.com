@@ -86,5 +86,5 @@ test.describe("Change username on settings", () => {
     await expect(page).toHaveURL(/.*checkout.stripe.com/);
   });
 
-  // Organization test removed - organizations feature not available in cal.diy
+  // Organization-specific coverage removed for cal.diy.
 });

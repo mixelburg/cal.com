@@ -14,7 +14,6 @@ test.describe("Booking Filters", () => {
       { name: ownerName },
       {
         hasTeam: true,
-        isOrg: true,
         teammates: [{ name: teamMateName }],
       }
     );
@@ -47,7 +46,6 @@ test.describe("Booking Filters", () => {
   test("Admin role should see the member filter", async ({ page, users }) => {
     const owner = await users.create(undefined, {
       hasTeam: true,
-      isOrg: true,
     });
 
     await owner.apiLogin();

@@ -312,7 +312,6 @@ test.describe("Out of office", () => {
       { name: "owner" },
       {
         hasTeam: true,
-        isOrg: true,
         teammates: teamMatesObj,
       }
     );
@@ -344,7 +343,6 @@ test.describe("Out of office", () => {
       { name: "owner" },
       {
         hasTeam: true,
-        isOrg: true,
         teammates: teamMatesObj,
       }
     );
@@ -379,7 +377,6 @@ test.describe("Out of office", () => {
         { name: `team-owner-${Date.now()}` },
         {
           hasTeam: true,
-          isOrg: true,
           teamRole: MembershipRole.ADMIN,
           teammates: teamMatesObj,
         }
