@@ -22,7 +22,6 @@ import { createWebhookPageFixture } from "../fixtures/webhooks";
 
 export interface Fixtures {
   page: Page;
-  // Organization fixtures removed - organizations feature not available in cal.diy
   users: ReturnType<typeof createUsersFixture>;
   bookings: ReturnType<typeof createBookingsFixture>;
   payments: ReturnType<typeof createPaymentsFixture>;
@@ -58,7 +57,6 @@ declare global {
  *  @see https://playwright.dev/docs/test-fixtures
  */
 export const test = base.extend<Fixtures>({
-  // Organization fixtures removed - organizations feature not available in cal.diy
   users: async ({ page, context, emails }, use, workerInfo) => {
     const usersFixture = createUsersFixture(page, emails, workerInfo);
     await use(usersFixture);

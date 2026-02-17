@@ -29,17 +29,4 @@ test.describe("AI Translation - Event Type", () => {
     expect(await bookingPage.getAITranslationToggleDisabled()).toBe(true);
   });
 
-  test("Toggle should be clickable for org members", async ({ page, orgs, users, bookingPage }) => {
-    const org = await orgs.create({
-      name: "acme",
-    });
-    const user = await users.create({
-      organizationId: org.id,
-      roleInOrganization: MembershipRole.MEMBER,
-    });
-    await user.apiLogin();
-    await page.goto("/event-types");
-    await bookingPage.goToEventType("30 min");
-    expect(await bookingPage.getAITranslationToggleDisabled()).toBe(false);
-  });
 });
