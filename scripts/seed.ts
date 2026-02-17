@@ -3,6 +3,7 @@ import dailyMeta from "@calcom/app-store/dailyvideo/_metadata";
 import googleMeetMeta from "@calcom/app-store/googlevideo/_metadata";
 import zoomMeta from "@calcom/app-store/zoomvideo/_metadata";
 import dayjs from "@calcom/dayjs";
+import { hashAPIKey } from "@calcom/features/api-keys/lib/apiKeys";
 import { hashPassword } from "@calcom/lib/auth/hashPassword";
 import { DEFAULT_SCHEDULE, getAvailabilityFromSchedule } from "@calcom/lib/availability";
 import { prisma } from "@calcom/prisma";
@@ -35,6 +36,8 @@ type AssociateUserAndOrgProps = {
   role: MembershipRole;
   username: string;
 };
+
+const getSeedBaseUrl = () => process.env.NEXT_PUBLIC_WEBAPP_URL || "";
 
 const checkUnpublishedTeam = async (slug: string) => {
   return await prisma.team.findFirst({
@@ -390,13 +393,13 @@ async function createOrganizationAndAddMembersAndTeams({
               },
             },
             update: {
-              toUrl: `${getOrgFullOrigin(orgData.slug)}/${member.orgProfile.username}`,
+              toUrl: `${getSeedBaseUrl()}/${member.orgProfile.username}`,
             },
             create: {
               fromOrgId: 0,
               type: RedirectType.User,
               from: member.memberData.username,
-              toUrl: `${getOrgFullOrigin(orgData.slug)}/${member.orgProfile.username}`,
+              toUrl: `${getSeedBaseUrl()}/${member.orgProfile.username}`,
             },
           });
 
